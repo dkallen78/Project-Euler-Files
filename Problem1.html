@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>Project Euler, Problem 1: Multiples of 3 and 5</title>
+</head>
+<body>
+  <div id="problem">
+    <input type="button" value="Project Euler" onclick="projectEulerProblem1()" />
+  </div>
+</body>
+<script>
+var sum = 0;
+function projectEulerProblem1() {
+  for (e = 3; e < 1000; e++) {
+    if ((e % 3) === 0 || (e % 5) === 0) {
+      sum += e;
+      console.log(e + " " + sum);
+    }
+  }
+  document.getElementById("problem").innerHTML = sum
+}
+</script>
+</html>

@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>Project Euler, Problem 2: Even Fibonacci Numbers</title>
+</head>
+<body>
+  <div id="problem">
+    <input type="button" value="Project Euler" onclick="projectEulerProblem2()" />
+  </div>
+</body>
+<script>
+var sum = 0;
+var counter = 0;
+var fib1 = 0;
+var fib2 = 1;
+var fibonacci = 0;
+function projectEulerProblem2() {
+  while (fibonacci < 4000000) {
+    counter++;
+    fibonacci = fib1 + fib2;
+    fib2 = fib1;
+    fib1 = fibonacci;
+    if ((fibonacci % 2) === 0) {
+      sum += fibonacci;
+      console.log(counter + " " + fibonacci);
+    }
+  }
+  document.getElementById("problem").innerHTML = sum
+}
+</script>
+</html>
