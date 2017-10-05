@@ -21,3 +21,13 @@ If you can't evenly divide a number "n"  by 2, the largest prime factor must be 
 Likewise, if you can't evenly divide n by 3, the largest prime factor must be smaller than n/3
 
 If I'm not using an array of primes to attack the number, and instead I'm itterating numbers, this could be useful
+
+Problem 4 - Largest Palindrome Product
+
+This solution turned out to be much easier than I had at first thought it would be. The goal was to find the largest Palindrome Number that is the product of two 3-digit numbers. 
+
+My first step was to create a JavaScript function that would turn a number around to test if the number was a palindrome. I achieved this by the liberal application of modulus and a simple if statement.
+
+The next part was to decide whether or not to test a series of 3-digit numbers to multiply, or to try and find factors of Palindrome Numbers. While I did find some interesting patterns in sequential Palindrome Numbers, finding factors was such a hassle that I opted for brute force. 
+
+At first I was worried about testing over hundreds of thousands of combinations of 3-digit numbers, I quickly realized that I should just test the larger 3-digit numbers. This turned out to be a lot less code than I initially thought I would use. 
