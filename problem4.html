@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Project Euler, Problem 4: Largest Palindrome Product</title>
+</head>
+<body>
+  <div id="problem">
+    <input id="answer" type="number" name="Answer" />
+    <br />
+    <input type="button" value="Project Euler" onclick="projectEulerProblem4()" />
+  </div>
+</body>
+<script>
+
+function projectEulerProblem4() {
+  /*let number = 231132;
+  console.log(number);
+  console.log(reverseNumber(number));*/
+  for (let i = 901; i < 999; i++) {
+    for (let j = 901; j < 999; j++) {
+      if (isPalindrome(i * j)) {
+        console.log("Palindrome! " + i + " * " + j + " = " + (i * j));
+      }
+    }
+  }
+
+}
+//A function to reverse the number order of a number. Doesn't work past 16 digits
+function reverseNumber(number) {
+  let reversedNumber = "";
+  while (number != 0) {
+    reversedNumber += number % 10;
+    number -= number % 10;
+    number /= 10;
+  }
+  return Number(reversedNumber);
+}
+//Function to check if a number is a Palindromic number, returns true or false
+function isPalindrome(number) {
+  if (number === reverseNumber(number)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+</script>
+</html>
