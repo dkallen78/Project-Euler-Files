@@ -1,29 +1,74 @@
 <html>
 <head>
 <title>Project Euler, Problem 4: Largest Palindrome Product</title>
-</head>
-<body>
-  <div id="problem">
-    <input id="answer" type="number" name="Answer" />
-    <br />
-    <input type="button" value="Project Euler" onclick="projectEulerProblem4()" />
-  </div>
-</body>
-<script>
+<style>
+  #explanation {
+    visibility: hidden;
+  }
 
+  #problem {
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 85px;
+    cursor: default;
+  }
+</style>
+</head>
+
+<body>
+  <p>
+    A palindromic number reads the same both ways. <br />
+    The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+    <br /><br />
+    Find the sum of all the multiples of 3 or 5 below 1000.
+  </p>
+
+  <div id="problem" onclick="projectEulerProblem4()">
+    Palindrome Product
+  </div>
+
+  <div id="explanation">
+  </br>
+    <div id="totalTime"></div>
+    <p>
+      To solve this, I only multiplied the largest 3-digit numbers: 900-999.
+      </br></br>
+      Using nested for loops, I iterated through the 10,000 candidate number combinations finding palindrome numbers <br />
+      (via a helper function) and output the largest number.
+    </p>
+  </div>
+
+</body>
+
+<script>
+//Finds the Palindrome Nubmers that are products of 3-digit integers.
 function projectEulerProblem4() {
-  /*let number = 231132;
-  console.log(number);
-  console.log(reverseNumber(number));*/
+  var startTime = new Date();
+  let maxPalindrome = 0;
+  let maxPalindromeI = 0;
+  let maxPalindromeJ = 0;
+
   for (let i = 901; i < 999; i++) {
     for (let j = 901; j < 999; j++) {
       if (isPalindrome(i * j)) {
-        console.log("Palindrome! " + i + " * " + j + " = " + (i * j));
+        if ((i * j) > maxPalindrome) {
+          maxPalindrome = (i * j);
+          maxPalindromeI = i;
+          maxPalindromeJ = j;
+        }
       }
     }
   }
 
+  var endTime = new Date();
+  var totalTime = endTime - startTime;
+  document.getElementById("problem").innerHTML = maxPalindromeI + " * " + maxPalindromeJ + " = " + maxPalindrome;
+  document.getElementById("totalTime").innerHTML = totalTime + " ms";
+  document.getElementById("problem").style.cursor = "auto";
+  document.getElementById("explanation").style.visibility = "visible";
 }
+
 //A function to reverse the number order of a number. Doesn't work past 16 digits
 function reverseNumber(number) {
   let reversedNumber = "";
@@ -34,6 +79,7 @@ function reverseNumber(number) {
   }
   return Number(reversedNumber);
 }
+
 //Function to check if a number is a Palindromic number, returns true or false
 function isPalindrome(number) {
   if (number === reverseNumber(number)) {
