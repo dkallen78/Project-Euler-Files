@@ -2,6 +2,56 @@
 <head>
 <title>Project Euler, Problem 3: Largest Prime Factor</title>
 <style>
+  body {
+    background-image: linear-gradient(to right, blue , white);
+  }
+
+  #header {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #problemNumber {
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #links {
+    margin: auto;
+    margin-bottom: 10px;
+    font-size: 1.25em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  a:visited {
+    color: white;
+  }
+
+  #workArea {
+    margin: auto;
+    width: 25%;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+  }
+
   #explanation {
     visibility: hidden;
   }
@@ -16,30 +66,38 @@
 </style>
 </head>
 <body>
-  <p>
-    The prime factors of 13195 are 5, 7, 13 and 29.
-    </br></br>
-    What is the largest prime factor of the number 600851475143 ?.
-  </p>
-
-  <div id="problem">
-    <input id="answer" type="number" name="Answer" style="margin-bottom: 5px" />
-    <br />
-    <input type="button" value="Project Euler" onclick="projectEulerProblem3()" />
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">Problem 3: Largest Prime Factor</p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem2.html">Problem 2</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html">Problem 3 (second attempt)</a>
   </div>
-
-  <div id="explanation">
-  </br>
-    <div id="totalTime"></div>
+  <div id="workArea">
     <p>
-      To solve this, I used a brute force technique. Instead of including a test for primality, I included a list of primes.
+      The prime factors of 13195 are 5, 7, 13 and 29.
       </br></br>
-      I check each prime in my list to see if it divides my original number. If it does, I push that prime
-      into my list of factors and recheck the number (recently divided by the factor) against the list of primes 
-      again and again until my original number is equal to 1.
-      <br /><br />
-      I currently have every prime up to 3511 in my prime number array.
+      What is the largest prime factor of the number 600851475143 ?.
     </p>
+
+    <div id="problem">
+      <input id="answer" type="number" name="Answer" style="margin-bottom: 5px" />
+      <br />
+      <input type="button" value="Project Euler" onclick="projectEulerProblem3()" />
+    </div>
+
+    <div id="explanation">
+    </br>
+      <div id="totalTime"></div>
+      <p>
+        To solve this, I used a brute force technique. Instead of including a test for primality, I included a list of primes.
+        </br></br>
+        I check each prime in my list to see if it divides my original number. If it does, I push that prime
+        into my list of factors and recheck the number (recently divided by the factor) against the list of primes
+        again and again until my original number is equal to 1.
+        <br /><br />
+        I currently have every prime up to 3511 in my prime number array.
+      </p>
+    </div>
   </div>
 </body>
 <script>

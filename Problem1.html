@@ -2,6 +2,56 @@
 <head>
 <title>Project Euler, Problem 1: Multiples of 3 and 5</title>
 <style>
+  body {
+    background-image: linear-gradient(to right, blue , white);
+  }
+
+  #header {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #problemNumber {
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #links {
+    margin: auto;
+    margin-bottom: 10px;
+    font-size: 1.25em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  a:visited {
+    color: white;
+  }
+
+  #workArea {
+    margin: auto;
+    width: 25%;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+  }
+
   #explanation {
     visibility: hidden;
   }
@@ -16,23 +66,28 @@
 </style>
 </head>
 <body>
-  <p>
-    If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
-    </br></br>
-    Find the sum of all the multiples of 3 or 5 below 1000.
-  </p>
-  <div id="problem" onclick="projectEulerProblem1()">
-    Find Sum
-  </div>
-
-  <div id="explanation">
-  </br>
-    <div id="totalTime"></div>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">Problem 1: Multiples of 3 or 5</p>
+  <div id="links"><a href="https://dkallen78.github.io/Project-Euler-Files/Problem2.html">Problem 2</a></div>
+  <div id="workArea">
     <p>
-      To solve this, I used a for loop iterating from 3 to 1000.
+      If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
       </br></br>
-      If the number mod 3 or 5 was equal to 0 (divisible by either number) I added the value of that number to a "sum" variable.</br>
+      Find the sum of all the multiples of 3 or 5 below 1000.
     </p>
+    <div id="problem" onclick="projectEulerProblem1()">
+      Find Sum
+    </div>
+
+    <div id="explanation">
+    </br>
+      <div id="totalTime"></div>
+      <p>
+        To solve this, I used a for loop iterating from 3 to 1000.
+        </br></br>
+        If the number mod 3 or 5 was equal to 0 (divisible by either number) I added the value of that number to a "sum" variable.</br>
+      </p>
+    </div>
   </div>
 </body>
 <script>

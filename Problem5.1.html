@@ -3,6 +3,56 @@
 <title>Project Euler, Problem 5: Smallest Multiple</title>
 </head>
 <style>
+  body {
+    background-image: linear-gradient(to right, blue , white);
+  }
+
+  #header {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #problemNumber {
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #links {
+    margin: auto;
+    margin-bottom: 10px;
+    font-size: 1.25em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  a:visited {
+    color: white;
+  }
+
+  #workArea {
+    margin: auto;
+    width: 25%;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+  }
+
   #explanation {
     visibility: hidden;
   }
@@ -16,28 +66,35 @@
   }
 </style>
 <body>
-  <p>
-    2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
-    <br /><br />
-    What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
-  </p>
-
-  <div id="problem">
-    <input id="answer" type="number" name="Answer" />
-    <br />
-    <input type="button" value="Project Euler" onclick="projectEulerProblem5()" />
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">Problem 5: Smallest Multiple</p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">Problem 4</a>
   </div>
-
-  <div id="explanation">
-  </br>
-    <div id="totalTime"></div>
+  <div id="workArea">
     <p>
-      I reused parts of my prime factorization program (problem 3) with this, finding all factors of all numbers in the range.
-      </br></br>
-      First I generated a list of primes w/in the number range (my base prime factors). <br />
-      Then I found all the factors of the composite numbers in that range going from smallest to <br />
-      largest composite adding redundant factors as I went.
+      2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+      <br /><br />
+      What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
     </p>
+
+    <div id="problem">
+      <input id="answer" type="number" name="Answer" />
+      <br />
+      <input type="button" value="Project Euler" onclick="projectEulerProblem5()" />
+    </div>
+
+    <div id="explanation">
+    </br>
+      <div id="totalTime"></div>
+      <p>
+        I reused parts of my prime factorization program (problem 3) with this, finding all factors of all numbers in the range.
+        </br></br>
+        First I generated a list of primes w/in the number range (my base prime factors).
+        Then I found all the factors of the composite numbers in that range going from smallest to
+        largest composite adding redundant factors as I went.
+      </p>
+    </div>
   </div>
 </body>
 <script>
