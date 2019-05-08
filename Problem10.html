@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Project Euler, Problem 7: 10,001st Prime</title>
+  <title>Project Euler, Problem 10: Summation of Primes (Primality Test)</title>
   <style>
     body {
       background-image: linear-gradient(to right, blue , white);
@@ -10,6 +10,7 @@
       font-size: 2em;
       font-weight: bold;
       text-align: center;
+
       color: white;
       text-shadow: 2px 0px black,
                    0px 2px black,
@@ -66,7 +67,7 @@
       text-align: center;
       border: 2px solid black;
       border-radius: 5px;
-      width: 150px;
+      width: 105px;
       cursor: default;
     }
   </style>
@@ -74,46 +75,40 @@
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
   <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=7">Problem 7: 10,001st Prime</a>
+    <a href="https://projecteuler.net/problem=10">Problem 10: Sumation of Primes</a><br />
+    (Primality Test)
   </p>
   <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">Problem 6</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">Problem 8</a>
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem9.html">Problem 9</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html">Problem 10 (Prime Seive)</a>
   </div>
   <div id="workArea">
     <p>
-      By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+      The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
       <br /><br />
-      What is the 10,001st prime number? (10001)
+      Find the sum of all the primes below two million.
     </p>
-    <div id="problem">
-      <input id="answer" type="number" />
-      <br />
-      <input type="button" value="Project Euler" onclick="projectEulerProblem7()" />
-    </div>
-    <div id="explanation">
-      <br />
-      <div id="totalTime"></div>
-      <p>
-        Trial division all day.
-        </br></br>
-        I run through the odd numbers trial dividing up to the square root of the number I'm testing.
-        I stop when I get to my target prime.
-      </p>
-    </div>
+  <div id="problem"onclick="projectEulerProblem10()">
+    Sum Primes
+  </div>
+  <div id="explanation">
+    <br />
+    <div id="totalTime"></div>
+    <p>
+      I counted up to 2,000,000 doing a primality test on the numbers.
+      <br /><br />
+      Numbers that were prime were added to a running sum.
+    </p>
   </div>
 </body>
 <script>
 var primes = [2];
 var integer = 3;
 var numberIsPrime = true;
-function projectEulerProblem7() {
-  let limit = Number(document.getElementById("answer").value);
+var primeSum = 2;
+function projectEulerProblem10() {
   var startTime = new Date();
-  /*
-  This do loop will go through every odd integer checking for primality*/
   do {
-
     /*
     This for loop will try to divide the odd numbers by numbers already in
     my prime number array. If none of the numbers divide evenly, then the
@@ -124,8 +119,7 @@ function projectEulerProblem7() {
       if (primes[x] > Math.sqrt(integer)) {
         break;
       }
-      /*
-      This if statement tests the divisibility of the number being tested
+      /*This if statement tests the divisibility of the number being tested
       for primality*/
       if ((integer % primes[x]) === 0) {
         numberIsPrime = false;
@@ -133,19 +127,47 @@ function projectEulerProblem7() {
       }
     }
     if (numberIsPrime) {
-      primes.push(integer);
-      document.getElementById("problem").innerHTML = integer;
+      if (integer < (Math.sqrt(2000000))) {
+        primes.push(integer);
+      }
+      primeSum += integer;
     }
     integer += 2;
     numberIsPrime = true;
   }
   /*
   This condition stops the loop when I have found the 10,001st prime*/
-  while (primes.length < limit);
+  while (integer < 2000000);
   var endTime = new Date();
   var totalTime = endTime - startTime;
   document.getElementById("totalTime").innerHTML = totalTime + " ms";
   document.getElementById("explanation").style.visibility = "visible";
+  document.getElementById("problem").innerHTML = primeSum;
 }
+
+function isPrime(number) {
+
+  if (number <= 1) {
+    return false;
+  }
+
+  if (number <= 3) {
+    return true;
+  }
+
+  if (((number % 2) === 0) || ((number % 3) === 0)) {
+    return false;
+  }
+
+  for (let x = 5; (x * x) < number; x += 6) {
+    if (((number % x) === 0) || ((number % (x + 2)) === 0)) {
+      return false;
+    }
+  }
+
+  return true;
+
+}
+
 </script>
 </html>

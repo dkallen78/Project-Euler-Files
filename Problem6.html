@@ -41,6 +41,7 @@
 
   a:visited, a:link {
     color: white;
+    text-decoration: none;
   }
 
   #workArea {
@@ -50,6 +51,7 @@
     border-radius: 5px;
     padding: 5px;
     background-color: white;
+    box-shadow: -10px 10px 10px;
   }
 
   .example {
@@ -71,7 +73,9 @@
 </head>
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">Problem 6: Sum Square Difference</p>
+  <p id="problemNumber">
+    <a href="https://projecteuler.net/problem=6">Problem 6: Sum Square Difference</a>
+  </p>
   <div id="links">
     <a href="https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html">Problem 5</a> -
     <a href="https://dkallen78.github.io/Project-Euler-Files/Problem7.html">Problem 7</a>
@@ -79,9 +83,13 @@
   <div id="workArea">
     <p>
       The sum of the squares of the first ten natural numbers is,<br />
-      <div class="example">1² + 2² + ... + 10² = 385</div><br />
+      <div class="example">
+        1² + 2² + ... + 10² = 385
+      </div><br />
       The square of the sum of the first ten natural numbers is,<br /><br />
-      <div class="example">(1 + 2 + ... + 10)² = 552 = 3025</div><br />
+      <div class="example">
+        (1 + 2 + ... + 10)² = 552 = 3025
+      </div><br />
       Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
       <br /><br />
       Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
@@ -99,7 +107,12 @@
         square of the nth triangle number.
         </br></br>
         Triangle numbers and pyramid numbers are easy to compute so I can just take the difference once I know
-        which triangle/pyramid number I'm dealing with.
+        which triangle/pyramid number I'm dealing with.<br />
+        <div class="example">
+          Triangle number formula: <sup>n(n + 1)</sup>⁄<sub>2</sub>
+          <br /><br />
+          Pyramid number formula: <sup>n(n+ 1)(2n + 1)</sup>⁄<sub>6</sub>
+        </div>
       </p>
     </div>
   </div>

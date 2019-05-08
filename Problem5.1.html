@@ -42,6 +42,7 @@
 
   a:visited, a:link {
     color: white;
+    text-decoration: none;
   }
 
   #workArea {
@@ -51,6 +52,7 @@
     border-radius: 5px;
     padding: 5px;
     background-color: white;
+    box-shadow: -10px 10px 10px;
   }
 
   #explanation {
@@ -64,10 +66,17 @@
     width: 150px;
     padding: 2px;
   }
+
+  div p a:link, div p a:visited {
+    color: black;
+    text-decoration: none;
+  }
 </style>
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">Problem 5: Smallest Multiple</p>
+  <p id="problemNumber">
+    <a href="https://projecteuler.net/problem=5">Problem 5: Smallest Multiple</a>
+  </p>
   <div id="links">
     <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">Problem 4</a> -
     <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">Problem 6</a>
@@ -89,7 +98,8 @@
     </br>
       <div id="totalTime"></div>
       <p>
-        I reused parts of my prime factorization program (problem 3) with this, finding all factors of all numbers in the range.
+        I reused parts of my prime factorization program (<a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html">problem 3</a>)
+        with this, finding all factors of all numbers in the range.
         </br></br>
         First I generated a list of primes w/in the number range (my base prime factors).
         Then I found all the factors of the composite numbers in that range going from smallest to
