@@ -1,0 +1,147 @@
+<html>
+<head>
+  <title>Project Euler, Problem 7: 10,001st Prime</title>
+  <style>
+    body {
+      background-image: linear-gradient(to right, blue , white);
+    }
+
+    #header {
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #problemNumber {
+      font-size: 1.5em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #links {
+      margin: auto;
+      margin-bottom: 10px;
+      font-size: 1.25em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    a:visited, a:link {
+      color: white;
+    }
+
+    #workArea {
+      margin: auto;
+      width: 25%;
+      border: 3px solid black;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: white;
+    }
+
+    .example {
+      text-align: center;
+    }
+
+    #explanation {
+      visibility: hidden;
+    }
+
+    #problem {
+      text-align: center;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 150px;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">Problem 7: 10,001st Prime</p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">Problem 6</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">Problem 8</a>
+  </div>
+  <div id="workArea">
+    <p>
+      By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+      <br /><br />
+      What is the 10,001st prime number? (10001)
+    </p>
+    <div id="problem">
+      <input id="answer" type="number" />
+      <br />
+      <input type="button" value="Project Euler" onclick="projectEulerProblem7()" />
+    </div>
+    <div id="explanation">
+      <br />
+      <div id="totalTime"></div>
+      <p>
+        Trial division all day.
+        </br></br>
+        I run through the odd numbers trial dividing up to the square root of the number I'm testing.
+        I stop when I get to my target prime.
+      </p>
+    </div>
+  </div>
+</body>
+<script>
+var primes = [2];
+var integer = 3;
+var numberIsPrime = true;
+function projectEulerProblem7() {
+  let limit = Number(document.getElementById("answer").value);
+  var startTime = new Date();
+  /*
+  This do loop will go through every odd integer checking for primality*/
+  do {
+
+    /*
+    This for loop will try to divide the odd numbers by numbers already in
+    my prime number array. If none of the numbers divide evenly, then the
+    current integer is marked as prime to be added to the array*/
+    for (var x = 0; x < primes.length; x++) {
+      /*
+      This if statement sets the upper limit for testing divisibility*/
+      if (primes[x] > Math.sqrt(integer)) {
+        break;
+      }
+      /*
+      This if statement tests the divisibility of the number being tested
+      for primality*/
+      if ((integer % primes[x]) === 0) {
+        numberIsPrime = false;
+        break;
+      }
+    }
+    if (numberIsPrime) {
+      primes.push(integer);
+      document.getElementById("problem").innerHTML = integer;
+    }
+    integer += 2;
+    numberIsPrime = true;
+  }
+  /*
+  This condition stops the loop when I have found the 10,001st prime*/
+  while (primes.length < limit);
+  var endTime = new Date();
+  var totalTime = endTime - startTime;
+  document.getElementById("totalTime").innerHTML = totalTime + " ms";
+  document.getElementById("explanation").style.visibility = "visible";
+}
+</script>
+</html>

@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>Project Euler, Problem 6: Sum Square Difference</title>
+<style>
+  body {
+    background-image: linear-gradient(to right, blue , white);
+  }
+
+  #header {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #problemNumber {
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  #links {
+    margin: auto;
+    margin-bottom: 10px;
+    font-size: 1.25em;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 0px black,
+                 0px 2px black,
+                 -2px 0px black,
+                 0px -2px black;
+  }
+
+  a:visited, a:link {
+    color: white;
+  }
+
+  #workArea {
+    margin: auto;
+    width: 25%;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+  }
+
+  .example {
+    text-align: center;
+  }
+
+  #explanation {
+    visibility: hidden;
+  }
+
+  #problem {
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 150px;
+    cursor: default;
+  }
+</style>
+</head>
+<body>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">Problem 6: Sum Square Difference</p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html">Problem 5</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem7.html">Problem 7</a>
+  </div>
+  <div id="workArea">
+    <p>
+      The sum of the squares of the first ten natural numbers is,<br />
+      <div class="example">1² + 2² + ... + 10² = 385</div><br />
+      The square of the sum of the first ten natural numbers is,<br /><br />
+      <div class="example">(1 + 2 + ... + 10)² = 552 = 3025</div><br />
+      Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
+      <br /><br />
+      Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+    </p>
+    <div id="problem">
+      <input id="answer" type="number" />
+      <br />
+      <input type="button" value="Project Euler" onclick="projectEulerProblem6()" />
+    </div>
+    <div id="explanation">
+      <br />
+      <div id="totalTime"></div>
+      <p>
+        The sum of squares 1 - n is the nth pyramid number. Likewise the square of the sum of 1 - n is the
+        square of the nth triangle number.
+        </br></br>
+        Triangle numbers and pyramid numbers are easy to compute so I can just take the difference once I know
+        which triangle/pyramid number I'm dealing with.
+      </p>
+    </div>
+  </div>
+</body>
+<script>
+
+function projectEulerProblem6() {
+  var startTime = new Date();
+  let number = Number(document.getElementById("answer").value);
+
+  let difference = Math.pow(findTriangleNumber(number), 2) - findPyramidNumber(number);
+
+  var endTime = new Date();
+  var totalTime = endTime - startTime;
+  document.getElementById("problem").innerHTML = difference;
+  document.getElementById("totalTime").innerHTML = totalTime + " ms";
+  document.getElementById("explanation").style.visibility = "visible";
+}
+
+function findTriangleNumber(number) {
+  return ((number * (number + 1)) / 2);
+}
+
+function findPyramidNumber(number) {
+  return (number * (number + 1) * ((2 * number) + 1)) / 6;
+}
+</script>
+</html>
