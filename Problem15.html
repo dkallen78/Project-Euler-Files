@@ -1,0 +1,175 @@
+<html>
+<head>
+  <title>Project Euler, Problem 15: Lattice Paths</title>
+  <style>
+    body {
+      background-image: linear-gradient(to right, blue , white);
+    }
+
+    #header {
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #problemNumber {
+      font-size: 1.5em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #links {
+      margin: auto;
+      margin-bottom: 10px;
+      font-size: 1.25em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    a:visited, a:link {
+      color: white;
+      text-decoration: none;
+    }
+
+    #workArea {
+      margin: auto;
+      width: 25%;
+      border: 3px solid black;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: white;
+      box-shadow: -10px 10px 10px;
+    }
+
+    #numbers {
+      text-align: center;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 3px;
+      cursor: default;
+    }
+
+    .example {
+      text-align: center;
+    }
+
+    .indent {
+      margin-left: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    div p a:link, div p a:visited {
+      color: black;
+      text-decoration: none;
+    }
+
+
+    #explanation {
+      visibility: hidden;
+    }
+
+    #problem {
+      text-align: center;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 125px;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">
+    <a href="https://projecteuler.net/problem=14">Problem 15: Lattice Paths</a><br />
+  </p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem14.html">Problem 14</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem16.html">Problem 16</a>
+  </div>
+  <div id="workArea">
+    <p>
+      Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down,
+      there are exactly 6 routes to the bottom right corner.
+      <br />
+
+      <div class="example">
+        <img src="problem15.png" />
+      </div>
+      <br /><br />
+      How many such routes are there through a 20×20 grid?
+      <br /><br />
+    </p>
+    <div id="problem" onclick="projectEulerProblem15()">
+      Find Paths
+    </div>
+    <br />
+    <div id="explanation">
+      <br />
+      <div id="totalTime"></div>
+      <p>
+        The trick I found for this is that the number of paths is the same as the numbers of a Pascal's Triangle. The numbers
+        of the square formed by the triangle correspond to possible paths to corresponding nodes.
+        <br /><br />
+        I used some for loops and an array of arrays to make a Pascal's Triangle that corresponded to a 20 × 20 square
+        and returned the value at the terminal node.
+        <br /><br />
+        ###,###
+      </p>
+    </div>
+  </div>
+</body>
+<script>
+
+pascalSquare = [];
+
+function projectEulerProblem15() {
+  var startTime = new Date();
+
+  pascalSquare = initializeSquare(pascalSquare);
+  var endTime = new Date();
+  var totalTime = endTime - startTime;
+  document.getElementById("totalTime").innerHTML = totalTime + " ms";
+  document.getElementById("explanation").style.visibility = "visible";
+  document.getElementById("problem").innerHTML = pascalSquare[20][20];
+  console.log(pascalSquare);
+
+}
+
+function initializeSquare(array) {
+
+  for (let x = 0; x < 21; x++) {
+    array[x] = [1];
+  }
+
+  for (let y = 0; y < 21; y++) {
+    array[0][y] = 1;
+  }
+
+  for (let x = 1; x < 21; x++) {
+    for (let y = 1; y < 21; y++) {
+      array[x][y] = array[x - 1][y] + array[x][y - 1];
+    }
+  }
+
+  return array;
+
+}
+</script>
+</html>

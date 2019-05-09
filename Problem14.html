@@ -1,0 +1,191 @@
+<html>
+<head>
+  <title>Project Euler, Problem 14: Longest Collatz Sequence</title>
+  <style>
+    body {
+      background-image: linear-gradient(to right, blue , white);
+    }
+
+    #header {
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #problemNumber {
+      font-size: 1.5em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #links {
+      margin: auto;
+      margin-bottom: 10px;
+      font-size: 1.25em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    a:visited, a:link {
+      color: white;
+      text-decoration: none;
+    }
+
+    #workArea {
+      margin: auto;
+      width: 25%;
+      border: 3px solid black;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: white;
+      box-shadow: -10px 10px 10px;
+    }
+
+    #numbers {
+      text-align: center;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 3px;
+      cursor: default;
+    }
+
+    .example {
+      text-align: center;
+    }
+
+    .indent {
+      margin-left: 10px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    div p a:link, div p a:visited {
+      color: black;
+      text-decoration: none;
+    }
+
+
+    #explanation {
+      visibility: hidden;
+    }
+
+    #problem {
+      text-align: center;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 125px;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <p id="problemNumber">
+    <a href="https://projecteuler.net/problem=14">Problem 14: Longest Collatz Sequence</a><br />
+  </p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem13.html">Problem 13</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem15.html">Problem 15</a>
+  </div>
+  <div id="workArea">
+    <p>
+      The following iterative sequence is defined for the set of positive integers:
+      <br />
+      <div class="indent">
+        n → n/2 (n is even)<br />
+        n → 3n + 1 (n is odd)<br />
+      </div>
+      <br />
+      Using the rule above and starting with 13, we generate the following sequence:
+      <br /><br />
+      <div class="example">
+        13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1<br />
+      </div>
+      <br />
+      It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms.
+      Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+      <br /><br />
+      Which starting number, under one million, produces the longest chain?
+      <br /><br />
+      <span class="bold">NOTE:</span> Once the chain starts the terms are allowed to go above one million.
+    </p>
+    <div id="problem" onclick="projectEulerProblem14()">
+      Find Number
+    </div>
+    </br>
+    <div id="explanation">
+      <br />
+      <div id="totalTime"></div>
+      <p>
+        I take the straight-forward approach and calculate the sequence of each number up to 1,000,000.
+        <br /><br />
+        I use a while loop to run through the sequence until I reach one and I store the longest sequence
+        and the number that produced it as I go along.
+        <br /><br />
+        ###,###
+      </p>
+    </div>
+  </div>
+</body>
+<script>
+
+var longestChain = 0;
+var longestSeed = 0
+
+function projectEulerProblem14() {
+  var startTime = new Date();
+
+  let collatz = 0;
+  for (let x = 1; x < 1000000; x++) {
+    collatz = getCollatz(x);
+    if (collatz > longestChain) {
+      longestChain = collatz;
+      longestSeed = x;
+    }
+  }
+
+  var endTime = new Date();
+  var totalTime = endTime - startTime;
+  document.getElementById("totalTime").innerHTML = totalTime + " ms";
+  document.getElementById("explanation").style.visibility = "visible";
+  document.getElementById("problem").innerHTML = longestSeed;
+  console.log("Number with longest chain: " + longestSeed);
+  console.log("Chain length: " + longestChain);
+}
+
+function getCollatz(start) {
+
+  var stepCounter = 1;
+
+  while (start !== 1) {
+
+    if ((start % 2) === 0) {
+      start /= 2;
+    } else {
+      start = (start * 3) + 1;
+    }
+
+    stepCounter++;
+  }
+
+  return stepCounter;
+
+}
+</script>
+</html>

@@ -31,42 +31,165 @@
       padding: 5px;
       background-color: white;
       font-size: 1.5em;
+      transition: transform 1000ms;
     }
 
+    #divNext {
+      float: right;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 100px;
+      text-align: center;
+      cursor: default;
+      transition: background-color 250ms;
+    }
 
+    #divPrev {
+      float: left;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 100px;
+      text-align: center;
+      cursor: default;
+      transition: background-color 250ms;
+    }
+
+    #divNext:hover #divPrev:hover {
+      background-color: #cccccc;
+    }
 
   </style>
 </head>
-<body>
+<body onload="initializePage()">
   <div id="header">
     <a href="https://github.com/dkallen78/Project-Euler-Files"><h1>Project Euler Repository</h1></a>
-    <img src="https://projecteuler.net/profile/dkallen78.png" />
+    <!--<img src="https://projecteuler.net/profile/dkallen78.png" />-->
   </div>
 
   <div id="problems">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem1.html">Problem 1: Multiples of 3 and 5</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem2.html">Problem 2: Even Fibonacci Numbers</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.html">Problem 3: Largest Prime Factor (Prime List)</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html">Problem 3: Largest Prime Factor (Prime Seive)</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">Problem 4: Largest Palindrome Product</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html">Problem 5: Smallest Multiple</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">Problem 6: Sum Square Difference</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem7.html">Problem 7: 10,001st Prime</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">Problem 8: Largest Product in a Series</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem9.html">Problem 9: Special Pythagorean Triplet</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">Problem 10: Summation of Primes (Primality Test)</a>
-    <br /><br />
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html">Problem 10: Summation of Primes (Prime Seive)</a>
+
+
   </div>
 </body>
+<script>
+
+  //monsterDiv.style.transform = "rotateY(-360deg)";
+
+  function initializePage() {
+    let problemIndex = 0;
+    var set1 = [
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem1.html", "Problem 1: Multiples of 3 and 5"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem2.html", "Problem 2: Even Fibonacci Numbers"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem3.html", "Problem 3: Largest Prime Factor (Prime List)"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html", "Problem 3: Largest Prime Factor (Prime Seive)"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem4.html", "Problem 4: Largest Palindrome Product"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html", "Problem 5: Smallest Multiple"]
+              ];
+    var set2 = [
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem6.html","Problem 6: Sum Square Difference"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem7.html","Problem 7: 10,001st Prime"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem8.html","Problem 8: Largest Product in a Series"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem9.html","Problem 9: Special Pythagorean Triplet"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem10.html","Problem 10: Summation of Primes (Primality Test)"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html","Problem 10: Summation of Primes (Prime Seive)"]
+              ]
+
+    var set3 = [
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem11.html","Problem 11: Largest Product in a Grid"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem12.html","Problem 12: Highly Divisible Triangle Number"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem13.html","Problem 13: Large Sum"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem14.html","Problem 14: Longest Collatz Sequence"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem15.html","Problem 15: Lattice Paths"]
+              ]
+    var links = [set1, set2, set3];
+
+    let problems = document.getElementById("problems");
+
+    let divNext = document.createElement("div");
+    divNext.id = "divNext";
+    divNext.innerHTML = "Next";
+    divNext.onclick = function() {
+      problemIndex++;
+      nextPage(problemIndex, links, -180);
+    }
+
+    problems.appendChild(divNext);
+    let br = document.createElement("br");
+    problems.appendChild(br);
+
+    for (let i = 0; i < links[problemIndex].length; i++) {
+      let a = document.createElement("a");
+      let br = document.createElement("br");
+      problems.appendChild(br);
+
+      a.href = links[problemIndex][i][0];
+      a.text = links[problemIndex][i][1];
+      problems.appendChild(a);
+
+      br = document.createElement("br");
+      problems.appendChild(br);
+    }
+  }
+
+  function nextPage(problemIndex, links, flipDirection) {
+
+    var problems = document.getElementById("problems");
+
+    requestAnimationFrame(function() {
+      problems.style.transform = "rotateY(" + flipDirection + "deg)";
+    });
+
+    setTimeout(function() {
+      problems.innerHTML = "";
+
+      if (problemIndex > 0) {
+        let divPrev = document.createElement("div");
+        divPrev.id = "divPrev";
+        divPrev.innerHTML = "Previous";
+        divPrev.onclick = function() {
+          problemIndex--;
+          nextPage(problemIndex, links, 180);
+        }
+        problems.appendChild(divPrev);
+      }
+
+      if (problemIndex < links.length - 1) {
+        let divNext = document.createElement("div");
+        divNext.id = "divNext";
+        divNext.innerHTML = "Next";
+        divNext.onclick = function() {
+          problemIndex++;
+          nextPage(problemIndex, links, -180);
+        }
+        problems.appendChild(divNext);
+      }
+
+
+
+      let br = document.createElement("br");
+      br = document.createElement("br");
+      problems.appendChild(br);
+
+      for (let i = 0; i < links[problemIndex].length; i++) {
+        let a = document.createElement("a");
+        let br = document.createElement("br");
+        problems.appendChild(br);
+
+        a.href = links[problemIndex][i][0];
+        a.text = links[problemIndex][i][1];
+        problems.appendChild(a);
+
+        br = document.createElement("br");
+        problems.appendChild(br);
+      }
+    }, 250);
+
+    /*requestAnimationFrame(function() {
+      problems.style.transform = "rotateY(360deg)";
+    });*/
+    setTimeout(function() {problems.style.transform = "";}, 500);
+
+  }
+
+</script>
 </html>
