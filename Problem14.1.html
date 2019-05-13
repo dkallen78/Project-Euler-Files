@@ -98,7 +98,7 @@
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
   <p id="problemNumber">
     <a href="https://projecteuler.net/problem=14">Problem 14: Longest Collatz Sequence</a><br />
-    (Brute Force)<br />
+    (Stored Values)<br />
   </p>
   <div id="links">
     <a href="https://dkallen78.github.io/Project-Euler-Files/Problem13.html">Problem 13</a> -
@@ -134,10 +134,11 @@
       <br />
       <div id="totalTime"></div>
       <p>
-        I take the straight-forward approach and calculate the sequence of each number up to 1,000,000.
+        I store the lengths of the Collatz sequences in an array so I don't have to calculate the entire sequence
+        for every number. This reduces the run time over my previous attempt by a factor of 20.
         <br /><br />
-        I use a while loop to run through the sequence until I reach one and I store the longest sequence
-        and the number that produced it as I go along.
+        I use a while loop to run through the sequence until I reach one or a number previously in the sequence and
+        I store the longest sequence and the number that produced it as I go along.
         <br /><br />
         ###,###
       </p>
@@ -146,15 +147,18 @@
 </body>
 <script>
 
-var longestChain = 0;
-var longestSeed = 0
+var collatzCounter = [];
 
 function projectEulerProblem14() {
   var startTime = new Date();
 
+
+  var longestChain = 0;
+  var longestSeed = 0
+  let collatz = 0;
   let limit = 1000000;
 
-  let collatz = 0;
+
   for (let x = 1; x < limit; x++) {
     collatz = getCollatz(x);
     if (collatz > longestChain) {
@@ -170,26 +174,37 @@ function projectEulerProblem14() {
   document.getElementById("problem").innerHTML = longestSeed;
   console.log("Number with longest chain: " + longestSeed);
   console.log("Chain length: " + longestChain);
-}
 
-function getCollatz(start) {
+  function getCollatz(start) {
 
-  var stepCounter = 1;
-  var originalStart = start;
+    var stepCounter = 1;
+    var originalStart = start;
 
-  while (start !== 1) {
+    while (start !== 1) {
 
-    if ((start % 2) === 0) {
-      start /= 2;
-    } else {
-      start = (start * 3) + 1;
+      if (collatzCounter[start] > 0) {
+        collatzCounter[originalStart] = (collatzCounter[start] - 1) + stepCounter;
+        //console.log(originalStart + " reached the shortcut (" + start + ", " + collatzCounter[start] + ") after " + stepCounter + " steps");
+        //console.log(collatzCounter[originalStart]);
+        return (collatzCounter[originalStart]);
+      } else if ((start % 2) === 0) {
+        start /= 2;
+      } else {
+        start = (start * 3) + 1;
+      }
+
+      stepCounter++;
     }
 
-    stepCounter++;
+    //console.log(originalStart + " has " + stepCounter + " steps");
+
+    collatzCounter[originalStart] = stepCounter;
+
+    return stepCounter;
 
   }
-  return stepCounter;
-
 }
+
+
 </script>
 </html>
