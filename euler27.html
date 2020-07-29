@@ -1,0 +1,252 @@
+<html>
+<head>
+  <title>Project Euler, Problem 27: Quadratic Primes</title>
+  <style>
+    body {
+      background-image: linear-gradient(to right, blue , white);
+    }
+
+    #header {
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #problemNumber {
+      font-size: 1.5em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #links {
+      margin: auto;
+      margin-bottom: 10px;
+      font-size: 1.25em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    a:visited, a:link {
+      color: white;
+      text-decoration: none;
+    }
+
+    #workArea {
+      margin: auto;
+      width: 50vw;
+      border: 3px solid black;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: white;
+      box-shadow: -10px 10px 10px;
+    }
+
+    .example {
+      text-align: center;
+    }
+
+    .inset {
+      margin-left: 1em;
+    }
+
+    #explanation {
+      visibility: hidden;
+    }
+
+    #problem {
+      text-align: center;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 105px;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <!--<p id="problemNumber">
+    <a href="https://projecteuler.net/problem=10">Problem 10: Sumation of Primes</a><br />
+    (Prime Seive)
+  </p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">Problem 10 (Primality Test)</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem11.html">Problem 11</a>
+  </div>-->
+  <div id="workArea">
+    <p>
+      Euler discovered the remarkable quadratic formula:
+      <br />
+      <div class="example">𝒏² + 𝒏 + 41</div>
+      <br />
+      It turns out that the formula will produce 40 primes for the consecutive integer
+      values 0 ≤ 𝒏 ≤ 39. However, when 𝒏 = 40, 40² + 40 + 41 = 40(40 + 1) + 41 is divisble
+      by 41, and certainly when 𝒏 = 41, 42² + 41 + 41 is clearly divisble by 41.
+      <br /><br />
+      The incredible formula 𝒏² - 79𝒏 + 1601 was discovered, which produces 80 primes
+      for the consecutive values 0 ≤ 𝒏 ≤ 79. The product of the coefficients, -79
+      and 1601, is -126479.
+      <br /><br />
+      Considering quadratics of the form:
+      <br /><br />
+      <div class="inset">
+        𝒏² + 𝒂𝒏 + 𝒃, where |𝒂| < 1000 and |𝒃| ≤ 1000
+        <br /><br />
+        where |𝒏| is the modulus/absolute value of 𝒏
+        <br />
+        e.g. |11| = 11 and |-4| = 4
+      </div>
+      <br />
+      Find the product of the coefficients, 𝒂 and 𝒃, for the quadratic expression
+      that produces the maximum number of primes for consecutive values of 𝒏, starting
+      with 𝒏 = 0.
+    </p>
+
+  <div id="problem" onclick="projectEulerProblem27()">
+    Find Coefficient
+  </div>
+
+
+  <div id="explanation">
+    <br />
+    <div id="totalTime"></div>
+    <p>
+      To begin with, I saw that the term 𝒃 had to be prime and positive because 𝒏² + 𝒂𝒏 + 𝒃 where
+      𝒏 = 0 is just 𝒃. I used a sieve of Eratosthenes to generate primes up to 1,000 to try.
+      <br /><br />
+      For 𝒂, my only insight was that it had to be odd because 𝒏² + 𝒂𝒏 is always
+      even for odd numbers but always odd for 𝒏 = 1. Because two odd numbers always
+      sum to an even number, this meant 𝒂 could not be even.
+      <br /><br />
+      From here I 𝖈𝖗𝖚𝖓𝖈𝖍𝖊𝖉<sup>®</sup>. I'm sure there's a better way, but this is how I got here.
+    </p>
+  </div>
+</body>
+<script>
+  function projectEulerProblem27() {
+    //85511th correct!
+    function negatizer(num) {
+      return num * -1;
+    }
+
+    let limit = 2000000;
+    let startTime = new Date();
+    let primeNumbers = makePrimeArray(limit);
+
+    let thousand = makePrimeArray(1000);
+    let negaThousand = thousand.map(negatizer);
+
+    let n = 0;
+    let a = 1;
+    let b = 41;
+
+    let seed = 0;
+
+    let max = 0;
+
+    for (let j = -99; j < 0; j+=2) {
+
+      for (let i = 0; i < thousand.length; i++) {
+        if (Math.abs(j) < thousand[i]) {
+          let seq = longestSequence(0, j, thousand[i], primeNumbers);
+          if (seq > max) {
+            max = seq;
+            seed1 = thousand[i];
+            seed2 = j
+          }
+        }
+
+      }
+    }
+
+    console.log(`b = ${seed1} and a = ${seed2} produced ${max} consecutive primes`);
+
+    let endTime = new Date();
+    let totalTime = endTime - startTime;
+    document.getElementById("totalTime").innerHTML = totalTime + " ms";
+    document.getElementById("explanation").style.visibility = "visible";
+    document.getElementById("problem").innerHTML = seed1 * seed2;
+  }
+
+  function longestSequence(n, a, b, primeNumbers) {
+
+    let run = true;
+    while (run === true) {
+      let answer = problem(n, a, b);
+      //console.log(`${n}^2 + (${a} * ${n}) + (${b}) = ${answer}`);
+      if (!primeNumbers.includes(answer)) {
+        //console.log("Fail");
+        run = false;
+      } else {
+        n++;
+      }
+    }
+
+    return n;
+  }
+
+  function problem(n, a, b) {
+    let formula = ((n * n) + (a * n) + b);
+    //console.log(`${n}^2 + ${n} + ${b} = ${formula}`);
+    return formula;
+  }
+
+  //
+  //This is my Seive of Eratosthenes. Input the limit to your list of primes and it will
+  //generate the list
+  function makePrimeArray(maxPrime) {
+    let primeNumberArray = [];
+
+    rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+    //
+    //Sets the largest index to the maxPrime
+    primeNumberArray.length = (maxPrime + 1);
+    //
+    //Sets every element to true by default
+    primeNumberArray.fill(true);
+    //
+    //0 and 1 are not primes
+    primeNumberArray[0] = false;
+    primeNumberArray[1] = false;
+
+    //
+    //Counts through every element of the array
+    for (let i = 2; i < rootPrimeLimit + 1; i++) {
+      //
+      //If the number of that index is prime it
+      //goes through the array, defining all
+      //subsequent multiples as false
+      if (primeNumberArray[i] === true) {
+        for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+          let k = ((i * i) + (j * i));
+          primeNumberArray[k] = false;
+        }
+      }
+    }
+
+    var finalPrimes = [];
+    //
+    //Goes through the array and extracts the prime numbers
+    for (let k = 0; k < primeNumberArray.length + 1; k++) {
+      if (primeNumberArray[k] === true) {
+        finalPrimes.push(k);
+      }
+    }
+
+    return finalPrimes;
+  }
+</script>
+</html>
