@@ -1,0 +1,186 @@
+<html>
+<head>
+  <title>Project Euler, Problem 30: Digit Fifth Powers</title>
+  <style>
+    body {
+      background-image: linear-gradient(to right, blue , white);
+    }
+
+    #header {
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #problemNumber {
+      font-size: 1.5em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    #links {
+      margin: auto;
+      margin-bottom: 10px;
+      font-size: 1.25em;
+      text-align: center;
+      color: white;
+      text-shadow: 2px 0px black,
+                   0px 2px black,
+                   -2px 0px black,
+                   0px -2px black;
+    }
+
+    a:visited, a:link {
+      color: white;
+      text-decoration: none;
+    }
+
+    #workArea {
+      margin: auto;
+      width: 50vw;
+      border: 3px solid black;
+      border-radius: 5px;
+      padding: 5px;
+      background-color: white;
+      box-shadow: -10px 10px 10px;
+    }
+
+    .example {
+      text-align: center;
+    }
+
+    .inset {
+      margin-left: 1em;
+    }
+
+    #explanation {
+      visibility: hidden;
+    }
+
+    #problem {
+      text-align: center;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: 105px;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
+  <!--<p id="problemNumber">
+    <a href="https://projecteuler.net/problem=10">Problem 10: Sumation of Primes</a><br />
+    (Prime Seive)
+  </p>
+  <div id="links">
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">Problem 10 (Primality Test)</a> -
+    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem11.html">Problem 11</a>
+  </div>-->
+  <div id="workArea">
+    <p>
+      Surprisingly there are only three numbers that can be written as the sum of
+      fourth powers of their digits:
+      <br />
+      <div class="inset">
+        1634 = 1⁴ + 6⁴ + 3⁴ + 4⁴<br />
+        8208 = 8⁴ + 2⁴ + 0⁴ + 8⁴<br />
+        9474 = 9⁴ + 4⁴ + 7⁴ + 4⁴<br />
+      </div><br />
+      As 1 = 1⁴ is not a sum it is not included.
+      <br /><br />
+      The sum of these numbers is 1634 + 8208 + 9474 = 19316.
+      <br /><br />
+      Find the sum of all the numbers that can be written as the sum of fifth powers
+      of their digits.
+    </p>
+  <div id="problem" onclick="projectEulerProblem30()">
+    Find Sums
+  </div>
+  <div id="explanation">
+    <br />
+    <div id="totalTime"></div>
+    <p>
+      The tricky part for me was finding an upper limit to my search but realized
+      that any 7-digit number would be out of bounds. I also optimized how I incremented
+      through numbers. Unfortunately I am not good enough at math to explain it... :(
+      <br /><br />
+      Once I had all of that put together, I used a while loop and a bunch of if statements
+      to run through the program.
+    </p>
+  </div>
+</body>
+<script>
+  function projectEulerProblem30() {
+    //108205
+    let startTime = new Date();
+
+    let coolNumbers = [];
+
+    let run = true;
+    let n = 100
+
+    while (run === true) {
+
+      let sum = sumPowers(n, 5);
+      if (n > 1000000) {
+        run = false;
+      }
+      if (sum < n) {
+        n++
+      } else if (sum > n) {
+        if ((n % 10) > 0) {
+          n += (10 - (n % 10));
+        } else {
+          n += (100 - (n% 100));
+        }
+      } else {
+        coolNumbers.push(n);
+        n++;
+      }
+    }
+
+    let sums = 0;
+    for (let i = 0; i < coolNumbers.length; i++) {
+      sums += coolNumbers[i];
+    }
+
+    //console.log(sums);
+    let endTime = new Date();
+    let totalTime = endTime - startTime;
+    document.getElementById("totalTime").innerHTML = totalTime + " ms";
+    document.getElementById("explanation").style.visibility = "visible";
+    document.getElementById("problem").innerHTML = sums;
+
+    //let sum = sumPowers(20, 5);
+    //console.log(typeof sum);
+  }
+
+
+  function sumPowers(number, power) {
+    let digits = [];
+
+    while (number > 9) {
+      digits.push(number % 10);
+      number = (number - (number % 10)) / 10;
+    }
+    digits.push(number);
+
+    let sum = 0;
+    for (let i = 0; i < digits.length; i++) {
+      sum += digits[i] ** power;
+    }
+
+    return sum;
+  }
+</script>
+</html>
