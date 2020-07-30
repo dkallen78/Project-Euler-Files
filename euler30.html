@@ -110,12 +110,14 @@
     <br />
     <div id="totalTime"></div>
     <p>
-      The tricky part for me was finding an upper limit to my search but realized
+      The tricky part for me was finding an upper limit to my search but I realized
       that any 7-digit number would be out of bounds. I also optimized how I incremented
       through numbers. Unfortunately I am not good enough at math to explain it... :(
       <br /><br />
       Once I had all of that put together, I used a while loop and a bunch of if statements
       to run through the program.
+      <br /><br />
+      108,205
     </p>
   </div>
 </body>
@@ -130,19 +132,29 @@
     let n = 100
 
     while (run === true) {
-
+      //
+      //finds the sum of the number
       let sum = sumPowers(n, 5);
+      //
+      //The upper limit for my search
       if (n > 1000000) {
         run = false;
       }
+      //
+      //If the sum is smaller than n, increment by 1
       if (sum < n) {
         n++
       } else if (sum > n) {
+        //
+        //If the sum is greater than n, go to the
+        //next 10 or 100
         if ((n % 10) > 0) {
           n += (10 - (n % 10));
         } else {
-          n += (100 - (n% 100));
+          n += (100 - (n % 100));
         }
+      //
+      //If the sum and n match, add it to the list
       } else {
         coolNumbers.push(n);
         n++;
@@ -167,14 +179,26 @@
 
 
   function sumPowers(number, power) {
+    //----------------------------------------------------//
+    //Finds the sums of the powers of the digits          //
+    //  of a number                                       //
+    //integer-> number: the number                        //
+    //integer-> power: the power to raise the digits to   //
+    //----------------------------------------------------//
+
     let digits = [];
 
+    //
+    //Breaks the number down into its
+    //constituent digits
     while (number > 9) {
       digits.push(number % 10);
       number = (number - (number % 10)) / 10;
     }
     digits.push(number);
 
+    //
+    //Finds the sum of the powers
     let sum = 0;
     for (let i = 0; i < digits.length; i++) {
       sum += digits[i] ** power;
