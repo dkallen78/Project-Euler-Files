@@ -150,7 +150,6 @@
     let primeNumbers = makePrimeArray(limit);
 
     let thousand = makePrimeArray(1000);
-    let negaThousand = thousand.map(negatizer);
 
     let n = 0;
     let a = 1;
@@ -160,8 +159,10 @@
 
     let max = 0;
 
+    //
+    //These nested for loops go through every iteration and saves
+    //the info with the longest prime sequence
     for (let j = -99; j < 0; j+=2) {
-
       for (let i = 0; i < thousand.length; i++) {
         if (Math.abs(j) < thousand[i]) {
           let seq = longestSequence(0, j, thousand[i], primeNumbers);
@@ -185,13 +186,17 @@
   }
 
   function longestSequence(n, a, b, primeNumbers) {
+    //----------------------------------------------------//
+    //Runs through successively higher numbers until an   //
+    //  answer is not prime                               //
+    //integer-> n, a, b: terms of the equation            //
+    //array-> primeNumbers: an array of prime numbers     //
+    //----------------------------------------------------//
 
     let run = true;
     while (run === true) {
       let answer = problem(n, a, b);
-      //console.log(`${n}^2 + (${a} * ${n}) + (${b}) = ${answer}`);
       if (!primeNumbers.includes(answer)) {
-        //console.log("Fail");
         run = false;
       } else {
         n++;
@@ -202,15 +207,22 @@
   }
 
   function problem(n, a, b) {
+    //----------------------------------------------------//
+    //Solves the equation from the problem                //
+    //integer-> n, a, b: the terms of the equation        //
+    //----------------------------------------------------//
+
     let formula = ((n * n) + (a * n) + b);
-    //console.log(`${n}^2 + ${n} + ${b} = ${formula}`);
     return formula;
   }
 
-  //
-  //This is my Seive of Eratosthenes. Input the limit to your list of primes and it will
-  //generate the list
   function makePrimeArray(maxPrime) {
+    //----------------------------------------------------//
+    //Makes an array of prime numbers based on the Sieve  //
+    //  of Eratosthenes.                                  //
+    //integer-> maxPrime: the maximum value of the array  //
+    //----------------------------------------------------//
+
     let primeNumberArray = [];
 
     rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
