@@ -1,0 +1,83 @@
+body {
+  background-image: linear-gradient(to top right, blue , white);
+  font-size: 1.5rem;
+}
+
+#header {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+
+  color: white;
+  text-shadow: 2px 0px black,
+               0px 2px black,
+               -2px 0px black,
+               0px -2px black;
+}
+
+#problemNumber {
+  font-size: 1.5em;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 0px black,
+               0px 2px black,
+               -2px 0px black,
+               0px -2px black;
+}
+
+#links {
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 1.25em;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 0px black,
+               0px 2px black,
+               -2px 0px black,
+               0px -2px black;
+}
+
+a:visited, a:link {
+  color: white;
+  text-decoration: none;
+}
+
+#workArea {
+  margin: auto;
+  width: 50vw;
+  border: .2rem solid black;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: white;
+  box-shadow: -10px 10px 10px;
+}
+
+.example {
+  text-align: center;
+}
+
+.inset {
+  margin-left: 1em;
+}
+
+#explanation {
+  visibility: hidden;
+}
+
+#problem {
+  text-align: center;
+  border: .15rem solid black;
+  border-radius: .5rem;
+  width: 8rem;
+  cursor: default;
+}
+
+.red {
+  color: red;
+  font-weight: bold;
+}
+
+div p a:link, div p a:visited {
+  color: black;
+  text-decoration: none;
+}

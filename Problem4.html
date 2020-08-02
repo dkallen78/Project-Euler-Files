@@ -1,71 +1,11 @@
 <html>
 <head>
-<title>Project Euler, Problem 4: Largest Palindrome Product</title>
-<style>
-  body {
-    background-image: linear-gradient(to right, blue , white);
-  }
-
-  #header {
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  #problemNumber {
-    font-size: 1.5em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  #links {
-    margin: auto;
-    margin-bottom: 10px;
-    font-size: 1.25em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  a:visited, a:link {
-    color: white;
-    text-decoration: none;
-  }
-
-  #workArea {
-    margin: auto;
-    width: 25%;
-    border: 3px solid black;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: white;
-    box-shadow: -10px 10px 10px;
-  }
-
-  #explanation {
-    visibility: hidden;
-  }
-
-  #problem {
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 5px;
-    width: 85px;
-    cursor: default;
-  }
-</style>
+  <title>
+    Project Euler, Problem 4: Largest Palindrome Product
+  </title>
+  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -103,6 +43,7 @@
 </body>
 
 <script>
+//
 //Finds the Palindrome Nubmers that are products of 3-digit integers.
 function projectEulerProblem4() {
   var startTime = new Date();
@@ -129,7 +70,7 @@ function projectEulerProblem4() {
   document.getElementById("problem").style.cursor = "auto";
   document.getElementById("explanation").style.visibility = "visible";
 }
-
+//
 //A function to reverse the number order of a number. Doesn't work past 16 digits
 function reverseNumber(number) {
   let reversedNumber = "";
@@ -140,7 +81,7 @@ function reverseNumber(number) {
   }
   return Number(reversedNumber);
 }
-
+//
 //Function to check if a number is a Palindromic number, returns true or false
 function isPalindrome(number) {
   if (number === reverseNumber(number)) {

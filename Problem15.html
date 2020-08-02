@@ -1,103 +1,16 @@
 <html>
 <head>
-  <title>Project Euler, Problem 15: Lattice Paths</title>
-  <style>
-    body {
-      background-image: linear-gradient(to right, blue , white);
-    }
-
-    #header {
-      font-size: 2em;
-      font-weight: bold;
-      text-align: center;
-
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #problemNumber {
-      font-size: 1.5em;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #links {
-      margin: auto;
-      margin-bottom: 10px;
-      font-size: 1.25em;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    a:visited, a:link {
-      color: white;
-      text-decoration: none;
-    }
-
-    #workArea {
-      margin: auto;
-      width: 25%;
-      border: 3px solid black;
-      border-radius: 5px;
-      padding: 5px;
-      background-color: white;
-      box-shadow: -10px 10px 10px;
-    }
-
-    #numbers {
-      text-align: center;
-      border: 1px solid black;
-      border-radius: 5px;
-      padding: 3px;
-      cursor: default;
-    }
-
-    .example {
-      text-align: center;
-    }
-
-    .indent {
-      margin-left: 10px;
-    }
-
-    .bold {
-      font-weight: bold;
-    }
-
-    div p a:link, div p a:visited {
-      color: black;
-      text-decoration: none;
-    }
-
-
-    #explanation {
-      visibility: hidden;
-    }
-
-    #problem {
-      text-align: center;
-      border: 2px solid black;
-      border-radius: 5px;
-      width: 125px;
-      cursor: default;
-    }
-  </style>
+  <title>
+    Project Euler, Problem 15: Lattice Paths
+  </title>
+  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
   <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=14">Problem 15: Lattice Paths</a><br />
+    <a href="https://projecteuler.net/problem=15">Problem 15: Lattice Paths</a><br />
   </p>
   <div id="links">
     <a href="https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html">Problem 14 (Stored Values)</a> -
@@ -137,39 +50,39 @@
 </body>
 <script>
 
-pascalSquare = [];
+  pascalSquare = [];
 
-function projectEulerProblem15() {
-  var startTime = new Date();
+  function projectEulerProblem15() {
+    var startTime = new Date();
 
-  pascalSquare = initializeSquare(pascalSquare);
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-  document.getElementById("problem").innerHTML = pascalSquare[20][20];
-  console.log(pascalSquare);
+    pascalSquare = initializeSquare(pascalSquare);
+    var endTime = new Date();
+    var totalTime = endTime - startTime;
+    document.getElementById("totalTime").innerHTML = totalTime + " ms";
+    document.getElementById("explanation").style.visibility = "visible";
+    document.getElementById("problem").innerHTML = pascalSquare[20][20];
+    console.log(pascalSquare);
 
-}
-
-function initializeSquare(array) {
-
-  for (let x = 0; x < 21; x++) {
-    array[x] = [1];
   }
 
-  for (let y = 0; y < 21; y++) {
-    array[0][y] = 1;
-  }
+  function initializeSquare(array) {
 
-  for (let x = 1; x < 21; x++) {
-    for (let y = 1; y < 21; y++) {
-      array[x][y] = array[x - 1][y] + array[x][y - 1];
+    for (let x = 0; x < 21; x++) {
+      array[x] = [1];
     }
+
+    for (let y = 0; y < 21; y++) {
+      array[0][y] = 1;
+    }
+
+    for (let x = 1; x < 21; x++) {
+      for (let y = 1; y < 21; y++) {
+        array[x][y] = array[x - 1][y] + array[x][y - 1];
+      }
+    }
+
+    return array;
+
   }
-
-  return array;
-
-}
 </script>
 </html>

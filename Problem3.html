@@ -1,71 +1,9 @@
 <html>
 <head>
-<title>Project Euler, Problem 3: Largest Prime Factor</title>
-<style>
-  body {
-    background-image: linear-gradient(to right, blue , white);
-  }
-
-  #header {
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  #problemNumber {
-    font-size: 1.5em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  #links {
-    margin: auto;
-    margin-bottom: 10px;
-    font-size: 1.25em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  a:visited, a:link {
-    color: white;
-    text-decoration: none;
-  }
-
-  #workArea {
-    margin: auto;
-    width: 25%;
-    border: 3px solid black;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: white;
-    box-shadow: -10px 10px 10px;
-  }
-
-  #explanation {
-    visibility: hidden;
-  }
-
-  #problem {
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 5px;
-    width: 150px;
-    padding: 2px;
-  }
-</style>
+  <title>Project Euler, Problem 3: Largest Prime Factor</title>
+  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
@@ -106,7 +44,9 @@
   </div>
 </body>
 <script>
-//This array holds all the primes. I use these to divide my test number by
+//
+//This array holds all the primes. I use these to
+//divide my test number by
 var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131,
   137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283,
   293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463,
@@ -126,40 +66,58 @@ var primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61
   2963, 2969, 2971, 2999, 3001, 3011, 3019, 3023, 3037, 3041, 3049, 3061, 3067, 3079, 3083, 3089, 3109, 3119, 3121, 3137, 3163, 3167, 3169, 3181, 3187,
   3191, 3203, 3209, 3217, 3221, 3229, 3251, 3253, 3257, 3259, 3271, 3299, 3301, 3307, 3313, 3319, 3323, 3329, 3331, 3343, 3347, 3359, 3361, 3371, 3373,
   3389, 3391, 3407, 3413, 3433, 3449, 3457, 3461, 3463, 3467, 3469, 3491, 3499, 3511];
+//
 //This is an array to hold my factors
 var numberFactors = [];
+
 //var factorCeiling = Math.floor(Math.sqrt(number));
 
-//this is an empty function (for now). It will be used to test the primality of a number as soon as I figure out how to do that...
+//
+//this is an empty function (for now). It will be
+//used to test the primality of a number as soon as
+//I figure out how to do that...
 function checkIfPrime() {
 
 }
+//
 //This is my brute force factorization algorithm
 function projectEulerProblem3() {
   var startTime = new Date();
+  //
   //This gets the number to be factored
   var number = document.getElementById("answer").value;
-  //This variable breaks my while loop if I run through all the primes in my array w/out finding a factor
+  //
+  //This variable breaks my while loop if I run through
+  //all the primes in my array w/out finding a factor
   var abandonShip = false;
+  //
   //This loop runs as long as the number being tested is not in my array of primes
   //If it were, I wouldn't find a factor and I can stop, because I've found the largest factor
   while (!primes.includes(number)) {
+    //
     //If we've factored down to 1, then we've found all the factors
     if (number < 2) {
       break;
     }
+    //
     //This is the brute force part of finding the factors
     //primeIndex points to an element in the primes array
     for (primeIndex = 0; primeIndex < primes.length; primeIndex++) {
-      //if our number devides cleanly into the current prime, we divide and push the factor into numberFactors
+      //
+      //if our number devides cleanly into the current prime,
+      //we divide and push the factor into numberFactors
       if ((number % primes[primeIndex]) === 0) {
         number /= primes[primeIndex];
         numberFactors.push(primes[primeIndex]);
-        //If we find a factor, we want to break the for loop and start the process over in the while loop
+        //
+        //If we find a factor, we want to break the for loop
+        //and start the process over in the while loop
         break;
       } else {
       }
-      //If, having gone through all of the primes in my array, I don't find a factor, I break the while loop
+      //
+      //If, having gone through all of the primes in my array,
+      //I don't find a factor, I break the while loop
       //to avoid an infinite loop
       if (primeIndex === (primes.length - 1)) {
         abandonShip = true;
@@ -170,11 +128,11 @@ function projectEulerProblem3() {
       break;
     }
   }
+  //
   //This puts the final number into the numberFactors array
   numberFactors.push(number);
   var endTime = new Date();
   var totalTime = endTime - startTime;
-  //This prints the final list of factors to the HTML
   document.getElementById("problem").innerHTML = numberFactors;
   document.getElementById("totalTime").innerHTML = totalTime + " ms";
   document.getElementById("explanation").style.visibility = "visible";

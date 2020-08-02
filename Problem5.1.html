@@ -1,77 +1,12 @@
 <html>
 <head>
-<title>Project Euler, Problem 5: Smallest Multiple</title>
-</head>
-<style>
-  body {
-    background-image: linear-gradient(to right, blue , white);
-  }
-
-  #header {
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  #problemNumber {
-    font-size: 1.5em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  #links {
-    margin: auto;
-    margin-bottom: 10px;
-    font-size: 1.25em;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 0px black,
-                 0px 2px black,
-                 -2px 0px black,
-                 0px -2px black;
-  }
-
-  a:visited, a:link {
-    color: white;
-    text-decoration: none;
-  }
-
-  #workArea {
-    margin: auto;
-    width: 25%;
-    border: 3px solid black;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: white;
-    box-shadow: -10px 10px 10px;
-  }
-
-  #explanation {
-    visibility: hidden;
-  }
-
-  #problem {
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 5px;
-    width: 150px;
-    padding: 2px;
-  }
-
-  div p a:link, div p a:visited {
-    color: black;
-    text-decoration: none;
-  }
-</style>
+  <title>
+    Project Euler, Problem 5: Smallest Multiple
+  </title>
+  </head>
+  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
   <p id="problemNumber">
@@ -109,13 +44,14 @@
   </div>
 </body>
 <script>
-
+//
 //A function to find the smallest number that can be factored by a series of numbers 1-22
 function projectEulerProblem5() {
   var startTime = new Date();
+  //
   //this generates a boolean array of primes
   let primeNumberArray = makePrimeArray(Number(document.getElementById("answer").value));
-
+  //
   //This bit makes an array that keeps track of how many times
   //each prime factor is used and a list of primes
   var finalPrimes = [];
@@ -126,9 +62,10 @@ function projectEulerProblem5() {
       factorCount.push(1);
     }
   }
-
+  //
   //Iterate through the composite numbers in my boolean array
   for (let i = 4; i < primeNumberArray.length + 1; i++) {
+    //
     //If a number is composite, factor it and convert the array into
     //the desired form
     if (primeNumberArray[i] === false) {
@@ -137,7 +74,6 @@ function projectEulerProblem5() {
       finalFactors.length = finalPrimes.length;
       finalFactors.fill(0);
       for (let j = 0; j < factors.length; j++) {
-        //console.log("for loop 1 running: " + j);
         for (let h = 0; h < finalPrimes.length; h++) {
           if (factors[j] === finalPrimes[h]) {
             finalFactors[h]++;
@@ -166,6 +102,7 @@ function projectEulerProblem5() {
   document.getElementById("explanation").style.visibility = "visible";
 }
 
+//
 //This is my brute force factorization algorithm
 function getPrimeFactors(number) {
   var numberFactors = [];
@@ -181,22 +118,29 @@ function getPrimeFactors(number) {
   var abandonShip = false;
 
   while (!primeNumberArray.includes(number)) {
+    //
     //If we've factored down to 1, then we've found all the factors
     if (number < 2) {
       break;
     }
+    //
     //This is the brute force part of finding the factors
     //primeIndex points to an element in the primes array
     for (primeIndex = 0; primeIndex < primeNumberArray.length; primeIndex++) {
-      //if our number devides cleanly into the current prime, we divide and push the factor into numberFactors
+      //
+      //if our number devides cleanly into the current prime,
+      //we divide and push the factor into numberFactors
       if ((number % primeNumberArray[primeIndex]) === 0) {
         number /= primeNumberArray[primeIndex];
         numberFactors.push(primeNumberArray[primeIndex]);
-        //If we find a factor, we want to break the for loop and start the process over in the while loop
+        //
+        //If we find a factor, we want to break the for loop
+        //and start the process over in the while loop
         break;
       } else {
       }
-      //If, having gone through all of the primes in my array, I don't find a factor, I break the while loop
+      //If, having gone through all of the primes in my array,
+      //I don't find a factor, I break the while loop
       //to avoid an infinite loop
       if (primeIndex === (primeNumberArray.length - 1)) {
         abandonShip = true;
@@ -209,10 +153,6 @@ function getPrimeFactors(number) {
   }
   numberFactors.push(number);
   return numberFactors;
-}
-//This function returns the product of all the numbers in the array
-function multiplyNumbersInArray(array) {
-
 }
 
 function makePrimeArray(maxPrime) {

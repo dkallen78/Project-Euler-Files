@@ -1,98 +1,11 @@
 <html>
 <head>
-  <title>Project Euler, Problem 14: Longest Collatz Sequence</title>
-  <style>
-    body {
-      background-image: linear-gradient(to right, blue , white);
-    }
-
-    #header {
-      font-size: 2em;
-      font-weight: bold;
-      text-align: center;
-
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #problemNumber {
-      font-size: 1.5em;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #links {
-      margin: auto;
-      margin-bottom: 10px;
-      font-size: 1.25em;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    a:visited, a:link {
-      color: white;
-      text-decoration: none;
-    }
-
-    #workArea {
-      margin: auto;
-      width: 25%;
-      border: 3px solid black;
-      border-radius: 5px;
-      padding: 5px;
-      background-color: white;
-      box-shadow: -10px 10px 10px;
-    }
-
-    #numbers {
-      text-align: center;
-      border: 1px solid black;
-      border-radius: 5px;
-      padding: 3px;
-      cursor: default;
-    }
-
-    .example {
-      text-align: center;
-    }
-
-    .indent {
-      margin-left: 10px;
-    }
-
-    .bold {
-      font-weight: bold;
-    }
-
-    div p a:link, div p a:visited {
-      color: black;
-      text-decoration: none;
-    }
-
-
-    #explanation {
-      visibility: hidden;
-    }
-
-    #problem {
-      text-align: center;
-      border: 2px solid black;
-      border-radius: 5px;
-      width: 125px;
-      cursor: default;
-    }
-  </style>
+  <title>
+    Project Euler, Problem 14: Longest Collatz Sequence
+  </title>
+  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
@@ -108,7 +21,7 @@
     <p>
       The following iterative sequence is defined for the set of positive integers:
       <br />
-      <div class="indent">
+      <div class="inset">
         n → n/2 (n is even)<br />
         n → 3n + 1 (n is odd)<br />
       </div>
@@ -146,50 +59,50 @@
 </body>
 <script>
 
-var longestChain = 0;
-var longestSeed = 0
+  var longestChain = 0;
+  var longestSeed = 0
 
-function projectEulerProblem14() {
-  var startTime = new Date();
+  function projectEulerProblem14() {
+    var startTime = new Date();
 
-  let limit = 1000000;
+    let limit = 1000000;
 
-  let collatz = 0;
-  for (let x = 1; x < limit; x++) {
-    collatz = getCollatz(x);
-    if (collatz > longestChain) {
-      longestChain = collatz;
-      longestSeed = x;
-    }
-  }
-
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-  document.getElementById("problem").innerHTML = longestSeed;
-  console.log("Number with longest chain: " + longestSeed);
-  console.log("Chain length: " + longestChain);
-}
-
-function getCollatz(start) {
-
-  var stepCounter = 1;
-  var originalStart = start;
-
-  while (start !== 1) {
-
-    if ((start % 2) === 0) {
-      start /= 2;
-    } else {
-      start = (start * 3) + 1;
+    let collatz = 0;
+    for (let x = 1; x < limit; x++) {
+      collatz = getCollatz(x);
+      if (collatz > longestChain) {
+        longestChain = collatz;
+        longestSeed = x;
+      }
     }
 
-    stepCounter++;
+    var endTime = new Date();
+    var totalTime = endTime - startTime;
+    document.getElementById("totalTime").innerHTML = totalTime + " ms";
+    document.getElementById("explanation").style.visibility = "visible";
+    document.getElementById("problem").innerHTML = longestSeed;
+    console.log("Number with longest chain: " + longestSeed);
+    console.log("Chain length: " + longestChain);
+  }
+
+  function getCollatz(start) {
+
+    var stepCounter = 1;
+    var originalStart = start;
+
+    while (start !== 1) {
+
+      if ((start % 2) === 0) {
+        start /= 2;
+      } else {
+        start = (start * 3) + 1;
+      }
+
+      stepCounter++;
+
+    }
+    return stepCounter;
 
   }
-  return stepCounter;
-
-}
 </script>
 </html>

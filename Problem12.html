@@ -1,90 +1,11 @@
 <html>
 <head>
-  <title>Project Euler, Problem 12: Highly Divisible Triangular Number</title>
-  <style>
-    body {
-      background-image: linear-gradient(to right, blue , white);
-    }
-
-    #header {
-      font-size: 2em;
-      font-weight: bold;
-      text-align: center;
-
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #problemNumber {
-      font-size: 1.5em;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #links {
-      margin: auto;
-      margin-bottom: 10px;
-      font-size: 1.25em;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    a:visited, a:link {
-      color: white;
-      text-decoration: none;
-    }
-
-    #workArea {
-      margin: auto;
-      width: 25%;
-      border: 3px solid black;
-      border-radius: 5px;
-      padding: 5px;
-      background-color: white;
-      box-shadow: -10px 10px 10px;
-    }
-
-    .example {
-      text-align: center;
-    }
-
-    .indent {
-      margin-left: 10px;
-    }
-
-    .bold {
-      font-weight: bold;
-    }
-
-    div p a:link, div p a:visited {
-      color: black;
-      text-decoration: none;
-    }
-
-
-    #explanation {
-      visibility: hidden;
-    }
-
-    #problem {
-      text-align: center;
-      border: 2px solid black;
-      border-radius: 5px;
-      width: 125px;
-      cursor: default;
-    }
-  </style>
+  <title>
+    Project Euler, Problem 12: Highly Divisible Triangular Number
+  </title>
+  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
@@ -105,7 +26,7 @@
       <br />
       Let us list the factors of the first seven triangle numbers:
       <br /><br />
-      <div class="indent">
+      <div class="inset">
         <span class="bold">1:</span> 1<br />
         <span class="bold">3:</span> 1,3<br />
         <span class="bold">6:</span> 1,2,3,6<br />
@@ -142,108 +63,109 @@
 </body>
 <script>
 
-var triangleNumber = 3;
-var currentTriangleNumber = 1;
+  var triangleNumber = 3;
+  var currentTriangleNumber = 1;
 
-var primeNumbers = [2];
+  var primeNumbers = [2];
 
-function projectEulerProblem12() {
-  var startTime = new Date();
+  function projectEulerProblem12() {
+    var startTime = new Date();
 
-  do {
-    var currentTriangleNumber = getTriangleNumber(triangleNumber);
+    do {
+      var currentTriangleNumber = getTriangleNumber(triangleNumber);
 
-    var triangleFactors = findPrimeFactors(currentTriangleNumber);
+      var triangleFactors = findPrimeFactors(currentTriangleNumber);
 
-    var totalFactors = findTotalFactors(triangleFactors);
+      var totalFactors = findTotalFactors(triangleFactors);
 
-    triangleNumber++;
+      triangleNumber++;
+    }
+    while (totalFactors < 501);
+
+    console.log("Triangle Number " + triangleNumber + " is " + currentTriangleNumber);
+    console.log("Prime factors of " + currentTriangleNumber + ": " + triangleFactors);
+    console.log("Total factors of " + currentTriangleNumber + ": " + totalFactors);
+    var endTime = new Date();
+    var totalTime = endTime - startTime;
+    document.getElementById("totalTime").innerHTML = totalTime + " ms";
+    document.getElementById("explanation").style.visibility = "visible";
+    document.getElementById("problem").innerHTML = currentTriangleNumber;
   }
-  while (totalFactors < 501);
-
-  console.log("Triangle Number " + triangleNumber + " is " + currentTriangleNumber);
-  console.log("Prime factors of " + currentTriangleNumber + ": " + triangleFactors);
-  console.log("Total factors of " + currentTriangleNumber + ": " + totalFactors);
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-  document.getElementById("problem").innerHTML = currentTriangleNumber;
-}
-
-//Gets the nth triangle number
-function getTriangleNumber(number) {
-  return ((number * (number + 1)) / 2);
-}
-
-//Finds the prime factors
-function findPrimeFactors(number) {
-  var factors = [];
-
-  //This loop divides out the powers of 2
-  while ((number % 2) === 0) {
-    factors.push(2);
-    number /= 2;
+  //
+  //Gets the nth triangle number
+  function getTriangleNumber(number) {
+    return ((number * (number + 1)) / 2);
   }
-
-  let numberToTest = 3;
-
-  //This loop divides out the odd numbers, since we work our way up from 3, we
-  //don't have to worry about adding an odd composite number to our list of factors
-  //because we will have removed it as a factor by having already divided out its prime
-  while ((numberToTest * numberToTest) <= number) {
-
-    if ((number % numberToTest) === 0) {
-      factors.push(numberToTest);
-      number /= numberToTest;
-    } else {
-      numberToTest += 2;
+  //
+  //Finds the prime factors
+  function findPrimeFactors(number) {
+    var factors = [];
+    //
+    //This loop divides out the powers of 2
+    while ((number % 2) === 0) {
+      factors.push(2);
+      number /= 2;
     }
 
-  }
-  //Having removed the even numbers, and determined that our odd number doesn't divide our
-  //current number, we have determined that it must be a prime factor and add it to our list
-  if (number !== 1) {
-    factors.push(number);
-  }
-  return factors;
-}
+    let numberToTest = 3;
+    //
+    //This loop divides out the odd numbers, since we work our way up from 3, we
+    //don't have to worry about adding an odd composite number to our list of factors
+    //because we will have removed it as a factor by having already divided out its prime
+    while ((numberToTest * numberToTest) <= number) {
 
-//Finds total factors based on the prime factors found
-function findTotalFactors(factors) {
+      if ((number % numberToTest) === 0) {
+        factors.push(numberToTest);
+        number /= numberToTest;
+      } else {
+        numberToTest += 2;
+      }
 
-  let factorCounter = [0];
-  let x = 0;
-  let y = 0;
-
-  //This loop organizes my factors by number of occurence.
-  while (x < (factors.length)) {
-
-    if (factors[x] === factors[x + 1]) {
-      factorCounter[y]++
-    } else {
-      factorCounter.push(0);
-      factorCounter[y]++;
-      y++;
     }
-    x++;
+    //
+    //Having removed the even numbers, and determined that our odd number doesn't divide our
+    //current number, we have determined that it must be a prime factor and add it to our list
+    if (number !== 1) {
+      factors.push(number);
+    }
+    return factors;
   }
+  //
+  //Finds total factors based on the prime factors found
+  function findTotalFactors(factors) {
 
-  //This loop adds one to every element of my array
-  for (let z = 0; z < factorCounter.length; z++) {
-    factorCounter[z]++;
+    let factorCounter = [0];
+    let x = 0;
+    let y = 0;
+    //
+    //This loop organizes my factors by number of occurence.
+    while (x < (factors.length)) {
+
+      if (factors[x] === factors[x + 1]) {
+        factorCounter[y]++
+      } else {
+        factorCounter.push(0);
+        factorCounter[y]++;
+        y++;
+      }
+      x++;
+    }
+    //
+    //This loop adds one to every element of my array
+    for (let z = 0; z < factorCounter.length; z++) {
+      factorCounter[z]++;
+    }
+
+    let factorTotal = 1;
+    //
+    //This multiplies the powers of each factor together to find the total number
+    //of factors, though not the factors themselves.
+    for (let z = 0; z < (factorCounter.length); z++) {
+      factorTotal *= factorCounter[z];
+    }
+
+    return factorTotal;
+
   }
-
-  let factorTotal = 1;
-
-  //This multiplies the powers of each factor together to find the total number
-  //of factors, though not the factors themselves.
-  for (let z = 0; z < (factorCounter.length); z++) {
-    factorTotal *= factorCounter[z];
-  }
-
-  return factorTotal;
-
-}
 </script>
 </html>
