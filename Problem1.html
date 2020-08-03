@@ -1,54 +1,88 @@
 <html>
-<head>
-<title>Project Euler, Problem 1: Multiples of 3 and 5</title>
-<link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=1">Problem 1: Multiples of 3 or 5</a>
-  </p>
-  <div id="links"><a href="https://dkallen78.github.io/Project-Euler-Files/Problem2.html">Problem 2</a></div>
-  <div id="workArea">
-    <p>
-      If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
-      <br /><br />
-      Find the sum of all the multiples of 3 or 5 below 1000.
-    </p>
-    <div id="problem" onclick="projectEulerProblem1()">
-      Find Sum
-    </div>
-
-    <div id="explanation">
-      </br>
-      <div id="totalTime"></div>
+  <head>
+    <title>
+      Project Euler, Problem 1: Multiples of 3 and 5
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=1">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 1: Multiples of 3 or 5
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem2.html">
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 2
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        To solve this, I used a for loop iterating from 3 to 1000.
-        </br></br>
-        If the number mod 3 or 5 was equal to 0 (divisible by either number) I added the value of that number to a "sum" variable.</br>
+        If we list all the natural numbers below 10 that are multiples of 3 or 5,
+        we get 3, 5, 6 and 9. The sum of these multiples is 23.
+        <br /><br />
+        Find the sum of all the multiples of 3 or 5 below 1000.
       </p>
-    </div>
-  </div>
-</body>
-<script>
 
-var sum = 0;
-function projectEulerProblem1() {
-  var startTime = new Date();
-  for (e = 3; e < 1000; e++) {
-    if ((e % 3) === 0 || (e % 5) === 0) {
-      sum += e;
+      <button id="problem" onclick="projectEulerProblem1()">
+        Find Sum
+      </button>
+
+      <summary id="notes">
+        </br>
+        <div id="totalTime"></div>
+        <p>
+          To solve this, I used a for loop iterating from 3 to 1000.
+          </br></br>
+          If the number mod 3 or 5 was equal to 0 (divisible by either number) I
+          added the value of that number to a "sum" variable.
+          </br></br>
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem1() {
+
+      let startTime = new Date();
+
+      let sum = 0;
+      //
+      //This counts from 3 up to 999, adding the value
+      //to a running sum if it's a divisible by 3 or 5
+      for (let e = 3; e < 1000; e++) {
+        if ((e % 3) === 0 || (e % 5) === 0) {
+          sum += e;
+        }
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = sum;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("problem").style.cursor = "auto";
+      document.getElementById("notes").style.display = "block";
+
     }
-  }
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("problem").innerHTML = sum;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("problem").style.cursor = "auto";
-  document.getElementById("explanation").style.visibility = "visible";
-
-}
-</script>
+  </script>
 </html>

@@ -1,0 +1,186 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 17: Number Letter Counts
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=17">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 17: Number Letter Counts
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem16.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 16
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem18.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 18
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        If the numbers 1 to 5 are written out in words: one, two, three, four, five,
+        then there are
+        <math>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>5</mn>
+          <mo>+</mo>
+          <mn>4</mn>
+          <mo>+</mo>
+          <mn>4</mn>
+          <mo>=</mo>
+          <mn>19</mn>
+        </math>
+        letters used in total.
+        <br /><br />
+
+        If all the numbers from 1 to 1000 (one thousand) inclusive were written out
+        in words, how many letters would be used?
+        <br /><br />
+
+        <span class="bold">NOTE:</span> Do not count spaces or hyphens. For example,
+        342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and
+        fifteen) contains 20 letters. The use of "and" when writing out numbers is
+        in compliance with British usage.
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem17()">
+        Find Sum
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I made arrays with the numbers spelled out. One for the ones (9 elements),
+          one for the teens (10 elements), one for the tens (8 elements), and one
+          for the hundreds (9 elements).
+          <br /><br />
+
+          I used 4 for loops to cycle through the numbers and count up the characters
+          in the strings as I went along.
+          <br /><br />
+
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem17() {
+
+      let startTime = new Date();
+
+      let ones = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+      let teens = ["ten", "eleven", "twelve", "thirteen", "fourteen",
+                  "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+      let tens = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+      let hundreds = ["onehundredand", "twohundredand", "threehundredand", "fourhundredand",
+                      "fivehundredand", "sixhundredand", "sevenhundredand", "eighthundredand", "ninehundredand"];
+      let thousands = "onethousand";
+
+      let letterSum = 0;
+      let oldSum = 0;
+      let count = 0;
+
+      //
+      //Counting the numbers less than 10
+      for (let x = 0; x < ones.length; x++) {
+        oldSum = letterSum;
+        letterSum += ones[x].length;
+        count++;
+      }
+      //
+      //Counting the numbers 10 - 19
+      for (let x = 0; x < teens.length; x++) {
+        oldSum = letterSum;
+        letterSum += teens[x].length;
+        count++;
+      }
+      //
+      //Counting the numbers 20 - 99
+      for (let x = 0; x < tens.length; x++) {
+        oldSum = letterSum;
+        letterSum += tens[x].length;
+        count++;
+        for (let y = 0; y < ones.length; y++) {
+          oldSum = letterSum;
+          letterSum += (tens[x].length + ones[y].length);
+          count++;
+        }
+      }
+      //
+      //Counting the numbers 100 - 999
+      for (let x = 0; x < hundreds.length; x++) {
+        oldSum = letterSum;
+        letterSum += (hundreds[x].length - 3);
+        count++;
+        //
+        //Counting the numbers x01 - x09
+        for (let b = 0; b < ones.length; b++) {
+          oldSum = letterSum;
+          letterSum += (hundreds[x].length + ones[b].length);
+          count++;
+        }
+        //
+        //Counting the numbers x10 - x19
+        for (let y = 0; y < teens.length; y++) {
+          oldSum = letterSum;
+          letterSum += (hundreds[x].length + teens[y].length);
+          count++;
+        }
+        //
+        //Counting the numbers x20 - x99
+        for (let z = 0; z < tens.length; z++) {
+          oldSum = letterSum;
+          letterSum += (hundreds[x].length + tens[z].length);
+          count++;
+          for (let a = 0; a < ones.length; a++) {
+            oldSum = letterSum;
+            letterSum += (hundreds[x].length + tens[z].length + ones[a].length);
+            count++;
+          }
+        }
+      }
+      oldSum = letterSum;
+      letterSum += thousands.length;
+      count++;
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = letterSum;
+
+      console.log(letterSum);
+      console.log(count);
+    }
+
+  </script>
+</html>

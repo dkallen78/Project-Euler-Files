@@ -1,0 +1,265 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 20: Factorial digit sum
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=20">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 6: Sum Square Difference
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem19.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 19
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem21.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 21
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        <math>
+          <mi>n</mi>
+          <mo>!</mo>
+          <mtext>&nbsp;means&nbsp;</mtext>
+          <mi>n</mi>
+          <mo>×</mo>
+          <mo>(</mo>
+          <mi>n</mi>
+          <mo>-</mo>
+          <mn>1</mn>
+          <mo>)</mo>
+          <mo>×</mo>
+          <mtext>&hellip;</mtext>
+          <mo>×</mo>
+          <mn>3</mn>
+          <mo>×</mo>
+          <mn>2</mn>
+          <mo>×</mo>
+          <mn>1</mn>
+        </math>
+        <br /><br />
+
+        For example,
+        <math>
+          <mn>10</mn>
+          <mo>!</mo>
+          <mo>=</mo>
+          <mn>10</mn>
+          <mo>×</mo>
+          <mn>9</mn>
+          <mo>×</mo>
+          <mtext>&hellip;</mtext>
+          <mo>×</mo>
+          <mn>3</mn>
+          <mo>×</mo>
+          <mn>2</mn>
+          <mo>×</mo>
+          <mn>1</mn>
+          <mo>=</mo>
+          <mn>3628800</mn>
+        </math>,
+        <br />
+        and the sum of the digits in the number 10! is
+        <math>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>6</mn>
+          <mo>+</mo>
+          <mn>2</mn>
+          <mo>+</mo>
+          <mn>8</mn>
+          <mo>+</mo>
+          <mn>8</mn>
+          <mo>+</mo>
+          <mn>0</mn>
+          <mo>+</mo>
+          <mn>0</mn>
+          <mo>=</mo>
+          <mn>27</mn>
+        </math>.
+        <br /><br />
+
+        Find the sum of the digits in the number 100!
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem20()">
+        Find Difference
+      </button>
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          The key to solving this one was to use strings to hold the products because
+          they get big fast. To accomodate this I made two functions to help me
+          multiply a string of numbers by another number.
+          <br /><br />
+
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem20() {
+
+      let startTime = new Date();
+
+      let factorialString = "1";
+      let finalSum = 0;
+
+      for (let y = 1; y < 101; y++) {
+        factorialString = stringMultiplier(factorialString, y);
+      }
+
+      for (let z = 0; z < factorialString.length; z++) {
+        finalSum += parseInt(factorialString[z], 10);
+      }
+
+      console.log(finalSum);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = finalSum;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function stringMultiplier (string, factor) {
+      //----------------------------------------------------//
+      //Multiplies two strings of numbers together          //
+      //string-> string: a very large number in string form //
+      //integer-> factor: a number to multiply with the     //
+      //  large number string                               //
+      //----------------------------------------------------//
+
+      let onesDigit = (factor % 10);
+      let tensDigit = ((factor - onesDigit) / 10);
+      let product = 0;
+      let carry = 0;
+      let carryMod = 0;
+      let returnString = "";
+      let tensString = "";
+
+      //
+      //Each multiplication is going to be a 1- or 2-digit
+      //number multiplied by a potentially much larger number.
+      //This loop multiplies the 1s digit and the larger factorial
+      for (let x = (string.length - 1); x >= 0; x--) {
+        product = (parseInt(string[x], 10) * onesDigit) + carry;
+        if (product > 9) {
+          if (x === 0) {
+            returnString = product.toString() + returnString;
+          } else {
+            productOnes = (product % 10);
+            carry = ((product - productOnes) / 10);
+            returnString = productOnes.toString() + returnString;
+          }
+        } else {
+          returnString = product.toString() + returnString;
+          carry = 0;
+        }
+      }
+
+      //
+      //If the number we are multiplying by is larger than 10 then
+      //we have to multiply the second digit of the smaller factor
+      //with the bigger factorial
+      if (factor > 9) {
+        carry = 0;
+        for (let x = (string.length - 1); x >= 0; x--) {
+          product = (parseInt(string[x], 10) * tensDigit) + carry;
+          if (product > 9) {
+            if (x === 0) {
+              tensString = product.toString() + tensString;
+            } else {
+              productOnes = (product % 10);
+              carry = ((product - productOnes) / 10);
+              tensString = productOnes.toString() + tensString;
+            }
+          } else {
+            tensString = product.toString() + tensString;
+            carry = 0;
+          }
+        }
+        tensString = tensString + "0";
+        //
+        //After multiplying the 1s and 10s digits by the bigger number,
+        //we have to add those two numbers together to get our final
+        //product
+        returnString = addStrings(returnString, tensString);
+      }
+
+      return returnString;
+    }
+
+    function addStrings(onesString, tensString) {
+      //----------------------------------------------------//
+      //Adds to strings of numbers together                 //
+      //string-> onesString, tensString: strings of numbers //
+      //  to be added together                              //
+      //----------------------------------------------------//
+
+      let sum = 0;
+      let ones = 0;
+      let tens = 0;
+      let carry = 0;
+      let returnString = "";
+
+      //
+      //Makes the strings the same length w/out
+      //changing the value of either
+      while (tensString.length > onesString.length) {
+        onesString = "0" + onesString;
+      }
+
+      //
+      //Goes through each index of both strings, adding and
+      //carrying the values
+      for (let x = 1; x < tensString.length + 1; x++) {
+        tens = parseInt(tensString[tensString.length - x], 10);
+        ones = parseInt(onesString[onesString.length - x], 10);
+        sum = (tens + ones) + carry;
+        if (sum > 9) {
+          if ((tensString.length - x) === 0) {
+            returnString = sum.toString() + returnString;
+          } else {
+            carry = 1;
+            sum -= 10;
+            returnString = sum.toString() + returnString;
+          }
+        } else {
+          returnString = sum.toString() + returnString;
+          carry = 0;
+        }
+      }
+
+      return returnString;
+    }
+
+  </script>
+</html>

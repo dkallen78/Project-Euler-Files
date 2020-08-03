@@ -1,180 +1,212 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 5: Smallest Multiple
-  </title>
-  </head>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=5">Problem 5: Smallest Multiple</a>
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">Problem 4</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">Problem 6</a>
-  </div>
-  <div id="workArea">
-    <p>
-      2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
-      <br /><br />
-      What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
-    </p>
-
-    <div id="problem">
-      <input id="answer" type="number" name="Answer" />
+  <head>
+    <title>
+      Project Euler, Problem 5: Smallest Multiple
+    </title>
+    </head>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-      <input type="button" value="Project Euler" onclick="projectEulerProblem5()" />
-    </div>
-
-    <div id="explanation">
-    </br>
-      <div id="totalTime"></div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=5">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 5: Smallest Multiple
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 4
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 6
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        I reused parts of my prime factorization program (<a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html">problem 3</a>)
-        with this, finding all factors of all numbers in the range.
-        </br></br>
-        First I generated a list of primes w/in the number range (my base prime factors).
-        Then I found all the factors of the composite numbers in that range going from smallest to
-        largest composite adding redundant factors as I went.
+        2520 is the smallest number that can be divided by each of the numbers from
+        1 to 10 without any remainder.
+        <br /><br />
+        What is the smallest positive number that is evenly divisible by all of the
+        numbers from 1 to 20?
       </p>
-    </div>
-  </div>
-</body>
-<script>
-//
-//A function to find the smallest number that can be factored by a series of numbers 1-22
-function projectEulerProblem5() {
-  var startTime = new Date();
-  //
-  //this generates a boolean array of primes
-  let primeNumberArray = makePrimeArray(Number(document.getElementById("answer").value));
-  //
-  //This bit makes an array that keeps track of how many times
-  //each prime factor is used and a list of primes
-  var finalPrimes = [];
-  var factorCount = [];
-  for (let k = 0; k < primeNumberArray.length + 1; k++) {
-    if (primeNumberArray[k] === true) {
-      finalPrimes.push(k);
-      factorCount.push(1);
-    }
-  }
-  //
-  //Iterate through the composite numbers in my boolean array
-  for (let i = 4; i < primeNumberArray.length + 1; i++) {
-    //
-    //If a number is composite, factor it and convert the array into
-    //the desired form
-    if (primeNumberArray[i] === false) {
-      var factors = getPrimeFactors(i);
-      var finalFactors = [];
-      finalFactors.length = finalPrimes.length;
-      finalFactors.fill(0);
-      for (let j = 0; j < factors.length; j++) {
-        for (let h = 0; h < finalPrimes.length; h++) {
-          if (factors[j] === finalPrimes[h]) {
-            finalFactors[h]++;
+
+      <input id="answer" type="number" name="Answer" value="20" />
+      <br />
+      <button id="problem" onclick="projectEulerProblem5()">
+        Find Number
+      </button>
+      </br>
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I reused parts of my prime factorization program (<a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html">problem 3</a>)
+          with this, finding all factors of all numbers in the range.
+          </br></br>
+          First I generated a list of primes w/in the number range (my base prime
+          factors). Then I found all the factors of the composite numbers in that
+          range going from smallest to largest composite adding redundant factors
+          as I went.
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem5() {
+      var startTime = new Date();
+      //
+      //this generates a boolean array of primes
+      let primeNumberArray = makePrimeArray(Number(document.getElementById("answer").value));
+      //
+      //This bit makes an array that keeps track of how many times
+      //each prime factor is used and a list of primes
+      var finalPrimes = [];
+      var factorCount = [];
+      for (let k = 0; k < primeNumberArray.length + 1; k++) {
+        if (primeNumberArray[k] === true) {
+          finalPrimes.push(k);
+          factorCount.push(1);
+        }
+      }
+      //
+      //Iterate through the composite numbers in my boolean array
+      for (let i = 4; i < primeNumberArray.length + 1; i++) {
+        //
+        //If a number is composite, factor it and convert the array into
+        //the desired form
+        if (primeNumberArray[i] === false) {
+          var factors = getPrimeFactors(i);
+          var finalFactors = [];
+          finalFactors.length = finalPrimes.length;
+          finalFactors.fill(0);
+          for (let j = 0; j < factors.length; j++) {
+            for (let h = 0; h < finalPrimes.length; h++) {
+              if (factors[j] === finalPrimes[h]) {
+                finalFactors[h]++;
+              }
+            }
+          }
+          for (let l = 0; l < finalFactors.length; l++) {
+            if (finalFactors[l] > factorCount[l]) {
+              factorCount[l] = finalFactors[l];
+            }
           }
         }
       }
-      for (let l = 0; l < finalFactors.length; l++) {
-        if (finalFactors[l] > factorCount[l]) {
-          factorCount[l] = finalFactors[l];
+
+      let finalProduct = 1;
+      for (let m = 0; m < factorCount.length; m++) {
+        finalProduct *= (Math.pow(finalPrimes[m], factorCount[m]));
+      }
+
+      var endTime = new Date();
+      var totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = finalProduct;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function getPrimeFactors(number) {
+      //----------------------------------------------------//
+      //Gets the prime factors of a number                  //
+      //integer-> number: number to get factors of          //
+      //----------------------------------------------------//
+
+      var numberFactors = [];
+      let primeNumberArray = makePrimeArray(Math.round(Math.sqrt(Number(number))));
+      var finalPrimes = [];
+      for (let k = 0; k < primeNumberArray.length + 1; k++) {
+        if (primeNumberArray[k] === true) {
+          finalPrimes.push(k);
         }
       }
-    }
 
+      primeNumberArray = finalPrimes;
+      var abandonShip = false;
 
-  }
-
-  let finalProduct = 1;
-  for (let m = 0; m < factorCount.length; m++) {
-    finalProduct *= (Math.pow(finalPrimes[m], factorCount[m]));
-  }
-
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("problem").innerHTML = finalProduct;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-}
-
-//
-//This is my brute force factorization algorithm
-function getPrimeFactors(number) {
-  var numberFactors = [];
-  let primeNumberArray = makePrimeArray(Math.round(Math.sqrt(Number(number))));
-  var finalPrimes = [];
-  for (let k = 0; k < primeNumberArray.length + 1; k++) {
-    if (primeNumberArray[k] === true) {
-      finalPrimes.push(k);
-    }
-  }
-
-  primeNumberArray = finalPrimes;
-  var abandonShip = false;
-
-  while (!primeNumberArray.includes(number)) {
-    //
-    //If we've factored down to 1, then we've found all the factors
-    if (number < 2) {
-      break;
-    }
-    //
-    //This is the brute force part of finding the factors
-    //primeIndex points to an element in the primes array
-    for (primeIndex = 0; primeIndex < primeNumberArray.length; primeIndex++) {
-      //
-      //if our number devides cleanly into the current prime,
-      //we divide and push the factor into numberFactors
-      if ((number % primeNumberArray[primeIndex]) === 0) {
-        number /= primeNumberArray[primeIndex];
-        numberFactors.push(primeNumberArray[primeIndex]);
+      while (!primeNumberArray.includes(number)) {
         //
-        //If we find a factor, we want to break the for loop
-        //and start the process over in the while loop
-        break;
-      } else {
+        //If we've factored down to 1, then we've found all the factors
+        if (number < 2) {
+          break;
+        }
+        //
+        //This is the brute force part of finding the factors
+        //primeIndex points to an element in the primes array
+        for (primeIndex = 0; primeIndex < primeNumberArray.length; primeIndex++) {
+          //
+          //if our number devides cleanly into the current prime,
+          //we divide and push the factor into numberFactors
+          if ((number % primeNumberArray[primeIndex]) === 0) {
+            number /= primeNumberArray[primeIndex];
+            numberFactors.push(primeNumberArray[primeIndex]);
+            //
+            //If we find a factor, we want to break the for loop
+            //and start the process over in the while loop
+            break;
+          } else {
+          }
+          //If, having gone through all of the primes in my array,
+          //I don't find a factor, I break the while loop
+          //to avoid an infinite loop
+          if (primeIndex === (primeNumberArray.length - 1)) {
+            abandonShip = true;
+            break;
+          }
+        }
+        if (abandonShip) {
+          break;
+        }
       }
-      //If, having gone through all of the primes in my array,
-      //I don't find a factor, I break the while loop
-      //to avoid an infinite loop
-      if (primeIndex === (primeNumberArray.length - 1)) {
-        abandonShip = true;
-        break;
+      numberFactors.push(number);
+      return numberFactors;
+    }
+
+    function makePrimeArray(maxPrime) {
+      //----------------------------------------------------//
+      //Makes an ordered array of prime numbers up to a     //
+      //  designated limit                                  //
+      //integer-> maxPrime: upper bound of the primes       //
+      //----------------------------------------------------//
+
+      let primeNumberArray = [];
+
+      rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+      primeNumberArray.length = (maxPrime + 1);
+      primeNumberArray.fill(true);
+      primeNumberArray[0] = false;
+      primeNumberArray[1] = false;
+
+      for (let i = 2; i < rootPrimeLimit + 1; i++) {
+        if (primeNumberArray[i] === true) {
+          for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+            let k = ((i * i) + (j * i));
+            primeNumberArray[k] = false;
+          }
+        }
       }
+
+      return primeNumberArray;
     }
-    if (abandonShip) {
-      break;
-    }
-  }
-  numberFactors.push(number);
-  return numberFactors;
-}
 
-function makePrimeArray(maxPrime) {
-  let primeNumberArray = [];
-
-  rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
-  primeNumberArray.length = (maxPrime + 1);
-  primeNumberArray.fill(true);
-  primeNumberArray[0] = false;
-  primeNumberArray[1] = false;
-
-  for (let i = 2; i < rootPrimeLimit + 1; i++) {
-    if (primeNumberArray[i] === true) {
-      for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
-        let k = ((i * i) + (j * i));
-        primeNumberArray[k] = false;
-      }
-    }
-  }
-
-  return primeNumberArray;
-}
-
-</script>
+  </script>
 </html>

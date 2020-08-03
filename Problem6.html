@@ -1,79 +1,198 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 6: Sum Square Difference
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=6">Problem 6: Sum Square Difference</a>
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html">Problem 5</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem7.html">Problem 7</a>
-  </div>
-  <div id="workArea">
-    <p>
-      The sum of the squares of the first ten natural numbers is,<br />
-      <div class="example">
-        1² + 2² + ... + 10² = 385
-      </div><br />
-      The square of the sum of the first ten natural numbers is,<br /><br />
-      <div class="example">
-        (1 + 2 + ... + 10)² = 552 = 3025
-      </div><br />
-      Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
-      <br /><br />
-      Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
-    </p>
-    <div id="problem">
-      <input id="answer" type="number" />
+  <head>
+    <title>
+      Project Euler, Problem 6: Sum Square Difference
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-      <input type="button" value="Project Euler" onclick="projectEulerProblem6()" />
-    </div>
-    <div id="explanation">
-      <br />
-      <div id="totalTime"></div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=6">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 6: Sum Square Difference
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem5.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 5
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem7.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 7
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        The sum of squares 1 - n is the nth pyramid number. Likewise the square of the sum of 1 - n is the
-        square of the nth triangle number.
-        </br></br>
-        Triangle numbers and pyramid numbers are easy to compute so I can just take the difference once I know
-        which triangle/pyramid number I'm dealing with.<br />
+        The sum of the squares of the first ten natural numbers is,<br />
         <div class="example">
-          Triangle number formula: <sup>n(n + 1)</sup>⁄<sub>2</sub>
-          <br /><br />
-          Pyramid number formula: <sup>n(n+ 1)(2n + 1)</sup>⁄<sub>6</sub>
-        </div>
+          <math>
+            <msup>
+              <mn>1</mn>
+              <mn>2</mn>
+            </msup>
+            <mo>+</mo>
+            <msup>
+              <mn>2</mn>
+              <mn>2</mn>
+            </msup>
+            <mo>+</mo>
+            <mi>&hellip;</mi>
+            <mo>+</mo>
+            <msup>
+              <mn>10</mn>
+              <mn>2</mn>
+            </msup>
+            <mo>=</mo>
+            <mn>385</mn>
+          </math>
+        </div><br />
+        The square of the sum of the first ten natural numbers is,<br /><br />
+        <div class="example">
+          <math>
+            <msup>
+              <mrow>
+                <mo fence="true" form="prefix">(</mo>
+                <mn>1</mn>
+                <mo>+</mo>
+                <mn>2</mn>
+                <mo>+</mo>
+                <mi>&hellip;</mi>
+                <mo>+</mo>
+                <mn>10</mn>
+                <mo fence="true" form="postfix">)</mo>
+              </mrow>
+              <mn>2</mn>
+            </msup>
+            <mo>=</mo>
+            <msup>
+              <mn>55</mn>
+              <mn>2</mn>
+            </msup>
+            <mo>=</mo>
+            <mn>3025</mn>
+          </math>
+        </div><br />
+        Hence the difference between the sum of the squares of the first ten natural
+        numbers and the square of the sum is 3025 − 385 = 2640.
+        <br /><br />
+        Find the difference between the sum of the squares of the first one hundred
+        natural numbers and the square of the sum.
       </p>
-    </div>
-  </div>
-</body>
-<script>
 
-function projectEulerProblem6() {
-  var startTime = new Date();
-  let number = Number(document.getElementById("answer").value);
+      <input id="input" type="number" value="100"/>
+      <br />
+      <button id="problem" onclick="projectEulerProblem6()">
+        Find Difference
+      </button>
+      <br />
 
-  let difference = Math.pow(findTriangleNumber(number), 2) - findPyramidNumber(number);
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          The sum of squares 1 – n is the nth pyramid number. Likewise the square
+          of the sum of 1 – n is the square of the nth triangle number.
+          </br></br>
 
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("problem").innerHTML = difference;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-}
+          Triangle numbers and pyramid numbers are easy to compute so I can just
+          take the difference once I know which triangle/pyramid number I'm dealing
+          with.<br />
 
-function findTriangleNumber(number) {
-  return ((number * (number + 1)) / 2);
-}
+          <div class="example">
+            Triangle number formula:
+            <math>
+              <mfrac>
+                <mrow>
+                  <mi> n </mi>
+                  <mo>&InvisibleTimes;</mo>
+                  <mo fence="true" form="prefix"> ( </mo>
+                  <mi> n </mi>
+                  <mo> + </mo>
+                  <mn> 1 </mn>
+                  <mo fence="true" form="postfix"> ) </mo>
+                </mrow>
+                <mn> 2 </mn>
+              </mfrac>
+            </math>
+            <br /><br />
+            Pyramid number formula:
+            <math>
+              <mfrac>
+                <mrow>
+                  <mi>n</mi>
+                  <mo>&InvisibleTimes;</mo>
+                  <mo fence="true" form="prefix">(</mo>
+                  <mi>n</mo>
+                  <mo>+</mo>
+                  <mn>1</mn>
+                  <mo fence="true" form="postfix">)</mo>
+                  <mo>&InvisibleTimes;</mo>
+                  <mo fence="true" form="prefix">(</mo>
+                  <mn>2</mn>
+                  <mo>&InvisibleTimes;</mo>
+                  <mi>n</mi>
+                  <mo>+</mo>
+                  <mn>1</mn>
+                  <mo fence="true" form="postfix">)</mo>
+                </mrow>
+                <mn>6</mn>
+              </mfrac>
+            </math>
+          </div>
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
 
-function findPyramidNumber(number) {
-  return (number * (number + 1) * ((2 * number) + 1)) / 6;
-}
-</script>
+    function projectEulerProblem6() {
+
+      let startTime = new Date();
+
+      let number = Number(document.getElementById("input").value);
+
+      let difference = Math.pow(findTriangleNumber(number), 2) - findPyramidNumber(number);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = difference;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function findTriangleNumber(number) {
+      //----------------------------------------------------//
+      //Finds the nth triangle number                       //
+      //integer-> number: which triangle number to find     //
+      //----------------------------------------------------//
+
+      return ((number * (number + 1)) / 2);
+    }
+
+    function findPyramidNumber(number) {
+      //----------------------------------------------------//
+      //Finds the nth pyramid number                        //
+      //integer-> number: which pyramid number to find      //
+      //----------------------------------------------------//
+
+      return (number * (number + 1) * ((2 * number) + 1)) / 6;
+    }
+  </script>
 </html>

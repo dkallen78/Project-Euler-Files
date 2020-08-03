@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 19: Counting Sundays
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=19">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 19: Counting Sundays
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem18.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 18
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem20.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 20
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        You are given the following information, but you may prefer to do some research
+        for yourself.
+        <br />
+
+        <ul>
+          <li>1 Jan 1900 was a Monday.</li>
+          <li>
+            Thirty days has September,<br />
+            April, June and November.<br />
+            All the rest have thirty-one,<br />
+            Saving February alone,<br />
+            Which has twenty-eight, rain or shine.<br />
+            And on leap years, twenty-nine.<br />
+          </li>
+          <li>
+            A leap year occurs on any year evenly divisible by 4, but not on a century
+            unless it is divisible by 400.
+          </li>
+        </ul>
+
+        How many Sundays fell on the first of the month during the twentieth century
+        (1 Jan 1901 to 31 Dec 2000)?
+        <br />
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem19()">
+        Find Sundays
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          To solve this I make an array with 12 numbers in it, each representing the
+          number of days in a month. I use a for loop to increment the years, calculating
+          whether or not it's a leap year, checking to see if a month begins on the
+          first day of the week.
+          <br /><br />
+
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem19() {
+
+      let startTime = new Date();
+
+      console.log("It has begun...");
+
+      let day = 2;
+      let months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      let firstSundays = 0;
+      //
+      //This loop is going to count the years
+      for (let year = 1901; year < 2001; year++) {
+        //
+        //Is it a leap year?
+        if (((year % 4) === 0) && ((year % 400) !== 0)) {
+          months[1] = 29;
+          console.log("Leap Year");
+        } else {
+          months[1] = 28;
+        }
+        //
+        //Is the first day of the year a Sunday?
+        if ((day % 7) === 0) {
+          firstSundays++;
+          console.log(year + ", month 1 starts with a Sunday");
+        }
+        //
+        //Check the rest of the months to see if they
+        //begin with a Sunday
+        for (let x = 0; x < (months.length - 1); x++) {
+          day += months[x];
+          if ((day % 7) === 0) {
+            firstSundays++;
+            console.log(year + ", month " + (x + 2) + " starts with a Sunday");
+          }
+        }
+        day += 31;
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = firstSundays;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+
+      console.log(firstSundays);
+    }
+
+  </script>
+</html>

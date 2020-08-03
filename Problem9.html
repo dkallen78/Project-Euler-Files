@@ -1,86 +1,209 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 9: Special Pythagorean Triplet
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=9">Problem 9: Special Pythagorean Triplet</a>
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">Problem 8</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">Problem 10 (Primality Test)</a>
-  </div>
-  <div id="workArea">
-    <p>
-      A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,<br />
-      <div class="example">
-         a² + b² = c²
-      </div>
+  <head>
+    <title>
+      Project Euler, Problem 9: Special Pythagorean Triplet
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-      For example, 3² + 4² = 9 + 16 = 25 = 5².
-      <br /><br />
-      There exists exactly one Pythagorean triplet for which a + b + c = 1000.<br />
-      Find the product abc.
-    </p>
-  <div id="problem" onclick="projectEulerProblem9()">
-    Find Product
-  </div>
-  <div id="explanation">
-    <br />
-    <div id="totalTime"></div>
-    <p>
-      I use Euclid's formula for generating Pythagorean triples:<br />
-      <div class="example">
-        a = m² - n², b = 2mn, c = m² + n²
-      </div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=9">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 9: Special Pythagorean Triplet
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 8
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 10 (Primality Test)
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        A Pythagorean triplet is a set of three natural numbers,
+        <math>
+          <mi>a</mi>
+          <mo><</mo>
+          <mi>b</mi>
+          <mo><</mo>
+          <mi>c</mi>
+        </math>,
+        for which,<br />
+        <div class="example">
+          <math>
+            <msup>
+              <mi>a</mi>
+              <mn>2</mn>
+            </msup>
+            <mo>+</mo>
+            <msup>
+              <mi>b</mi>
+              <mn>2</mn>
+            </msup>
+            <mo>=</mo>
+            <msup>
+              <mi>c</mi>
+              <mn>2</mi>
+            </msup>
+          </math>
+        </div>
+        <br />
+        For example,
+        <math>
+          <msup>
+            <mn>3</mn>
+            <mn>2</mn>
+          </msup>
+          <mo>+</mo>
+          <msup>
+            <mn>4</mn>
+            <mn>2</mn>
+          </msup>
+          <mo>=</mo>
+          <mn>9</mn>
+          <mo>+</mo>
+          <mn>16</mn>
+          <mo>=</mo>
+          <mn>25</mn>
+          <mo>=</mo>
+          <msup>
+            <mn>5</mn>
+            <mn>2</mn>
+          </msup>
+        </math>
+        <br /><br />
+        There exists exactly one Pythagorean triplet for which
+        <math>
+          <mi>a</mi>
+          <mo>+</mo>
+          <mi>b</mi>
+          <mo>+</mo>
+          <mi>c</mi>
+          <mo>=</mo>
+          <mn>1000</mn>
+        </math>.
+        <br /><br />
+        Find the product
+        <math>
+          <mi>a</mi>
+          <mo>&InvisibleTimes;</mo>
+          <mi>b</mi>
+          <mo>&InvisibleTimes;</mo>
+          <mi>c</mi>
+        </math>.
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem9()">
+        Find Product
+      </button>
       <br />
-      With this, I run a nested set of for loops, each counting up to 25 to test if the
-      sum of my three numbers is 1,000.
-    </p>
-  </div>
-</div>
-</body>
-<script>
-  var a = 0;
-  var b = 0;
-  var c = 0;
-  function projectEulerProblem9() {
-    var startTime = new Date();
-    //
-    //This is an implamentation of Euclid's formula for generating Pythagorean triples
-    //I picked 25 as an arbitrary bound because 625 seemed like a good limit
-    for (var n = 1; n < 25; n++) {
-      for (var m = 2; m < 25; m++) {
-        a = (m * m) - (n * n);
-        b = 2 * m * n;
-        c = (m * m) + (n * n);
+
+      <summary id="notes">
+        <br />
+        <div id="totalTime"></div>
+        <p>
+          I use Euclid's formula for generating Pythagorean triples:<br />
+          <div class="example">
+            <math>
+              <mi>a</mi>
+              <mo>=</mo>
+              <msup>
+                <mi>m</mi>
+                <mn>2</mn>
+              </msup>
+              <mo>-</mo>
+              <msup>
+                <mi>n</mi>
+                <mn>2</mn>
+              </msup>
+            </math>,
+            <math>
+              <mi>b</mi>
+              <mo>=</mo>
+              <mn>2</mn>
+              <mo>&InvisibleTimes;</mo>
+              <mi>m</mi>
+              <mo>&InvisibleTimes;</mo>
+              <mi>n</mi>
+            </math>,
+            <math>
+              <mi>c</mi>
+              <mo>=</mo>
+              <msup>
+                <mi>m</mi>
+                <mn>2</mn>
+              </msup>
+              <mo>+</mo>
+              <msup>
+                <mi>n</mi>
+                <mn>2</mn>
+              </msup>
+            </math>
+          </div>
+          <br />
+          With this, I run a nested set of for loops, each counting up to 25 to test if the
+          sum of my three numbers is 1,000.
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem9() {
+
+      let startTime = new Date();
+
+      let a = 0;
+      let b = 0;
+      let c = 0;
+
+      //
+      //This is an implamentation of Euclid's formula for generating Pythagorean triples
+      //I picked 25 as an arbitrary bound because 625 seemed like a good limit
+      for (let n = 1; n < 25; n++) {
+        for (let m = 2; m < 25; m++) {
+          a = (m * m) - (n * n);
+          b = 2 * m * n;
+          c = (m * m) + (n * n);
+          if ((a + b + c) === 1000) {
+            break;
+          }
+        }
         if ((a + b + c) === 1000) {
           break;
         }
       }
+
       if ((a + b + c) === 1000) {
-        break;
+        let finalProduct = (a * b * c);
+        let endTime = new Date();
+        let totalTime = endTime - startTime;
+        document.getElementById("totalTime").innerHTML = totalTime + " ms";
+        document.getElementById("notes").style.display = "block";
+        document.getElementById("problem").innerHTML = finalProduct;
       }
     }
 
-    if ((a + b + c) === 1000) {
-      let finalProduct = (a * b * c);
-      var endTime = new Date();
-      var totalTime = endTime - startTime;
-      document.getElementById("totalTime").innerHTML = totalTime + " ms";
-      document.getElementById("explanation").style.visibility = "visible";
-      document.getElementById("problem").innerHTML = finalProduct;
-    } else {
-      document.getElementById("output").innerHTML = "Something went wrong :(";
-    }
-
-  }
-
-</script>
+  </script>
 </html>

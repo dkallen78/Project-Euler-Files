@@ -1,126 +1,151 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 3.1: Largest Prime Factor
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=3">Problem 3: Largest Prime Factor</a><br />
-    (Prime Seive)
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.html">Problem 3 (Prime Array)</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">Problem 4</a>
-  </div>
-  <div id="workArea">
-    <p>
-      The prime factors of 13195 are 5, 7, 13 and 29.
-      </br></br>
-      What is the largest prime factor of the number 600851475143 ?.
-    </p>
-
-    <div id="problem">
-      <input id="answer" type="number" name="Answer" style="margin-bottom: 5px" />
+  <head>
+    <title>
+      Project Euler, Problem 3.1: Largest Prime Factor
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-      <input type="button" value="Project Euler" onclick="projectEulerProblem3()" />
-    </div>
-
-    <div id="explanation">
-      <br />
-      <div id="totalTime"></div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=3">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 3: Largest Prime Factor (Prime Sieve)
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 3 (Prime Array)
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem4.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 4
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        I don't understand the math behind the advanced factorization techniques (yet) so I generated a list of primes
-        and tested against each one.
+        The prime factors of 13195 are 5, 7, 13 and 29.
         </br></br>
-        I check each prime in my list to see if it divides my original number. If it does, I push that prime
-        into my list of factors and recheck the number (recently divided by the factor) against the list of primes
-        again and again until my original number is equal to 1.
+        What is the largest prime factor of the number 600851475143?.
       </p>
-    </div>
-  </div>
-</body>
-<script>
 
-function projectEulerProblem3() {
-  var startTime = new Date();
-  var number = document.getElementById("answer").value;
-  var numberFactors = [];
-  let primeNumberArray = makePrimeArray(Math.round(Math.sqrt(Number(number))));
-  var abandonShip = false;
+      <input id="input" type="number" name="Answer" value="600851475143" />
+      <br />
+      <button id="problem" onclick="projectEulerProblem3()">
+        Find Factor
+      </button>
 
-  while (!primeNumberArray.includes(number)) {
-    //
-    //If we've factored down to 1, then we've found all the factors
-    if (number < 2) {
-      break;
-    }
-    //
-    //This is the brute force part of finding the factors
-    //primeIndex points to an element in the primes array
-    for (primeIndex = 0; primeIndex < primeNumberArray.length; primeIndex++) {
-      //
-      //if our number devides cleanly into the current prime,
-      //we divide and push the factor into numberFactors
-      if ((number % primeNumberArray[primeIndex]) === 0) {
-        number /= primeNumberArray[primeIndex];
-        numberFactors.push(primeNumberArray[primeIndex]);
+      <summary id="notes">
+        <br />
+        <div id="totalTime"></div>
+        <p>
+          I don't understand the math behind the advanced factorization techniques
+          (yet) so I generated a list of primes and tested against each one.
+          </br></br>
+          I check each prime in my list to see if it divides my original number.
+          If it does, I push that prime into my list of factors and recheck the
+          number (recently divided by the factor) against the list of primes
+          again and again until my original number is equal to 1.
+          </br></br>
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem3() {
+
+      let startTime = new Date();
+
+      let number = document.getElementById("input").value;
+      let numberFactors = [];
+      let primeNumberArray = makePrimeArray(Math.round(Math.sqrt(Number(number))));
+
+      while (!primeNumberArray.includes(number)) {
         //
-        //If we find a factor, we want to break the for loop
-        //and start the process over in the while loop
-        break;
-      } else {
+        //If we've factored down to 1, then we've found all the factors
+        if (number < 2) {
+          break;
+        }
+        //
+        //This is the brute force part of finding the factors
+        //primeIndex points to an element in the primes array
+        for (primeIndex = 0; primeIndex < primeNumberArray.length; primeIndex++) {
+          //
+          //if our number devides cleanly into the current prime,
+          //we divide and push the factor into numberFactors
+          if ((number % primeNumberArray[primeIndex]) === 0) {
+            number /= primeNumberArray[primeIndex];
+            numberFactors.push(primeNumberArray[primeIndex]);
+            break;
+          }
+          //
+          //If, having gone through all of the primes in my array,
+          //I don't find a factor, I break the while loop
+          //to avoid an infinite loop
+          if (primeIndex === (primeNumberArray.length - 1)) {
+            break;
+          }
+        }
       }
-      //
-      //If, having gone through all of the primes in my array,
-      //I don't find a factor, I break the while loop
-      //to avoid an infinite loop
-      if (primeIndex === (primeNumberArray.length - 1)) {
-        abandonShip = true;
-        break;
+      numberFactors.push(number);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = numberFactors[numberFactors.length - 1];
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function makePrimeArray(maxPrime) {
+      //----------------------------------------------------//
+      //Makes an ordered array of prime numbers up to a     //
+      //  designated limit                                  //
+      //integer-> maxPrime: upper bound of the primes       //
+      //----------------------------------------------------//
+
+      let primeNumberArray = [];
+
+      rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+      primeNumberArray.length = (maxPrime + 1);
+      primeNumberArray.fill(true);
+      primeNumberArray[0] = false;
+      primeNumberArray[1] = false;
+
+      for (let i = 2; i < rootPrimeLimit + 1; i++) {
+        if (primeNumberArray[i] === true) {
+          for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+            let k = ((i * i) + (j * i));
+            primeNumberArray[k] = false;
+          }
+        }
       }
-    }
-    if (abandonShip) {
-      break;
-    }
-  }
-  numberFactors.push(number);
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("problem").innerHTML = numberFactors;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-}
-
-function makePrimeArray(maxPrime) {
-  let primeNumberArray = [];
-
-  rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
-  primeNumberArray.length = (maxPrime + 1);
-  primeNumberArray.fill(true);
-  primeNumberArray[0] = false;
-  primeNumberArray[1] = false;
-
-  for (let i = 2; i < rootPrimeLimit + 1; i++) {
-    if (primeNumberArray[i] === true) {
-      for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
-        let k = ((i * i) + (j * i));
-        primeNumberArray[k] = false;
+      let finalPrimes = [];
+      for (let k = 0; k < primeNumberArray.length + 1; k++) {
+        if (primeNumberArray[k] === true) {
+          finalPrimes.push(k);
+        }
       }
+      return finalPrimes;
     }
-  }
-  var finalPrimes = [];
-  for (let k = 0; k < primeNumberArray.length + 1; k++) {
-    if (primeNumberArray[k] === true) {
-      finalPrimes.push(k);
-    }
-  }
-  return finalPrimes;
-}
 
-</script>
+  </script>
 </html>

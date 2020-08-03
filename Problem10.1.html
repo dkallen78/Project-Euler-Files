@@ -1,89 +1,128 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 10: Summation of Primes (Primality Test)
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=10">Problem 10: Sumation of Primes</a><br />
-    (Prime Seive)
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">Problem 10 (Primality Test)</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem11.html">Problem 11</a>
-  </div>
-  <div id="workArea">
-    <p>
-      The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
-      <br /><br />
-      Find the sum of all the primes below two million.
-    </p>
-  <div id="problem"onclick="projectEulerProblem10()">
-    Sum Primes
-  </div>
-  <div id="explanation">
-    <br />
-    <div id="totalTime"></div>
-    <p>
-      I used a seive of Eratosthenes to generate an array of primes up to 2,000,000.
-      <br /><br />
-      Then I added up all of the numbers in my array. This was much faster than primality testing.
-    </p>
-  </div>
-</body>
-<script>
-  function projectEulerProblem10() {
-    let limit = 2000000;
-    var startTime = new Date();
-    let primeNumbers = makePrimeArray(limit);
+  <head>
+    <title>
+      Project Euler, Problem 10: Summation of Primes (Primality Test)
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=10">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 10: Sumation of Primes
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem10.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 10 (Primality Test)
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem11.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 11
+          </text>
+        </a>
+      </svg>
+    </nav>
 
-    var endTime = new Date();
-    var totalTime = endTime - startTime;
-    document.getElementById("totalTime").innerHTML = totalTime + " ms";
-    document.getElementById("explanation").style.visibility = "visible";
-    document.getElementById("problem").innerHTML = sumArray(primeNumbers);
-  }
-  //
-  //Adds up all the numbers in an array
-  function sumArray(array) {
-    let sum = 0;
-    for (let i = 0; i < array.length; i++) {
-      sum += array[i];
+    <main>
+      <p>
+        The sum of the primes below 10 is
+        <math>
+          <mn>2</mn>
+          <mo>+</mo>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>5</mn>
+          <mo>+</mo>
+          <mn>7</mn>
+          <mo>=</mo>
+          <mn>17</mn>
+        </math>.
+        <br /><br />
+        Find the sum of all the primes below two million.
+      </p>
+
+      <button id="problem"onclick="projectEulerProblem10()">
+        Sum Primes
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I used a seive of Eratosthenes to generate an array of primes up to 2,000,000.
+          <br /><br />
+          Then I added up all of the numbers in my array. This was much faster than
+          primality testing.
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem10() {
+      let limit = 2000000;
+      var startTime = new Date();
+      let primeNumbers = makePrimeArray(limit);
+
+      var endTime = new Date();
+      var totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = sumArray(primeNumbers);
     }
-    return sum;
-  }
-  //
-  //This is my Seive of Eratosthenes. Input the limit
-  //to your list of primes and it will generate the list
-  function makePrimeArray(maxPrime) {
-    let primeNumberArray = [];
+    //
+    //Adds up all the numbers in an array
+    function sumArray(array) {
+      let sum = 0;
+      for (let i = 0; i < array.length; i++) {
+        sum += array[i];
+      }
+      return sum;
+    }
+    //
+    //This is my Seive of Eratosthenes. Input the limit
+    //to your list of primes and it will generate the list
+    function makePrimeArray(maxPrime) {
+      let primeNumberArray = [];
 
-    rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
-    primeNumberArray.length = (maxPrime + 1);
-    primeNumberArray.fill(true);
-    primeNumberArray[0] = false;
-    primeNumberArray[1] = false;
+      rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+      primeNumberArray.length = (maxPrime + 1);
+      primeNumberArray.fill(true);
+      primeNumberArray[0] = false;
+      primeNumberArray[1] = false;
 
-    for (let i = 2; i < rootPrimeLimit + 1; i++) {
-      if (primeNumberArray[i] === true) {
-        for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
-          let k = ((i * i) + (j * i));
-          primeNumberArray[k] = false;
+      for (let i = 2; i < rootPrimeLimit + 1; i++) {
+        if (primeNumberArray[i] === true) {
+          for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+            let k = ((i * i) + (j * i));
+            primeNumberArray[k] = false;
+          }
         }
       }
-    }
-    var finalPrimes = [];
-    for (let k = 0; k < primeNumberArray.length + 1; k++) {
-      if (primeNumberArray[k] === true) {
-        finalPrimes.push(k);
+      var finalPrimes = [];
+      for (let k = 0; k < primeNumberArray.length + 1; k++) {
+        if (primeNumberArray[k] === true) {
+          finalPrimes.push(k);
+        }
       }
+      return finalPrimes;
     }
-    return finalPrimes;
-  }
-</script>
+  </script>
 </html>

@@ -1,108 +1,189 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 14: Longest Collatz Sequence
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=14">Problem 14: Longest Collatz Sequence</a><br />
-    (Brute Force)<br />
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem13.html">Problem 13</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html">Problem 14 (Stored Values)</a>
-  </div>
-  <div id="workArea">
-    <p>
-      The following iterative sequence is defined for the set of positive integers:
+  <head>
+    <title>
+      Project Euler, Problem 14: Longest Collatz Sequence
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-      <div class="inset">
-        n → n/2 (n is even)<br />
-        n → 3n + 1 (n is odd)<br />
-      </div>
-      <br />
-      Using the rule above and starting with 13, we generate the following sequence:
-      <br /><br />
-      <div class="example">
-        13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1<br />
-      </div>
-      <br />
-      It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms.
-      Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
-      <br /><br />
-      Which starting number, under one million, produces the longest chain?
-      <br /><br />
-      <span class="bold">NOTE:</span> Once the chain starts the terms are allowed to go above one million.
-    </p>
-    <div id="problem" onclick="projectEulerProblem14()">
-      Find Number
-    </div>
-    </br>
-    <div id="explanation">
-      <br />
-      <div id="totalTime"></div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=14">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 14: Longest Collatz Sequence
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem13.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 13
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 14 (Stored Values)
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        I take the straight-forward approach and calculate the sequence of each number up to 1,000,000.
+        The following iterative sequence is defined for the set of positive integers:
+        <br />
+        <div class="inset">
+          <math>
+            <mi>n</mi>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mfrac>
+              <mrow>
+                <mi>n</mi>
+              </mrow>
+              <mn>2</mn>
+            </mfrac>
+            <mtext>
+              &nbsp;(n is even)
+            </mtext>
+          </math>
+          <br />
+          <math>
+            <mi>n</mi>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>3</mn>
+            <mo>&InvisibleTimes;</mo>
+            <mi>n</mi>
+            <mo>+</mo>
+            <mn>1</mn>
+            <mtext>
+              &nbsp;(n is odd)
+            </mtext>
+          </math>
+          <br />
+        </div>
+        <br />
+        Using the rule above and starting with 13, we generate the following sequence:
         <br /><br />
-        I use a while loop to run through the sequence until I reach one and I store the longest sequence
-        and the number that produced it as I go along.
+        <div class="example">
+          <math>
+            <mn>13</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>40</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>20</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>10</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>5</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>16</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>8</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>4</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>2</mn>
+            <mo>&nbsp;→&nbsp;</mo>
+            <mn>1</mn>
+          </math>
+          <br />
+        </div>
+        <br />
+        It can be seen that this sequence (starting at 13 and finishing at 1) contains
+        10 terms. Although it has not been proved yet (Collatz Problem), it is thought
+        that all starting numbers finish at 1.
         <br /><br />
-        ###,###
+        Which starting number, under one million, produces the longest chain?
+        <br /><br />
+        <span class="bold">NOTE:</span> Once the chain starts the terms are allowed
+        to go above one million.
       </p>
-    </div>
-  </div>
-</body>
-<script>
 
-  var longestChain = 0;
-  var longestSeed = 0
+      <button id="problem" onclick="projectEulerProblem14()">
+        Find Number
+      </button>
+      </br>
 
-  function projectEulerProblem14() {
-    var startTime = new Date();
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I take the straight-forward approach and calculate the sequence of each
+          number up to 1,000,000.
+          <br /><br />
+          I use a while loop to run through the sequence until I reach 1 and I
+          store the longest sequence and the number that produced it as I go along.
+          <br /><br />
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
 
-    let limit = 1000000;
+    function projectEulerProblem14() {
 
-    let collatz = 0;
-    for (let x = 1; x < limit; x++) {
-      collatz = getCollatz(x);
-      if (collatz > longestChain) {
-        longestChain = collatz;
-        longestSeed = x;
-      }
-    }
+      let startTime = new Date();
 
-    var endTime = new Date();
-    var totalTime = endTime - startTime;
-    document.getElementById("totalTime").innerHTML = totalTime + " ms";
-    document.getElementById("explanation").style.visibility = "visible";
-    document.getElementById("problem").innerHTML = longestSeed;
-    console.log("Number with longest chain: " + longestSeed);
-    console.log("Chain length: " + longestChain);
-  }
+      let limit = 1000000;
+      let longestChain = 0;
+      let longestSeed = 0
 
-  function getCollatz(start) {
-
-    var stepCounter = 1;
-    var originalStart = start;
-
-    while (start !== 1) {
-
-      if ((start % 2) === 0) {
-        start /= 2;
-      } else {
-        start = (start * 3) + 1;
+      let collatz = 0;
+      //
+      //Counts up to 1 million, calculating the
+      //Collatz length of the number
+      for (let x = 1; x < limit; x++) {
+        collatz = getCollatz(x);
+        if (collatz > longestChain) {
+          longestChain = collatz;
+          longestSeed = x;
+        }
       }
 
-      stepCounter++;
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = longestSeed;
+
+      console.log("Number with longest chain: " + longestSeed);
+      console.log("Chain length: " + longestChain);
+    }
+
+    function getCollatz(start) {
+      //----------------------------------------------------//
+      //Finds the Collatz length of a number                //
+      //integer-> start: number to check                    //
+      //----------------------------------------------------//
+
+      let stepCounter = 1;
+      let originalStart = start;
+
+      //
+      //Runs through the Collatz algorithm, counting
+      //steps as it goes
+      while (start !== 1) {
+        if ((start % 2) === 0) {
+          start /= 2;
+        } else {
+          start = (start * 3) + 1;
+        }
+        stepCounter++;
+      }
+      return stepCounter;
 
     }
-    return stepCounter;
 
-  }
-</script>
+  </script>
 </html>

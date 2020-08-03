@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 16: Power Digit Sum
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=16">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 16: Power Digit Sum
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem15.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 15
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem17.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 17
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        <math>
+          <msup>
+            <mn>2</mn>
+            <mn>15</mn>
+          </msup>
+          <mo>=</mo>
+          <mn>32768</mn>
+        </math>
+        and the sum of its digits is
+        <math>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>2</mn>
+          <mo>+</mo>
+          <mn>7</mn>
+          <mo>+</mo>
+          <mn>6</mn>
+          <mo>+</mo>
+          <mn>8</mn>
+          <mo>=</mo>
+          <mn>26</mn>
+        </math>.
+        <br /><br />
+
+        What is the sum of the digits of the number
+        <math>
+          <msup>
+            <mn>2</mn>
+            <mn>1000</mn>
+          </msup>
+        </math>?
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem16()">
+        Find Sum
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          Because Javascript has poor precision with large numbers, I used strings.
+          <br /><br />
+
+          I wrote a function to double the value of the numbers in my strings and
+          I ran it 1,000 times. Then I wrote a function to sum the numbers in the
+          string produced by that function.
+          <br /><br />
+
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem16() {
+      let startTime = new Date();
+
+      let powerString = "1";
+      let x = 1;
+
+      while (x < 1001) {
+        powerString = stringDoubler(powerString);
+        x++;
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = sumString(powerString);
+    }
+
+    function stringDoubler(string) {
+      //----------------------------------------------------//
+      //Doubles the value of a string                       //
+      //string-> string: string to be doubled               //
+      //----------------------------------------------------//
+
+      let product;
+      let integer;
+      let returnString = "";
+      let carry = 0;
+
+      for (let x = (string.length - 1); x >= 0; x--) {
+        product = (parseInt(string[x], 10) * 2) + carry;
+        if (product > 9) {
+          if (x === 0) {
+            returnString = product.toString() + returnString;
+          } else {
+            carry = 1;
+            product -= 10;
+            returnString = product.toString() + returnString;
+          }
+        } else {
+          returnString = product.toString() + returnString;
+          carry = 0;
+        }
+      }
+
+      return returnString;
+    }
+
+    function sumString(string) {
+      //----------------------------------------------------//
+      //Sums the values of the characters in the string     //
+      //string-> string: string containing the values       //
+      //----------------------------------------------------//
+
+      let sum = 0;
+
+      for (x = (string.length - 1); x >= 0; x--) {
+        sum += parseInt(string[x]);
+      }
+
+      return sum;
+    }
+
+  </script>
+</html>

@@ -1,87 +1,118 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 7: 10,001st Prime
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=7">Problem 7: 10,001st Prime</a>
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">Problem 6</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">Problem 8</a>
-  </div>
-  <div id="workArea">
-    <p>
-      By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
-      <br /><br />
-      What is the 10,001st prime number? (10001)
-    </p>
-    <div id="problem">
-      <input id="answer" type="number" />
+  <head>
+    <title>
+      Project Euler, Problem 7: 10,001st Prime
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-      <input type="button" value="Project Euler" onclick="projectEulerProblem7()" />
-    </div>
-    <div id="explanation">
-      <br />
-      <div id="totalTime"></div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=7">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 7: 10,001st Prime
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem6.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 6
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem8.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 8
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        Trial division all day.
-        </br></br>
-        I run through the odd numbers trial dividing up to the square root of the number I'm testing.
-        I stop when I get to my target prime.
+        By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see
+        that the 6th prime is 13.
+        <br /><br />
+        What is the 10,001st prime number?
       </p>
-    </div>
-  </div>
-</body>
-<script>
-var primes = [2];
-var integer = 3;
-var numberIsPrime = true;
-function projectEulerProblem7() {
-  let limit = Number(document.getElementById("answer").value);
-  var startTime = new Date();
-  //
-  //This do loop will go through every odd integer checking for primality
-  do {
 
-    //
-    //This for loop will try to divide the odd numbers by numbers already in
-    //my prime number array. If none of the numbers divide evenly, then the
-    //current integer is marked as prime to be added to the array
-    for (var x = 0; x < primes.length; x++) {
+      <input id="input" type="number" value="10001" />
+      <br />
+      <button id="problem" onclick="projectEulerProblem7()">
+        Find Prime
+      </button>
+      <br />
+
+      <summary id="notes">
+        <br />
+        <div id="totalTime"></div>
+        <p>
+          Trial division all day.
+          </br></br>
+          I run through the odd numbers trial dividing up to the square root of
+          the number I'm testing. I stop when I get to my target prime.
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem7() {
+
+      let startTime = new Date();
+
+      let limit = Number(document.getElementById("input").value);
+      let primes = [2];
+      let integer = 3;
+      let numberIsPrime = true;
+
       //
-      //This if statement sets the upper limit for testing divisibility
-      if (primes[x] > Math.sqrt(integer)) {
-        break;
+      //This do loop will go through every odd integer checking for primality
+      do {
+        //
+        //This for loop will try to divide the odd numbers by numbers already in
+        //my prime number array. If none of the numbers divide evenly, then the
+        //current integer is marked as prime to be added to the array
+        for (var x = 0; x < primes.length; x++) {
+          //
+          //This if statement sets the upper limit for testing divisibility
+          if (primes[x] > Math.sqrt(integer)) {
+            break;
+          }
+          //
+          //This if statement tests the divisibility of the number being tested
+          //for primality
+          if ((integer % primes[x]) === 0) {
+            numberIsPrime = false;
+            break;
+          }
+        }
+        if (numberIsPrime) {
+          primes.push(integer);
+          document.getElementById("problem").innerHTML = integer;
+        }
+        integer += 2;
+        numberIsPrime = true;
       }
       //
-      //This if statement tests the divisibility of the number being tested
-      //for primality
-      if ((integer % primes[x]) === 0) {
-        numberIsPrime = false;
-        break;
-      }
+      //This condition stops the loop when I have found the 10,001st prime
+      while (primes.length < limit);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
     }
-    if (numberIsPrime) {
-      primes.push(integer);
-      document.getElementById("problem").innerHTML = integer;
-    }
-    integer += 2;
-    numberIsPrime = true;
-  }
-  //
-  //This condition stops the loop when I have found the 10,001st prime
-  while (primes.length < limit);
-  var endTime = new Date();
-  var totalTime = endTime - startTime;
-  document.getElementById("totalTime").innerHTML = totalTime + " ms";
-  document.getElementById("explanation").style.visibility = "visible";
-}
-</script>
+  </script>
 </html>

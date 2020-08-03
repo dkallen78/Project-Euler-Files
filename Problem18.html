@@ -1,0 +1,167 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 18: Maximum Path Sum I
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=18">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 18: Maximum Path Sum I
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem17.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 17
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem19.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 19
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
+        <br />
+
+        <div class="example">
+          <span class="red">3</span><br />
+          <span class="red">7</span> 4<br />
+          2 <span class="red">4</span> 6<br />
+          8 5 <span class="red">9</span> 3<br />
+        </div>
+        <br />
+
+        That is,
+        <math>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>7</mn>
+          <mo>+</mo>
+          <mn>4</mn>
+          <mo>+</mo>
+          <mn>9</mn>
+          <mo>=</mo>
+          <mn>23</mn>
+        </math>.
+        <br /><br />
+
+        Find the maximum total from top to bottom of the triangle below:
+        <br /><br />
+
+        <div class="example">
+          75<br />
+          95 64<br />
+          17 47 82<br />
+          18 35 87 10<br />
+          20 04 82 47 65<br />
+          19 01 23 75 03 34<br />
+          88 02 77 73 07 63 67<br />
+          99 65 04 28 06 16 70 92<br />
+          41 41 26 56 83 40 80 70 33<br />
+          41 48 72 33 47 32 37 16 94 29<br />
+          53 71 44 65 25 43 91 52 97 51 14<br />
+          70 11 33 28 77 73 17 78 39 68 17 57<br />
+          91 71 52 38 17 14 91 43 58 50 27 29 48<br />
+          63 66 04 68 89 53 67 30 73 16 69 87 40 31<br />
+          04 62 98 27 23 09 70 98 73 93 38 53 60 04 23<br />
+        </div>
+        <br />
+
+        <span class="bold">NOTE:</span> As there are only 16384 routes, it is possible
+        to solve this problem by trying every route. However, Problem 67, is the same
+        challenge with a triangle containing one-hundred rows; it cannot be solved
+        by brute force, and requires a clever method! ;o)
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem18()">
+        Find Sum
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I made an array where each element of the array was an array of the numbers
+          in the rows.
+          <br /><br />
+
+          I then worked my way up from the bottom instead of the top. Starting with
+          the first number in the second from the last row, I added the larger of
+          the two numbers beneath it to the number, then I did the same for the rest
+          of the row. Then I did the same for the next row up until I reached the
+          top row.
+          <br /><br />
+
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem18() {
+      let startTime = new Date();
+
+      let triangle = [
+        [75],
+        [95, 64],
+        [17, 47, 82],
+        [18, 35, 87, 10],
+        [20, 04, 82, 47, 65],
+        [19, 01, 23, 75, 03, 34],
+        [88, 02, 77, 73, 07, 63, 67],
+        [99, 65, 04, 28, 06, 16, 70, 92],
+        [41, 41, 26, 56, 83, 40, 80, 70, 33],
+        [41, 48, 72, 33, 47, 32, 37, 16, 94, 29],
+        [53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14],
+        [70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57],
+        [91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48],
+        [63, 66, 04, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],
+        [04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
+      ];
+
+      let greatestSum = 0;
+
+      //
+      //Works through each row of the triangle adding
+      //the larger of each pair to the number above it
+      for (let x = (triangle.length - 2); x >= 0; x--) {
+        for (let y = 0; y < triangle[x].length; y++) {
+          if (triangle[(x + 1)][y] > triangle[(x + 1)][(y + 1)]) {
+            triangle[x][y] += triangle[(x + 1)][y];
+          } else {
+            triangle[x][y] += triangle[(x + 1)][(y + 1)];
+          }
+        }
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = triangle[0][0];
+    }
+
+  </script>
+</html>

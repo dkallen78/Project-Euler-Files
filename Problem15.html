@@ -1,88 +1,123 @@
 <html>
-<head>
-  <title>
-    Project Euler, Problem 15: Lattice Paths
-  </title>
-  <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <p id="header"><a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">Project Euler</a></p>
-  <p id="problemNumber">
-    <a href="https://projecteuler.net/problem=15">Problem 15: Lattice Paths</a><br />
-  </p>
-  <div id="links">
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html">Problem 14 (Stored Values)</a> -
-    <a href="https://dkallen78.github.io/Project-Euler-Files/Problem16.html">Problem 16</a>
-  </div>
-  <div id="workArea">
-    <p>
-      Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down,
-      there are exactly 6 routes to the bottom right corner.
+  <head>
+    <title>
+      Project Euler, Problem 15: Lattice Paths
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
       <br />
-
-      <div class="example">
-        <img src="problem15.png" />
-      </div>
-      <br /><br />
-      How many such routes are there through a 20×20 grid?
-      <br /><br />
-    </p>
-    <div id="problem" onclick="projectEulerProblem15()">
-      Find Paths
-    </div>
-    <br />
-    <div id="explanation">
-      <br />
-      <div id="totalTime"></div>
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=15">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 15: Lattice Paths
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 14 (Stored Values)
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem16.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 16
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
       <p>
-        The trick I found for this is that the number of paths is the same as the numbers of a Pascal's Triangle. The numbers
-        of the square formed by the triangle correspond to possible paths to corresponding nodes.
+        Starting in the top left corner of a 2×2 grid, and only being able to move
+        to the right and down, there are exactly 6 routes to the bottom right corner.
+        <br />
+
+        <div class="example">
+          <img src="problem15.png" />
+        </div>
         <br /><br />
-        I used some for loops and an array of arrays to make a Pascal's Triangle that corresponded to a 20 × 20 square
-        and returned the value at the terminal node.
+
+        How many such routes are there through a 20×20 grid?
         <br /><br />
-        ###,###
       </p>
-    </div>
-  </div>
-</body>
-<script>
 
-  pascalSquare = [];
+      <button id="problem" onclick="projectEulerProblem15()">
+        Find Paths
+      </button>
+      <br />
 
-  function projectEulerProblem15() {
-    var startTime = new Date();
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          The trick I found for this is that the number of paths is the same as the
+          numbers of a Pascal's Triangle. The numbers of the square formed by the
+          triangle correspond to possible paths to corresponding nodes.
+          <br /><br />
 
-    pascalSquare = initializeSquare(pascalSquare);
-    var endTime = new Date();
-    var totalTime = endTime - startTime;
-    document.getElementById("totalTime").innerHTML = totalTime + " ms";
-    document.getElementById("explanation").style.visibility = "visible";
-    document.getElementById("problem").innerHTML = pascalSquare[20][20];
-    console.log(pascalSquare);
+          I used some for loops and an array of arrays to make a Pascal's Triangle
+          that corresponded to a 20 × 20 square and returned the value at the terminal
+          node.
+          <br /><br />
 
-  }
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
 
-  function initializeSquare(array) {
+    function projectEulerProblem15() {
 
-    for (let x = 0; x < 21; x++) {
-      array[x] = [1];
+      let startTime = new Date();
+
+      let pascalSquare = initializeSquare();
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = pascalSquare[20][20];
     }
 
-    for (let y = 0; y < 21; y++) {
-      array[0][y] = 1;
-    }
+    function initializeSquare() {
+      //----------------------------------------------------//
+      //Creates a square formed by a Pascal's Triangle      //
+      //----------------------------------------------------//
 
-    for (let x = 1; x < 21; x++) {
-      for (let y = 1; y < 21; y++) {
-        array[x][y] = array[x - 1][y] + array[x][y - 1];
+      let array = [];
+
+      //
+      //Creates a 20 x 20 array to construct a
+      //"Pascal's Square" in
+      for (let x = 0; x < 21; x++) {
+        array[x] = [1];
       }
+      for (let y = 0; y < 21; y++) {
+        array[0][y] = 1;
+      }
+
+      //
+      //Fills my Pascal's Square with the proper values
+      for (let x = 1; x < 21; x++) {
+        for (let y = 1; y < 21; y++) {
+          array[x][y] = array[x - 1][y] + array[x][y - 1];
+        }
+      }
+
+      return array;
     }
-
-    return array;
-
-  }
-</script>
+  </script>
 </html>
