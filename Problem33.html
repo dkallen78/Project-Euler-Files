@@ -1,0 +1,185 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 33: Digit Cancelling Fractions
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=33">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 33: Digit Cancelling Fractions
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem32.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 32
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem34.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 34
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        The fraction
+        <math>
+          <mfrac bevelled="true">
+            <mn> 49 </mn>
+            <mn> 98 </mn>
+          </mfrac>
+        </math> is a curious fraction, as an inexperienced mathematician in attempting
+        to simplify it may incorrectly believe that
+        <math>
+          <mfrac bevelled="true">
+            <mn> 49 </mn>
+            <mn> 98 </mn>
+          </mfrac>
+          <mo> = </mo>
+          <mfrac bevelled="true">
+            <mn> 4 </mn>
+            <mn> 8 </mn>
+          </mfrac>
+        </math>, which is correct, is obtained by cancelling the 9s.
+        <br /><br />
+
+        We shall consider fractions like,
+        <math>
+          <mfrac bevelled="true">
+            <mn> 30 </mn>
+            <mn> 50 </mn>
+          </mfrac>
+          <mo> = </mo>
+          <mfrac bevelled="true">
+            <mn> 3 </mn>
+            <mn> 5 </mn>
+          </mfrac>
+        </math>, to be trivial examples.
+        <br /><br />
+
+        There are exactly four non-trivial examples of this type of fraction, less
+        than one in value, and containing two digits in the numerator and denominator.
+        <br /><br />
+
+        If the product of these four fractions is given in its lowest common terms,
+        find the value of the denominator.
+      </p>
+
+      <br />
+      <button id="problem" onclick="projectEuler()">
+        Find Denominator
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I realized that the common number in the numerator and the denominator had
+          to occupy the 10s place in the denominator and the 1s place in the numerator
+          in order to satisfy the requirement that the fraction be less than 1.
+          </br></br>
+
+          Then, I iterated through three numbers: The number common to both the numerator
+          and the denominator (which I called the anchor), the 10s place in the numerator,
+          and the 1s place in the denominator.
+          </br></br>
+
+          I ignored certain values and saved the fractions that fit the criteria,
+          multiplied them, then reduced them.
+          </br></br>
+
+          70,121
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEuler() {
+      //70121
+
+      const startTime = performance.now();
+
+      let fractions = [];
+      let numerator = 0;
+      let denominator = 0;
+
+      //
+      //Iterates through the number that's the same in
+      //each of the fractions
+      for (let anchor = 1; anchor < 10; anchor++) {
+        //
+        //Iterates through the 10s place of the numerator
+        for (let numer = 1; numer < 10; numer++) {
+          //
+          //Iterates through the 1s place of the denominator
+          for (let denom = 1; denom < 10; denom++) {
+            //
+            //If there are no zeros and the number is less than 1
+            //we assemble the fraction
+            if (numer !== 0 && denom !== 0 && numer !== denom) {
+              numerator = (numer * 10) + anchor;
+              denominator = (anchor * 10) + denom;
+              //
+              //If the big fraction and the small fraction are equal
+              //we add the small fraction to an array
+              if ((numerator / denominator) === (numer / denom)) {
+                fractions.push([numer, denom]);
+              }
+            }
+          }
+        }
+      }
+
+      fractions = fractionProduct(fractions);
+
+      let finalDenom = fractions[1] / fractions[0];
+
+      const endTime = performance.now();
+      let totalTime = (endTime - startTime).toFixed(3);
+      document.getElementById("problem").innerHTML = finalDenom;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function fractionProduct(fractions) {
+      //----------------------------------------------------//
+      //Multiplies the fractions stored in the array        //
+      //  with each other                                   //
+      //array-> fractions: an array of arrays storing the   //
+      //  numerators and denominators of fractions to       //
+      //  be multiplied                                     //
+      //----------------------------------------------------//
+
+      let numer = 1;
+      let denom = 1;
+
+      for (let i = 0; i < fractions.length; i++) {
+        numer *= fractions[i][0];
+        denom *= fractions[i][1];
+      }
+
+      return [numer, denom];
+    }
+
+  </script>
+</html>

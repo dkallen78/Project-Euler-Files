@@ -64,7 +64,7 @@
 
     function projectEulerProblem1() {
 
-      let startTime = new Date();
+      const startTime = performance.now();
 
       let sum = 0;
       //
@@ -76,8 +76,8 @@
         }
       }
 
-      let endTime = new Date();
-      let totalTime = endTime - startTime;
+      const endTime = performance.now();
+      let totalTime = (endTime - startTime).toFixed(3);
       document.getElementById("problem").innerHTML = sum;
       document.getElementById("totalTime").innerHTML = totalTime + " ms";
       document.getElementById("problem").style.cursor = "auto";

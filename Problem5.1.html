@@ -72,7 +72,8 @@
   <script>
 
     function projectEulerProblem5() {
-      var startTime = new Date();
+
+      const startTime = performance.now();
       //
       //this generates a boolean array of primes
       let primeNumberArray = makePrimeArray(Number(document.getElementById("answer").value));
@@ -118,8 +119,8 @@
         finalProduct *= (Math.pow(finalPrimes[m], factorCount[m]));
       }
 
-      var endTime = new Date();
-      var totalTime = endTime - startTime;
+      const endTime = performance.now();
+      const totalTime = (endTime - startTime).toFixed(3);
       document.getElementById("problem").innerHTML = finalProduct;
       document.getElementById("totalTime").innerHTML = totalTime + " ms";
       document.getElementById("notes").style.display = "block";

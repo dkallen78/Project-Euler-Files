@@ -97,7 +97,7 @@
     //
     //This is my brute force factorization algorithm
     function projectEulerProblem3() {
-      let startTime = new Date();
+      const startTime = performance.now();
       //
       //This gets the number to be factored
       let number = document.getElementById("input").value;
@@ -146,8 +146,8 @@
       //
       //This puts the final number into the numberFactors array
       numberFactors.push(number);
-      let endTime = new Date();
-      let totalTime = endTime - startTime;
+      const endTime = performance.now();
+      let totalTime = (endTime - startTime).toFixed(3);
       document.getElementById("problem").innerHTML = numberFactors[numberFactors.length - 1];
       document.getElementById("totalTime").innerHTML = totalTime + " ms";
       document.getElementById("notes").style.display = "block";
