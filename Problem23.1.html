@@ -1,0 +1,278 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 23: Non-abundant Sums
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=23">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 23: Non-abundant Sums
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem22.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 22
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem24.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 24
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        A perfect number is a number for which the sum of its proper divisors is
+        exactly equal to the number. For example, the sum of the proper divisors
+        of 28 would be
+        <math>
+          <mn>1</mn>
+          <mo>+</mo>
+          <mn>2</mn>
+          <mo>+</mo>
+          <mn>4</mn>
+          <mo>+</mo>
+          <mn>7</mn>
+          <mo>+</mo>
+          <mn>14</mn>
+          <mo>=</mo>
+          <mn>28</mn>
+        </math>, which means that 28 is a perfect number.
+        <br /><br />
+
+        A number n is called deficient if the sum of its proper divisors is less
+        than
+        <math>
+          <mi>n</mi>
+        </math> and it is called abundant if this sum exceeds
+        <math>
+          <mi>n</mi>
+        </math>.
+        <br /><br />
+
+        As 12 is the smallest abundant number,
+        <math>
+          <mn>1</mn>
+          <mo>+</mo>
+          <mn>2</mn>
+          <mo>+</mo>
+          <mn>3</mn>
+          <mo>+</mo>
+          <mn>4</mn>
+          <mo>+</mo>
+          <mn>6</mn>
+          <mo>=</mo>
+          <mn>16</mn>
+        </math>, the smallest  number that can be written as the sum of two abundant
+        numbers is 24. By mathematical analysis, it can be shown that all integers
+        greater than 28123 can be written as the sum of two abundant numbers. However,
+        this upper limit cannot be reduced any further by analysis even though it
+        is known that the greatest number that cannot be expressed as the sum of
+        two abundant numbers is less than this limit.
+        <br /><br />
+
+        Find the sum of all the positive integers which cannot be written as the
+        sum of two abundant numbers.
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem23()">
+        Find Sum
+      </button>
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          For this problem I generated a list of abundant numbers up to the limit
+          stated in the problem description.
+          </br></br>
+          Then I generated a list of the sums of possible pairs. This was much faster
+          than checking to see if a number was a sum.</br>
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem23() {
+
+      let startTime = new Date();
+
+      let limit = 28123;
+      let abundantNumbers = generateAbundantNumbers(limit);
+      let abundantSums = [];
+      let nonAbundantSums = [];
+
+      abundantSums = generateSums(abundantNumbers, limit);
+
+      for (let i = 1; i < abundantSums.length; i++) {
+        if (abundantSums[i] === false) {
+          nonAbundantSums.push(i);
+        }
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+
+      document.getElementById("problem").innerHTML = sumArray(nonAbundantSums);
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("problem").style.cursor = "auto";
+      document.getElementById("notes").style.display = "block";
+
+    }
+
+    function findDivisors(number) {
+      //----------------------------------------------------//
+      //Finds the factors of a number                       //
+      //integer-> number: number to check                   //
+      //----------------------------------------------------//
+
+      let divisorArray = [];
+      //
+      //Checking numbers to see if they divide into my target number
+      for (let i = 1; i <= Math.sqrt(number); i++) {
+        //
+        //If they divide then I need to put them in an array
+        if (number % i === 0) {
+          //
+          //If the number is a square, I only want to put it in once
+          if (number / i === i) {
+            divisorArray.push(i);
+          } else {
+            divisorArray.push(i);
+            divisorArray.push(number/i);
+          }
+        }
+      }
+      //
+      //Sort the array from least to greatest then remove the original number
+      divisorArray.sort(function(a, b){return a-b});
+      divisorArray.pop();
+      return divisorArray;
+    }
+
+    function generateAbundantNumbers(limit) {
+      //----------------------------------------------------//
+      //generates a list of abundant numbers                //
+      //integer-> limit: the maximum abundant number to find//
+      //----------------------------------------------------//
+
+      let abundantArray = [];
+      //
+      //Counts from 12 (smallest abundant number) to a set limit,
+      //looking for abundant numbers.
+      for (let i = 12; i < limit; i++) {
+        if (checkAbundancy(i)) {
+          abundantArray.push(i);
+        }
+      }
+      return abundantArray;
+
+      function checkAbundancy(number) {
+        //----------------------------------------------------//
+        //Checks whether a number is abundant                 //
+        //integer-> number: number to check                   //
+        //----------------------------------------------------//
+
+        let divisors = findDivisors(number);
+        let sum = 0;
+        //
+        //sums the divisors of a number
+        for (let i = 0; i < divisors.length; i++) {
+          sum += divisors[i];
+        }
+        //
+        //if the sum is greater than the number (is abundant) we
+        //return true, if not, false
+        if (sum > number) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    function isSumAbundant(number, abundantNumbers) {
+      let abandonShip = false;
+      let counter = -1;
+      //
+      //this loop subtracts an abundant number from the test number,
+      //if the difference is included in my abundantNumber array then
+      //I move to the next number. If, after going through all the numbers
+      //no abundant number is found, it's marked as a non-abundant sum.
+      while (!abandonShip) {
+        counter++;
+        //
+        //Is our current subtractand larger than the test number?
+        if (abundantNumbers[counter] > number) {
+          abandonShip = true;
+          return false;
+        //
+        //Is the difference of the two numbers an abundant number?
+        } else if (abundantNumbers.includes(number - abundantNumbers[counter])) {
+          abandonShip = true;
+          return true;
+        //
+        //Have we reached the end of our list?
+        } else if (counter > abundantNumbers.length) {
+          abandonShip = true;
+          return false;
+        }
+      }
+
+    }
+
+    function sumArray(array) {
+      let sum = 0;
+      for (let i = 0; i < array.length; i++) {
+        sum += array[i];
+      }
+      return sum;
+    }
+
+    function generateSums(abundantNumbers, limit) {
+      //----------------------------------------------------//
+      //Makes a list of all possible sums of abundant       //
+      //  numbers below a threshold                         //
+      //array-> abundantNumbers: a list of abundant numbers //
+      //integer-> limit: the upper limit of sums to check   //
+      //----------------------------------------------------//
+
+      let abundantSums = [];
+      abundantSums.length = limit;
+      abundantSums.fill(false);
+      //
+      //These loops go through my list of abundant numbers and makes a list of sums
+      //out of every possible pair lower than a specified threshold.
+      for (let i = 0; i < abundantNumbers.length; i++) {
+
+        for (let j = i; j < abundantNumbers.length; j++) {
+          if (abundantNumbers[i] + abundantNumbers[j] < limit) {
+            abundantSums[abundantNumbers[i] + abundantNumbers[j]] = true;
+          } else {
+            break;
+          }
+        }
+      }
+      return abundantSums;
+    }
+  </script>
+</html>

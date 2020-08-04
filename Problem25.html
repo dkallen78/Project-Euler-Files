@@ -1,0 +1,320 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 25: 1,000-Digit Fibonacci Number
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=6">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 25: 1,000-digit Fibonacci Number
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem24.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 24
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem26.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 26
+          </text>
+        </a>
+      </svg>
+    </nav>
+
+    <main>
+      <p>
+        The Fibonacci sequence is defined by the recurrence relation:<br />
+        <div class="inset">
+          <math>
+            <msub>
+              <mi>F</mi>
+              <mi>n</mi>
+            </msub>
+            <mo>=</mo>
+            <msub>
+              <mi>F</mi>
+              <mrow>
+                <mi>n</mi>
+                <mo>-</mo>
+                <mn>1</mn>
+              </mrow>
+            </msub>
+            <mo>+</mo>
+            <msub>
+              <mi>F</mi>
+              <mrow>
+                <mi>n</mi>
+                <mo>-</mo>
+                <mn>2</mn>
+              </mrow>
+            </msub>
+          </math>, where
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 1 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 1 </mn>
+          </math> and
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 2 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 1 </mn>
+          </math>.
+        </div>
+        <br />
+
+        Hence the first 12 terms will be:<br /><br />
+        <div class="inset">
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 1 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 1 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 2 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 1 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 3 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 2 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 4 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 3 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 5 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 5 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 6 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 8 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 7 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 13 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 8 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 21 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 9 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 34 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 10 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 55 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 11 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 89 </mn>
+          </math> <br />
+          <math>
+            <msub>
+              <mi> F </mi>
+              <mn> 12 </mn>
+            </msub>
+            <mo> = </mo>
+            <mn> 144 </mn>
+          </math> <br />
+        </div>
+        <br />
+
+        The 12th term,
+        <math>
+          <msub>
+            <mi> F </mi>
+            <mn> 12 </mn>
+          </msub>
+        </math>, is the first term to contain three digits.
+        <br /><br />
+
+        What is the index of the first term in the Fibonacci sequence to contain 1000 digits?
+      </p>
+
+      <button id="problem"onclick="projectEulerProblem25()">
+        Action
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          Because numbers with so many digits are hard to represent in Javascript,
+          I used arrays of numbers instead.
+          <br /><br />
+
+          I made a function to add arrays of numbers together from left to right then
+          I kept count of how many Fibonacci numbers I had cycled through. I also used
+          the formula
+          <math>
+            <mn> 0.209 </mn>
+            <mo> × </mo>
+            <mi> n </mi>
+            <mo> &asymp; </mo>
+            <mi> digits </mi>
+          </math> where
+          <math>
+            <mi> n </mi>
+          </math> is the
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mi> th </mi>
+            </msup>
+          </math> Fibonacci number to act as a checksum and give me a rough idea
+          of what index I should be at.
+          <br /><br />
+
+          138,843
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem25() {
+
+      var startTime = new Date();
+
+      let fibonacciArray = [1];
+      let fibonacciArrayAddend = [1];
+      let fibonacciIndex = 2;
+
+      while (fibonacciArray.length < 1000) {
+        let holdingArray = fibonacciArray;
+
+        fibonacciArray = addBigNumbers(fibonacciArray, fibonacciArrayAddend);
+
+        fibonacciArrayAddend = holdingArray;
+
+        fibonacciIndex++;
+      }
+
+      var endTime = new Date();
+      var totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = fibonacciIndex;
+
+      console.log(fibonacciArray);
+      fibonacciArray = reverseArray(fibonacciArray);
+      console.log(fibonacciArray);
+    }
+
+    function addBigNumbers(array1, array2) {
+      let tempArray = [];
+      var carry = false;
+
+      if (array1.length > array2.length) {
+        array2.push(0);
+      }
+
+      for (let i = 0; i < array1.length; i++) {
+
+        if (carry) {
+          array2[i]++;
+          carry = false;
+        }
+
+        if (array1[i] + array2[i] > 9) {
+          if (i === array1.length - 1) {
+            tempArray[i + 1] = 1;
+            tempArray[i] = (array1[i] + array2[i]) % 10;
+          } else {
+            tempArray[i] = (array1[i] + array2[i]) % 10;
+            carry = true;
+          }
+        } else {
+          tempArray[i] = array1[i] + array2[i];
+        }
+      }
+      return tempArray;
+    }
+
+    function reverseArray(array) {
+      let difference = (array.length - 1)
+      let cycles = Math.ceil(difference / 2);
+      for (let i = 0; i < cycles; i++) {
+        array = swapElements(i, (array.length -1) - i, array);
+      }
+      return array;
+    }
+
+    function swapElements(index1, index2, array) {
+      let holderVariable = array[index1];
+      array[index1] = array[index2];
+      array[index2] = holderVariable;
+      return array;
+    }
+
+  </script>
+</html>

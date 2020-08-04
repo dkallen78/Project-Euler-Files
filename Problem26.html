@@ -1,0 +1,290 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 26: Reciprocal Cycles
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=6">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 26: Reciprocal Cycles
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem25.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 25
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem27.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 27
+          </text>
+        </a>
+      </svg>
+    </nav>
+
+    <main>
+      <p>
+        A unit fraction contains 1 in the numerator. The decimal representation of
+        the unit fractions with denominators 2 to 10 are given:
+        <br />
+
+        <div class="inset">
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 2 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0.5 </mn>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 3 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0. </mn>
+            <mover>
+              <mn> 3 </mn>
+              <mo> &OverBar; </mo>
+            </mover>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 4 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0.25 </mn>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 5 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0.2 </mn>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 6 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0.1 </mn>
+            <mover>
+              <mn> 6 </mn>
+              <mo> &OverBar; </mo>
+            </mover>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 7 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0. </mn>
+            <mover>
+              <mn> 142857 </mn>
+              <mo> &OverBar; </mo>
+            </mover>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 8 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0.125 </mn>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 9 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0. </mn>
+            <mover>
+              <mn> 1 </mn>
+              <mo> &OverBar; </mo>
+            </mover>
+          </math> <br />
+          <math style="padding:1rem;">
+            <mfrac bevelled="true">
+              <mn> 1 </mn>
+              <mn> 10 </mn>
+            </mfrac>
+            <mo> = </mo>
+            <mn> 0.1 </mn>
+          </math> <br />
+        </div>
+        <br />
+
+        Where
+        <math>
+          <mn> 0.1 </mn>
+          <mover>
+            <mn> 6 </mn>
+            <mo> &OverBar; </mo>
+          </mover>
+        </math> means
+        <math>
+          <mn> 0.166666 </mn>
+          <mi> &hellip; </mi>
+        </math>, and has a 1-digit recurring cycle. It can be seen that
+        <math>
+          <mfrac bevelled="true">
+            <mn> 1 </mn>
+            <mn> 7 </mn>
+          </mfrac>
+        </math> has a 6-digit recurring cycle.
+        <br /><br />
+
+        Find the value of
+        <math>
+          <mi> d </mi>
+          <mo> < </mo>
+          <mn> 1000 </mn>
+        </math> for which
+        <math>
+          <mfrac bevelled="true">
+            <mn> 1 </mn>
+            <mi> d </mi>
+          </mfrac>
+        </math> contains the longest recurring cycle in its decimal fraction part.
+      </p>
+
+      <button id="problem"onclick="projectEulerProblem26()">
+        Find Repetend
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          For this problem I taught the computer how to do long division.
+          <br /><br />
+
+          As I converted the fraction into decimal form with long division, I saved
+          the pairs of quotients and remainders in an array. Then, after each operation
+          I checked the pairs to see if there was a match. If so, I knew the sequence
+          had repeated and based on the index of the pairs I could determine the
+          repetend length. I also only checked 900 - 1000 since, based on research,
+          I had a good idea the final answer would be a large prime.
+          <br /><br />
+
+          74,423
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem26() {
+
+      let startTime = new Date();
+      let maxLength = 0
+      let denominator = 0;
+
+      for (let i = 900; i < 1001; i++) {
+        let length = crunchRepetend(i);
+        if (length > maxLength) {
+          maxLength = length;
+          denominator = i
+        }
+      }
+
+      /*var divisor = "14";
+      let length = crunchRepetend(16);*/
+
+      console.log(maxLength);
+      console.log(denominator);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = denominator;
+    }
+
+    function crunchRepetend(divisor) {
+      let pairArray = [];
+      let dividend = 10;
+      let counter = 0;
+      let remainder = 0;
+      let abandonShip = false;
+
+      do {
+        //console.log(counter);
+        if (divisor > dividend) {
+          pairArray[counter] = [dividend, 0];
+          //console.log(divisor + " is too large to divide into " + dividend);
+          //console.log(pairArray);
+          dividend *= 10;
+          counter++;
+        } else {
+          remainder = Math.floor(dividend / divisor);
+          //console.log(divisor + " goes into " + dividend + " " + remainder + " times: " + (divisor * remainder));
+          pairArray[counter] = [dividend, (remainder * divisor)];
+          //console.log(pairArray);
+          dividend = (dividend - (remainder * divisor)) * 10;
+          counter++;
+          if (dividend === 0) {
+            //console.log("Dividend = 0, we're done here, no repetend");
+            abandonShip = true;
+            return 0;
+          } else if (comparePairs(pairArray) > 0) {
+
+            abandonShip = true;
+            //console.log(pairArray);
+            return comparePairs(pairArray);
+          }
+        }
+      } while (!abandonShip);
+    }
+
+    function comparePairs(pairArray) {
+      let abandonShip = false;
+      let counter = 0;
+
+      while (!abandonShip) {
+        //console.log("Comparing pairs at index " + counter + " and index " + (pairArray.length - 1));
+        //console.log(pairArray[counter][0] + " = " + pairArray[pairArray.length - 1][0]);
+        //console.log(pairArray[counter][1] + " = " + pairArray[pairArray.length - 1][1])
+        if (pairArray[counter][0] === pairArray[pairArray.length - 1][0] && pairArray[counter][1] === pairArray[pairArray.length - 1][1]) {
+          //console.log("We've got a match! We're heading home!");
+          abandonShip = true;
+          //console.log((pairArray.length - 1) - counter);
+          return ((pairArray.length - 1) - counter);
+        } else {
+          //console.log("No match, checking the next index");
+          counter++;
+        }
+        if (counter === pairArray.length - 1) {
+          //console.log("Out of elements to test, heading home");
+          abandonShip = true;
+          return 0;
+        }
+      }
+    }
+
+  </script>
+</html>

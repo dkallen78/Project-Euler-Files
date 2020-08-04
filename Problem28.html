@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 28: Number Spiral Diagonals
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=28">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 28: Number Spiral Diagonals
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem27.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 27
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem29.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 29
+          </text>
+        </a>
+      </svg>
+    </nav>
+
+    <main>
+      <p>
+        Starting with the number 1 and moving to the right in a clockwise direction
+        a 5 by 5 spiral is formed as follows:
+        <br /><br />
+
+        <div class="example">
+          <pre><span class="red">21</span> 22 23 24 <span class="red">25</span></pre>
+          <pre>20 <span class="red">07</span> 08 <span class="red">09</span> 10</pre>
+          <pre>19 06 <span class="red">01</span> 02 11</pre>
+          <pre>18 <span class="red">05</span> 04 <span class="red">03</span> 12</pre>
+          <pre><span class="red">17</span> 16 15 14 <span class="red">13</span></pre>
+        </div>
+
+        It can be verified that the sum of the numbers on the diagonals is 101.
+        <br /><br />
+
+        What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed
+        in the same way?
+        <br /><br />
+      </p>
+
+      <input id="input" type="number" value="1001" />
+      <br />
+      <button id="problem" onclick="projectEulerProblem28()">
+        Sum Corners
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+
+        <p>
+          Right away I saw that there was a regularity to the numbers on the corners,
+          especially the one on the top right. It was always equal to
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mn>
+            </msup>
+          </math> where
+          <math>
+            <mi> n </mi>
+          </math> was the length of the sides. The bottom left corner was equal to
+          <math>
+            <msup>
+              <mrow>
+                <mo> ( </mo>
+                <mi> n </mi>
+                <mo> - </mo>
+                <mn> 1 </mn>
+                <mo> ) </mo>
+              </mrow>
+              <mn>2</mn>
+            </msup>
+            <mo> + </mo>
+            <mn> 1 </mn>
+          </math> or
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mn>
+            </msup>
+            <mo> - </mo>
+            <mn> 2 </mn>
+            <mo> &InvisibleTimes; </mo>
+            <mi> n </mi>
+            <mo> + </mo>
+            <mn> 2 </mn>
+          </math>. The top left corner was
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mn>
+            </msup>
+            <mo> - </mo>
+            <mi> n </mi>
+            <mo> - </mo>
+            <mn> 1 </mn>
+          </math> and the bottom right corner was equal to
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mn>
+            </msup>
+            <mo> - </mo>
+            <mn> 3 </mn>
+            <mo> &InvisibleTimes; </mo>
+            <mi> n </mi>
+            <mo> + </mo>
+            <mn> 3 </mn>
+          </math>.
+          <br /><br />
+
+          Once I had all of that figured out, I ran a for loop counting up by 2s from
+          3 to 1,001, summing the corners and adding it to a running sum.
+          <br /><br />
+          106,320
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem28() {
+      //106320th
+      let startTime = new Date();
+
+      let sides = document.getElementById("input").value;
+
+      let sum = 1;
+      //
+      //counts down by 2s from the number of sides
+      for (let i = sides; i > 1; i-=2) {
+        sum += sumCorners(i);
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = sum;
+    }
+
+    function sumCorners(sides) {
+      //----------------------------------------------------//
+      //Sums the values of the corners                      //
+      //integer-> sides: the size of the number square      //
+      //----------------------------------------------------//
+
+      let short = sides - 1;
+
+      //
+      //Top right
+      let corner1 = sides ** 2;
+
+      //
+      //Bottom left
+      let corner2 = (short ** 2) + 1;
+
+      //
+      //Top left
+      let corner3 = corner1 - short;
+      //
+      //Bottom right
+      let corner4 = corner2 - short;
+
+      return corner1 + corner2 + corner3 + corner4;
+    }
+
+  </script>
+</html>

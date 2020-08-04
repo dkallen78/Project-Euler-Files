@@ -1,0 +1,381 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 29: Distinct Powers (Binary Insert)
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=29">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 29: Distinct Powers (Binary Insert)
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem29.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 29
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem30.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 30
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        Consider all integer combinations of
+        <math>
+          <msup>
+            <mi> a </mi>
+            <mi> b </mi>
+          </msup>
+        </math> for
+        <math>
+          <mn> 2 </mn>
+          <mo> ≤ </mo>
+          <mi> a </mi>
+          <mo> ≤ </mo>
+          <mn> 5 </mn>
+        </math> and
+        <math>
+          <mn> 2 </mn>
+          <mo> ≤ </mo>
+          <mi> b </mi>
+          <mo> ≤ </mo>
+          <mn> 5 </mn>
+        </math>:
+
+        <div class="inset">
+          <div>
+            <math>
+              <msup>
+                <mn> 2 </mn>
+                <mn> 2 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 4 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 2 </mn>
+                <mn> 3 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 8 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 2 </mn>
+                <mn> 4 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 16 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 2 </mn>
+                <mn> 5 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 32 </mn>
+            </math>
+          </div>
+          <div>
+            <math>
+              <msup>
+                <mn> 3 </mn>
+                <mn> 2 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 9 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 3 </mn>
+                <mn> 3 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 27 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 3 </mn>
+                <mn> 4 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 81 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 3 </mn>
+                <mn> 5 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 243 </mn>
+            </math>
+          </div>
+          <div>
+            <math>
+              <msup>
+                <mn> 4 </mn>
+                <mn> 2 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 16 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 4 </mn>
+                <mn> 3 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 64 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 4 </mn>
+                <mn> 4 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 256 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 4 </mn>
+                <mn> 5 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 1024 </mn>
+            </math>
+          </div>
+          <div>
+            <math>
+              <msup>
+                <mn> 5 </mn>
+                <mn> 2 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 25 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 5 </mn>
+                <mn> 3 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 125 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 5 </mn>
+                <mn> 4 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 625 </mn>
+            </math>,
+            <math>
+              <msup>
+                <mn> 5 </mn>
+                <mn> 5 </mn>
+              </msup>
+              <mo> = </mo>
+              <mn> 3125 </mn>
+            </math>
+          </div>
+        </div>
+        <br />
+
+        If they are then placed in numerical order, with any repeats removed, we get
+        the following sequence of 15 distinct terms:
+        <br /><br />
+
+        <div class="example">
+          4, 8, 9, 16, 25, 27, 32, 64, 81, 125, 243, 256, 625, 1024, 3125
+        </div>
+        <br />
+
+        How many distinct terms are in the sequence generated by
+        <math>
+          <msup>
+            <mi> a </mi>
+            <mi> b </mi>
+          </msup>
+        </math> for
+        <math>
+          <mn> 2 </mn>
+          <mo> ≤ </mo>
+          <mi> a </mi>
+          <mo> ≤ </mo>
+          <mn> 100 </mn>
+        </math> and
+        <math>
+          <mn> 2 </mn>
+          <mo> ≤ </mo>
+          <mi> b </mi>
+          <mo> ≤ </mo>
+          <mn> 100 </mn>
+        </math>?
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem29()">
+        Find Terms
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          The tricky part of this problem was getting JavaScript to handle 𝔹𝕀𝔾<sup>®</sup>
+          numbers. Thankfully the BigInt is here and it made things a lot easier. I made
+          two helper functions: one to put my numbers in an array and another to trim extra
+          numbers after the fact.
+          <br /><br />
+          I run two nested for loops and compute every power, inserting the values as
+          I go.
+          <br /><br />
+          A major breakthrough on bringing the speed down for this problem was using a
+          binary search for inserting the numbers into the array. Another was trimming
+          the array of extra numbers instead of searching for duplicates before inserting.
+          Using a binary search before the fact only cost me about 1ms though.
+          <br /><br />
+          103,541
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem29() {
+      //103541
+      let startTime = new Date();
+      let powers = 100;
+
+      let distPowers = [];
+
+      //
+      //These nested loops run through every possible
+      //combination of bases and exponents
+      for (let i = 2n; i < powers + 1; i++) {
+        for (let j = 2n; j < powers + 1; j++) {
+          let power = i ** j;
+          binPush(power, distPowers);
+        }
+      }
+
+      //
+      //This removes the repeated terms
+      distPowers = trimArray(distPowers);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = distPowers.length;
+
+      console.log(distPowers);
+    }
+
+    function binSearch(number, array) {
+      //----------------------------------------------------//
+      //Checks to see if a BigInt is in an array of BigInts //
+      //integer-> number: number to search for              //
+      //array-> array: array to search                      //
+      //----------------------------------------------------//
+
+      let run = true;
+      let low = 0;
+      let high = array.length - 1;
+      let index = Math.floor(high / 2);
+
+      while (run === true) {
+         if (array[index] === undefined) {
+          return false;
+        } else if (number === array[index]) {
+          return true;
+        } else if (number > array[index]) {
+          low = index + 1;
+          if (low > high) return false;
+          index += Math.ceil((high - index) / 2);
+        } else {
+          high = index - 1;
+          if (high < low) return false;
+          index -= Math.ceil((index - low) / 2);
+        }
+      }
+    }
+
+    function binPush(number, array) {
+      //----------------------------------------------------//
+      //Uses a binary search to insert numbers into         //
+      //  the array                                         //
+      //integer-> number: number to be inserted             //
+      //array-> array: array to be inserted into            //
+      //----------------------------------------------------//
+
+      let run = true;
+      let low = 0;
+
+      let high = (array.length > 0) ? (array.length - 1) : 0;
+      let index = Math.floor(high / 2);
+
+      while (run === true) {
+        if (array[index] === undefined) {
+          array[index] = number;
+          return;
+        } else if (number === array[index]) {
+          array.splice(index + 1, 0, number);
+          return;
+        } else if (number > array[index]) {
+          low = index + 1;
+          if (low > high) {
+            array.splice(index + 1, 0, number);
+            return;
+          }
+          index += Math.ceil((high - index) / 2);
+        } else {
+          high = index - 1;
+          if (high < low) {
+            array.splice(index, 0, number);
+            return;
+          }
+          index -= Math.ceil((index - low) / 2);
+        }
+      }
+    }
+
+    function trimArray(array) {
+      //----------------------------------------------------//
+      //Removes duplicate elements from a sorted array      //
+      //array-> array: sorted array with duplicate elements //
+      //  to be removed                                     //
+      //----------------------------------------------------//
+
+      for (let i = array.length - 1; i >= 0; i--) {
+        if (array[i] === array[i - 1]) {
+          array.splice(i, 1);
+        }
+      }
+
+      return array;
+    }
+
+  </script>
+</html>

@@ -1,0 +1,228 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 24: Lexicographic Permutations
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=24">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 24: Lexicographic Permutations
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem23.1.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 23
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem25.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 25
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        A permutation is an ordered arrangement of objects. For example, 3124 is
+        one possible permutation of the digits 1, 2, 3 and 4. If all of the permutations
+        are listed numerically or alphabetically, we call it lexicographic order.
+        The lexicographic permutations of 0, 1 and 2 are:
+        <br />
+
+        <div class="example">
+          012   021   102   120   201   210
+        </div>
+        <br /><br />
+
+        What is the millionth lexicographic permutation of the digits 0, 1, 2, 3,
+        4, 5, 6, 7, 8 and 9?
+      </p>
+
+      <button id="problem"onclick="projectEulerProblem24()">
+        Find Permutation
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I used Narayana Pandita's algorithm to generate successive lexicographic
+          permutations of my number set. I ran the algorithm 1,000,000 times to
+          arrive at the answer. I made helper functions for each step of the algorithm.
+          <br /><br />
+
+          Narayana Pandita's algorithm:<br />
+          <ol>
+            <li>Find the largest index
+              <math>
+                <mi>k</mi>
+              </math> such that
+              <math>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>k</mi>
+                <mo>]</mo>
+                <mo><</mo>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>k</mi>
+                <mo>+</mo>
+                <mn>1</mn>
+                <mo>]</mo>
+              </math>. If no such index exists, the permutation is the last permutation.</li>
+            <li>Find the largest index
+              <math>
+                <mi>l</mi>
+              </math> greater than
+              <math>
+                <mi>k</mi>
+              </math> such that
+              <math>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>k</mi>
+                <mo>]</mo>
+                <mo><</mo>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>l</mi>
+                <mo>]</mo>
+              </math>.
+            </li>
+            <li>Swap the value of
+              <math>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>k</mi>
+                <mo>]</mo>
+              </math> with that of
+              <math>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>l</mi>
+                <mo>]</mo>
+              </math>.
+            </li>
+            <li>Reverse the sequence from
+              <math>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>k</mi>
+                <mo>+</mo>
+                <mn>1</mn>
+                <mo>]</mo>
+              </math> up to and including the final element
+              <math>
+                <mi>a</mi>
+                <mo>[</mo>
+                <mi>k</mi>
+                <mo>]</mo>
+              </math>.
+            </li>
+          </ol>
+          <br />
+
+          102,280
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+    //This is Narayana Pandita's algorithm for generating permutations in lexicographic order:
+    //
+    //1. Find the largest index k such that a[k] < a[k + 1]. If no such index exists,
+    //    the permutation is the last permutation.
+    //2. Find the largest index l greater than k such that a[k] < a[l].
+    //3. Swap the value of a[k] with that of a[l].
+    //4. Reverse the sequence from a[k + 1] up to and including the final element a[n].
+    function projectEulerProblem24() {
+
+      var startTime = new Date();
+
+      let basePermutation = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      let k = 0;
+      let l = 0;
+      let limit = 1000000;
+
+      for (let i = 1; i < limit; i++) {
+        k = kIndex(basePermutation);
+        l = lIndex(k, basePermutation);
+        basePermutation = swapElements(k, l, basePermutation);
+        if (k < 8) {
+          basePermutation = reverseSequence(k, basePermutation);
+        }
+      }
+
+      var endTime = new Date();
+      var totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = basePermutation;
+    }
+
+    //This function performs the first step of the general agorithm above
+    function kIndex(permutation) {
+      let comparison = false;
+      let index = permutation.length;
+      do {
+        index--;
+        if (permutation[index] > permutation[index - 1]) {
+          comparison = true;
+          return index - 1;
+        }
+      }
+      while (!comparison);
+    }
+
+    //This function performs the second step of the general agorithm above
+    function lIndex(kIndex, permutation) {
+      let comparison = false;
+      let index = permutation.length;
+      do {
+        index--;
+        if (permutation[index] > permutation[kIndex]) {
+          comparison = true;
+          return index;
+        }
+      }
+      while (!comparison);
+    }
+
+    //This function swaps any two elements of an array
+    function swapElements(kIndex, lIndex, permutation) {
+      let holderVariable = permutation[kIndex];
+      permutation[kIndex] = permutation[lIndex];
+      permutation[lIndex] = holderVariable;
+      return permutation;
+    }
+
+    //This function swaps a set portion of an array
+    function reverseSequence(kIndex, permutation) {
+      let difference = (permutation.length - 1) - (kIndex + 1);
+      let cycles = Math.ceil(difference / 2) + 1;
+      for (let i = 1; i < cycles; i++) {
+        permutation = swapElements(kIndex + i, permutation.length - i, permutation);
+      }
+      return permutation;
+    }
+
+  </script>
+</html>

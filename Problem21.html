@@ -1,0 +1,341 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 21: Amicable Numbers
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=21">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 21: Amicable Numbers
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem20.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 20
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem22.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 22
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        <div>
+          Let
+          <math>
+            <mi>d</mi>
+            <mo>&ApplyFunction;</mo>
+            <mo>(</mo>
+            <mi>n</mi>
+            <mo>)</mo>
+          </math>
+          be defined as the sum of proper divisors of
+          <math>
+            <mi>n</mi>
+          </math>
+          (numbers less than
+          <math>
+            <mi>n</mi>
+          </math>
+          which divide evenly into
+          <math>
+            <mi>n</mi>
+          </math>).
+          If
+          <math>
+            <mi>d</mi>
+            <mo>&ApplyFunction;</mo>
+            <mo>(</mo>
+            <mi>a</mi>
+            <mo>)</mo>
+            <mo>=</mo>
+            <mi>b</mi>
+          </math>
+          and
+          <math>
+            <mi>d</mi>
+            <mo>&ApplyFunction;</mo>
+            <mo>(</mo>
+            <mi>b</mi>
+            <mo>)</mo>
+            <mo>=</mo>
+            <mi>a</mi>
+          </math>,
+          where
+          <math>
+            <mi>a</mi>
+            <mo>&ne;</mo>
+            <mi>b</mi>
+          </math>,
+          then
+          <math>
+            <mi>a</mi>
+          </math>
+          and
+          <math>
+            <mi>b</mi>
+          </math>
+          are an amicable pair and each of
+          <math>
+            <mi>a</mi>
+          </math>
+          and
+          <math>
+            <mi>b</mi>
+          </math>
+          are called amicable numbers.
+        </div>
+        <br />
+
+        <div>
+          For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44,
+          55 and 110; therefore
+          <math>
+            <mi>d</mi>
+            <mo>&ApplyFunction;</mo>
+            <mo>(</mo>
+            <mn>220</mn>
+            <mo>)</mo>
+            <mo>=</mo>
+            <mn>284</mn>
+          </math>.
+          The proper divisors of 284 are 1, 2,
+          4, 71 and 142; so
+          <math>
+            <mi>d</mi>
+            <mo>&ApplyFunction;</mo>
+            <mo>(</mo>
+            <mn>284</mn>
+            <mo>)</mo>
+            <mo>=</mo>
+            <mn>220</mn>
+          </math>.
+        </div>
+        <br />
+
+        Evaluate the sum of all the amicable numbers under 10000.
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem21()">
+        Find Sum
+      </button>
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          The two non-trivial parts of this problem involve getting the prime factors
+          of a number and, based on that, finding all factors of that number.
+          <br /><br />
+
+          To find the prime factors I just divide out progressively higher prime numbers
+          using loops. To find all factors I multiply the prime factors with each other.
+          <br /><br />
+
+          Once I have these two algorithms in place, I can iterate through the numbers,
+          looking for amicable pairs. When I find them, I add them to an array and
+          sum them.
+          <br /><br />
+
+          ###,###
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem21() {
+
+      let startTime = new Date();
+
+      let testArray = [];
+      let test1;
+      let test2;
+      let amicableNumbers = [];
+
+      for (let x = 2; x < 10001; x++) {
+        //
+        //Prevents double checking of amicability
+        if (amicableNumbers.includes(x)) {
+          continue;
+        }
+
+        test1 = sumFactors(x);
+        test2 = sumFactors(test1);
+        if ((x === test2) && (test1 !== x)) {
+          amicableNumbers.push(x);
+          amicableNumbers.push(test1);
+        }
+      }
+
+      let friendlySum = 0;
+      //
+      //Sums the amicable numbers
+      for (let x = 0; x < amicableNumbers.length; x++) {
+        friendlySum += amicableNumbers[x];
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = friendlySum;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function findPrimeFactors(number) {
+      //----------------------------------------------------//
+      //Finds the prime factors of a number                 //
+      //integer-> number: number to find factors from       //
+      //----------------------------------------------------//
+
+      let factors = [];
+
+      //
+      //finds all the factors of 2
+      while ((number % 2) === 0) {
+        factors.push(2);
+        number /= 2;
+      }
+
+      let numberToTest = 3;
+      //
+      //Finds the odd numbered prime factors
+      while ((numberToTest * numberToTest) <= number) {
+        if ((number % numberToTest) === 0) {
+          factors.push(numberToTest);
+          number /= numberToTest;
+        } else {
+          numberToTest += 2;
+        }
+      }
+
+      if (number !== 1) {
+        factors.push(number);
+      }
+      return factors;
+    }
+
+    function getFactors(primeFactors) {
+      //----------------------------------------------------//
+      //Given an array of prime factors, finds all factors  //
+      //array-> primeFactors: array of primes to derive     //
+      //  factors from                                      //
+      //----------------------------------------------------//
+
+      let allFactors = [];
+      let product;
+
+      primeFactors.unshift(1);
+
+      //
+      //Multiplies pairs of numbers together going from
+      //right to left
+      for (let x = 0; x < (primeFactors.length - 1); x++) {
+        for (let y = (x + 1); y < primeFactors.length; y++) {
+          allFactors.push(primeFactors[x] * primeFactors[y]);
+        }
+      }
+
+      //
+      //Multiplies pairs of numbers together going from
+      //left to right
+      for (let x = (primeFactors.length - 1); x > 0; x--) {
+        for (let y = (x - 1); y >= 0; y--) {
+          allFactors.push(primeFactors[x] * primeFactors[y]);
+        }
+      }
+
+      //
+      //Multiplies the product of two numbers with
+      //another number going left to right
+      product = primeFactors[0];
+      for (let x = 1; x < (primeFactors.length - 1); x++) {
+        product *= primeFactors[x];
+        for (let y = (x + 1); y < primeFactors.length; y++) {
+          allFactors.push(product * primeFactors[y]);
+        }
+      }
+
+      //
+      //Multiplies the product of two numbers with
+      //another number going right to left
+      product = primeFactors[(primeFactors.length - 1)]
+      for (let x = (primeFactors.length - 2); x > 0; x--) {
+        product *= primeFactors[x];
+        for (let y = (x - 1); y > 0; y--) {
+          allFactors.push(product * primeFactors[y]);
+        }
+      }
+
+      //
+      //Cleans and sorts the final list of factors
+      allFactors = cleanFactors(allFactors);
+      allFactors.unshift(1);
+      allFactors.pop();
+      return allFactors;
+
+      function cleanFactors(factors) {
+        //----------------------------------------------------//
+        //Removes repeated numbers from an array              //
+        //array-> factors: array of numbers                   //
+        //----------------------------------------------------//
+
+        let finalFactors = [];
+
+        //
+        //Goes through every element and removes repeats
+        for (let x = 0; x < factors.length; x++) {
+          if (!finalFactors.includes(factors[x])) {
+            finalFactors.push(factors[x]);
+          }
+        }
+        //
+        //Sorts the array, least to greatest
+        finalFactors.sort(function(a, b){return a-b});
+
+        return finalFactors;
+      }
+
+    }
+
+    function sumFactors(number) {
+      //----------------------------------------------------//
+      //Given a number, sums its factors                    //
+      //integer-> number: number to derive factors from     //
+      //  and to sum                                        //
+      //----------------------------------------------------//
+
+      let sum = 0;
+      let factors = [];
+
+      factors = findPrimeFactors(number);
+      factors = getFactors(factors);
+
+      for (let x = 0; x < factors.length; x++) {
+        sum += factors[x];
+      }
+      return sum;
+    }
+
+  </script>
+</html>

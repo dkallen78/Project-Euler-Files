@@ -1,0 +1,420 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 27: Quadratic Primes
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=27">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 27: Quadratic Primes
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem26.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 26
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem28.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 28
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        Euler discovered the remarkable quadratic formula:
+        <br />
+        <div class="example">
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mi>
+            </msup>
+            <mo> + </mo>
+            <mi> n </mi>
+            <mo> + </mo>
+            <mn> 41 </mn>
+          </math>
+        </div>
+        <br />
+
+        It turns out that the formula will produce 40 primes for the consecutive integer
+        values
+        <math>
+          <mn> 0 </mn>
+          <mo> ≤ </mo>
+          <mi> n </mi>
+          <mo> ≤ </mo>
+          <mn> 39 </mn>
+        </math>. However, when
+        <math>
+          <mi> n </mi>
+          <mo> = </mo>
+          <mn> 40 </mn>
+        </math>,
+        <math>
+          <msup>
+            <mn> 40 </mn>
+            <mn> 2 </mi>
+          </msup>
+          <mo> + </mo>
+          <mn> 40 </mn>
+          <mo> + </mo>
+          <mn> 41 </mn>
+          <mo> = </mo>
+          <mn> 40 </mn>
+          <mo>&InvisibleTimes;</mo>
+          <mo> ( </mo>
+          <mn> 40 </mn>
+          <mo> + </mo>
+          <mn> 1 </mn>
+          <mo> ) </mo>
+          <mo> + </mo>
+          <mn> 41 </mn>
+        </math> is divisble by 41, and certainly when
+        <math>
+          <mi> n </mi>
+          <mo> = </mo>
+          <mn> 41 </mn>
+        </math>,
+        <math>
+          <msup>
+            <mn> 41 </mn>
+            <mn> 2 </mi>
+          </msup>
+          <mo> + </mo>
+          <mn> 41 </mn>
+          <mo> + </mo>
+          <mn> 41 </mn>
+        </math> is clearly divisble by 41.
+        <br /><br />
+
+        The incredible formula
+        <math>
+          <msup>
+            <mi> n </mi>
+            <mn> 2 </mi>
+          </msup>
+          <mo> - </mo>
+          <mn> 79 </mn>
+          <mo>&InvisibleTimes;</mo>
+          <mi> n </mi>
+          <mo> + </mo>
+          <mn> 1601 </mn>
+        </math> was discovered, which produces 80 primes for the consecutive values
+        <math>
+          <mn> 0 </mn>
+          <mo> ≤ </mo>
+          <mi> n </mi>
+          <mo> ≤ </mo>
+          <mn> 79 </mn>
+        </math>. The product of the coefficients, -79 and 1601, is -126479.
+        <br /><br />
+
+        Considering quadratics of the form:
+        <br /><br />
+
+        <div class="inset">
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mi>
+            </msup>
+            <mo> + </mo>
+            <mi> a </mi>
+            <mo>&InvisibleTimes;</mo>
+            <mi> n </mi>
+            <mo> + </mo>
+            <mi> b </mi>
+          </math>, where
+          <math>
+            <mo> | </mo>
+            <mi> a </mi>
+            <mo> | </mo>
+            <mo> < </mo>
+            <mn> 1000 </mn>
+          </math> and
+          <math>
+            <mo> | </mo>
+            <mi> b </mi>
+            <mo> | </mo>
+            <mo> ≤ </mo>
+            <mn> 1000 </mn>
+          </math>.
+          <br /><br />
+
+          where
+          <math>
+            <mo> | </mo>
+            <mi> n </mi>
+            <mo> | </mo>
+          </math> is the modulus/absolute value of
+          <math>
+            <mi> n </mi>
+          </math>
+          <br />
+
+          e.g.
+          <math>
+            <mo> | </mo>
+            <mn> 11 </mn>
+            <mo> | </mo>
+            <mo> = </mo>
+            <mn> 11 </mo>
+          </math> and
+          <math>
+            <mo> | </mo>
+            <mn> -4 </mn>
+            <mo> | </mo>
+            <mo> = </mo>
+            <mn> 4 </mo>
+          </math>.
+        </div>
+        <br />
+
+        Find the product of the coefficients,
+        <math>
+          <mi> a </mi>
+        </math> and
+        <math>
+          <mi> b </mi>
+        </math>, for the quadratic expression that produces the maximum number of
+        primes for consecutive values of
+        <math>
+          <mi> n </mi>
+        </math>, starting with
+        <math>
+          <mi> n </mi>
+          <mo> = </mo>
+          <mn> 0 </mn>
+        </math>.
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem27()">
+        Find Coefficient
+      </button>
+      <br />
+
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+
+        <p>
+          To begin with, I saw that the term
+          <math>
+            <mi> b </mi>
+          </math> had to be prime and positive because
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mi>
+            </msup>
+            <mo> + </mo>
+            <mi> a </mi>
+            <mo>&InvisibleTimes;</mo>
+            <mi> n </mi>
+            <mo> + </mo>
+            <mi> b </mi>
+          </math> where
+          <math>
+            <mi> n </mi>
+            <mo> = </mo>
+            <mn> 0 </mo>
+          </math> is just
+          <math>
+            <mi> b </mi>
+          </math>. I used a sieve of Eratosthenes to generate primes up to 1,000 to try.
+          <br /><br />
+
+          For
+          <math>
+            <mi> a </mi>
+          </math>, my only insight was that it had to be odd because
+          <math>
+            <msup>
+              <mi> n </mi>
+              <mn> 2 </mn>
+            </msup>
+            <mo> + </mo>
+            <mi> a </mi>
+            <mo> &InvisibleTimes; </mo>
+            <mi> n </mi>
+          </math> is always even for odd numbers but always odd for
+          <math>
+            <mi> n </mi>
+            <mo> = </mo>
+            <mn> 1 </mn>
+          </math>. Because two odd numbers always sum to an even number, this meant
+          <math>
+            <mi> a </mi>
+          </math> could not be even.
+          <br /><br />
+
+          Someone online helped me further refine my value for
+          <math>
+            <mi> a </mi>
+          </math> by pointing out that
+          <math>
+            <mn> 1 </mn>
+            <mo> + </mo>
+            <mi> a </mi>
+            <mo> + </mo>
+            <mi> b </mi>
+          </math> also had to be prime and would shrink my list of possible values
+          to check.
+          <br /><br />
+
+          From here I 𝖈𝖗𝖚𝖓𝖈𝖍𝖊𝖉<sup>®</sup>. I'm sure there's a better way, but this is
+          how I got here. I don't know why
+          <math>
+            <mi> a </mi>
+          </math> is negative or why it's greater than -99.
+          <br /><br />
+
+          85,511
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem27() {
+      //85511th correct!
+      function negatizer(num) {
+        return num * -1;
+      }
+
+      let limit = 1000;
+      let startTime = new Date();
+
+      let thousand = makePrimeArray(1000);
+
+      let seed = 0;
+      let max = 0;
+
+      //
+      //These nested for loops go through every iteration and saves
+      //the info with the longest prime sequence
+      for (let j = -999; j < 1000; j+=2) {
+        for (let i = 0; i < thousand.length; i++) {
+          if (thousand.includes(j + i + 1)) {
+            if (Math.abs(j) < thousand[i]) {
+              let seq = longestSequence(0, j, thousand[i], thousand);
+              if (seq > max) {
+                max = seq;
+                seed1 = thousand[i];
+                seed2 = j
+              }
+            }
+          }
+        }
+      }
+
+      console.log(`a = ${seed2} and b = ${seed1} produced ${max} consecutive primes`);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = seed1 * seed2;
+    }
+
+    function longestSequence(n, a, b, primeNumbers) {
+      //----------------------------------------------------//
+      //Runs through successively higher numbers until an   //
+      //  answer is not prime                               //
+      //integer-> n, a, b: terms of the equation            //
+      //array-> primeNumbers: an array of prime numbers     //
+      //----------------------------------------------------//
+
+      let run = true;
+      while (run === true) {
+        let answer = problem(n, a, b);
+        if (!primeNumbers.includes(answer)) {
+          run = false;
+        } else {
+          n++;
+        }
+      }
+
+      return n;
+    }
+
+    function problem(n, a, b) {
+      //----------------------------------------------------//
+      //Solves the equation from the problem                //
+      //integer-> n, a, b: the terms of the equation        //
+      //----------------------------------------------------//
+
+      let formula = ((n * n) + (a * n) + b);
+      return formula;
+    }
+
+    function makePrimeArray(maxPrime) {
+      //----------------------------------------------------//
+      //Makes an array of prime numbers based on the Sieve  //
+      //  of Eratosthenes.                                  //
+      //integer-> maxPrime: the maximum value of the array  //
+      //----------------------------------------------------//
+
+      let primeNumberArray = [];
+
+      rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+      //
+      //Sets the largest index to the maxPrime
+      primeNumberArray.length = (maxPrime + 1);
+      //
+      //Sets every element to true by default
+      primeNumberArray.fill(true);
+      //
+      //0 and 1 are not primes
+      primeNumberArray[0] = false;
+      primeNumberArray[1] = false;
+
+      //
+      //Counts through every element of the array
+      for (let i = 2; i < rootPrimeLimit + 1; i++) {
+        //
+        //If the number of that index is prime it
+        //goes through the array, defining all
+        //subsequent multiples as false
+        if (primeNumberArray[i] === true) {
+          for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+            let k = ((i * i) + (j * i));
+            primeNumberArray[k] = false;
+          }
+        }
+      }
+
+      var finalPrimes = [];
+      //
+      //Goes through the array and extracts the prime numbers
+      for (let k = 0; k < primeNumberArray.length + 1; k++) {
+        if (primeNumberArray[k] === true) {
+          finalPrimes.push(k);
+        }
+      }
+
+      return finalPrimes;
+    }
+  </script>
+</html>

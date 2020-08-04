@@ -1,0 +1,251 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 30: Digit Fifth Powers
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=30">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 30: Digit Fifth Powers
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem29.1.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 29 (Binary Insert)
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem31.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 31
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        Surprisingly there are only three numbers that can be written as the sum of
+        fourth powers of their digits:
+        <br />
+        <div class="inset">
+          <math>
+            <mn> 1634 </mn>
+            <mo> = </mo>
+            <msup>
+              <mn> 1 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 6 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 3 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 4 </mn>
+              <mn> 4 </mn>
+            </msup>
+          </math><br />
+          <math>
+            <mn> 8208 </mn>
+            <mo> = </mo>
+            <msup>
+              <mn> 8 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 2 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 0 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 8 </mn>
+              <mn> 4 </mn>
+            </msup>
+          </math><br />
+          <math>
+            <mn> 9474 </mn>
+            <mo> = </mo>
+            <msup>
+              <mn> 9 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 4 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 7 </mn>
+              <mn> 4 </mn>
+            </msup>
+            <mo> + </mo>
+            <msup>
+              <mn> 4 </mn>
+              <mn> 4 </mn>
+            </msup>
+          </math><br />
+        </div><br />
+
+        As
+        <math>
+          <mn> 1 </mn>
+          <mo> = </mo>
+          <msup>
+            <mn> 1 </mn>
+            <mn> 4 </mn>
+          </msup>
+        </math> is not a sum it is not included.
+        <br /><br />
+
+        The sum of these numbers is
+        <math>
+          <mn> 1634 </mn>
+          <mo> + </mo>
+          <mn> 8208 </mn>
+          <mo> + </mo>
+          <mn> 9474 </mn>
+          <mo> = </mo>
+          <mn> 19316 </mn>
+        </math>.
+        <br /><br />
+
+        Find the sum of all the numbers that can be written as the sum of fifth powers
+        of their digits.
+      </p>
+
+      <button id="problem" onclick="projectEulerProblem30()">
+        Find Sums
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+
+        <p>
+          The tricky part for me was finding an upper limit to my search but I realized
+          that any 7-digit number would be out of bounds. I also optimized how I incremented
+          through numbers. Unfortunately I am not good enough at math to explain it... ☹
+          <br /><br />
+
+          Once I had all of that put together, I used a while loop and a bunch of if statements
+          to run through the program.
+          <br /><br />
+
+          108,205
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEulerProblem30() {
+      //108205
+      let startTime = new Date();
+
+      let coolNumbers = [];
+
+      let run = true;
+      let n = 100
+
+      while (run === true) {
+        //
+        //finds the sum of the number
+        let sum = sumPowers(n, 5);
+        //
+        //The upper limit for my search
+        if (n > 1000000) {
+          run = false;
+        }
+        //
+        //If the sum is smaller than n, increment by 1
+        if (sum < n) {
+          n++
+        } else if (sum > n) {
+          //
+          //If the sum is greater than n, go to the
+          //next 10 or 100
+          if ((n % 10) > 0) {
+            n += (10 - (n % 10));
+          } else {
+            n += (100 - (n % 100));
+          }
+        //
+        //If the sum and n match, add it to the list
+        } else {
+          coolNumbers.push(n);
+          n++;
+        }
+      }
+
+      let sums = 0;
+      for (let i = 0; i < coolNumbers.length; i++) {
+        sums += coolNumbers[i];
+      }
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = sums;
+    }
+
+    function sumPowers(number, power) {
+      //----------------------------------------------------//
+      //Finds the sums of the powers of the digits          //
+      //  of a number                                       //
+      //integer-> number: the number                        //
+      //integer-> power: the power to raise the digits to   //
+      //----------------------------------------------------//
+
+      let digits = [];
+
+      //
+      //Breaks the number down into its
+      //constituent digits
+      while (number > 9) {
+        digits.push(number % 10);
+        number = (number - (number % 10)) / 10;
+      }
+      digits.push(number);
+
+      //
+      //Finds the sum of the powers
+      let sum = 0;
+      for (let i = 0; i < digits.length; i++) {
+        sum += digits[i] ** power;
+      }
+
+      return sum;
+    }
+  </script>
+</html>

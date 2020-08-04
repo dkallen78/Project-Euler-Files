@@ -92,7 +92,7 @@
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem9.html","Problem 9: Special Pythagorean Triplet"],
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem10.html","Problem 10: Summation of Primes (Primality Test)"],
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html","Problem 10: Summation of Primes (Prime Seive)"]
-              ]
+              ];
     var set3 = [
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem11.html","Problem 11: Largest Product in a Grid"],
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem12.html","Problem 12: Highly Divisible Triangle Number"],
@@ -100,8 +100,33 @@
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem14.html","Problem 14: Longest Collatz Sequence (Brute Force)"],
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html","Problem 14: Longest Collatz Sequence (Stored Values)"],
                 ["https://dkallen78.github.io/Project-Euler-Files/Problem15.html","Problem 15: Lattice Paths"]
-              ]
-    var links = [set1, set2, set3];
+              ];
+
+    let set4 = [
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem16.html","Problem 16: Power Digit Sum"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem17.html","Problem 17: Number Letter Counts"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem18.html","Problem 18: Maximum Path Sum I"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem19.html","Problem 19: Counting Sundays"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem20.html","Problem 20: Factorial Digit Sum"],
+              ];
+
+    let set5 = [
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem21.html","Problem 21: Amicable Numbers"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem22.html","Problem 22: Names Scores"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem23.1.html","Problem 23: Non-abundant Sums"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem24.html","Problem 24: Lexicographic Permutations"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem25.html","Problem 25: 1,000-Digit Fibonacci Number"],
+              ];
+
+    let set6 = [
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem26.html","Problem 26: Reciprocal Cycles"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem27.html","Problem 27: Quadratic Primes"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem28.html","Problem 28: Number Spiral Diagonals"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem29.html","Problem 29: Distinct Powers (Linear Search/Insert)"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem29.1.html","Problem 29: Distinct Powers (Binary Insert)"],
+                ["https://dkallen78.github.io/Project-Euler-Files/Problem30.html","Problem 30: Digit Fifth Powers"],
+              ];
+    let links = [set1, set2, set3, set4, set5, set6];
 
     let problems = document.getElementById("problems");
 
@@ -133,7 +158,7 @@
 
   function nextPage(problemIndex, links, flipDirection) {
 
-    var problems = document.getElementById("problems");
+    let problems = document.getElementById("problems");
 
     requestAnimationFrame(function() {
       problems.style.transform = "rotateY(" + flipDirection + "deg)";
