@@ -1,0 +1,261 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 36: Double-base Palindromes
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=36">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 36: Double-base Palindromes
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem35.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 35
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem37.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 37
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        The decimal number,
+        <math>
+          <mn> 585 </mn>
+          <mo> = </mo>
+          <msub>
+            <mn> 1001001001 </mn>
+            <mn> 2 </mn>
+          </msub>
+        </math> (binary), is palindromic in both bases.
+        <br /><br />
+
+        Find the sum of all numbers, less than one million, which are palindromic
+        in base 10 and base 2.
+        <br /><br />
+
+        (Please note that the palindromic number, in either base, may not include
+        leading zeros.)
+      </p>
+
+      <input id="input" type="number" value="1000000"/>
+      <br />
+      <button id="problem" onclick="projectEuler()">
+        Find Sum
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          The hardest part of this problem, for me, was generating a list of palindrome
+          numbers. I made it a little harder for myself by insisting they be ordered
+          but I got it done. After the "trivial" palindromic numbers (0 - 99) there's
+          a relationship between the generating number of the p-number and it's relative
+          position with the highest number with one fewer digits.
+          </br></br>
+
+          Once I had my array of p-numbers it was easy to convert them to binary strings,
+          compare that to its "mirror," and save the corresponding decimal value.
+          Finally, I added up all of those values.
+          </br></br>
+
+          87,159
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEuler() {
+      //87159th
+
+      const startTime = performance.now();
+
+      let number = Number(document.getElementById("input").value);
+
+      let pArray = makePalindromeArray(number - 1);
+      let dbpNums = [];
+
+      let binString = "";
+      let revString = "";
+
+      //
+      //Iterates through my array of palindromic numbers
+      for (let i = 0; i < pArray.length; i++) {
+        //
+        //Converts my number to a string in base 2
+        binString = pArray[i].toString(2);
+        revString = reverseString(binString);
+
+        if (binString === revString) {
+          dbpNums.push(pArray[i]);
+        }
+      }
+
+      let sum = sumArray(dbpNums);
+
+      console.log(sum);
+
+      const endTime = performance.now();
+      const totalTime = (endTime - startTime).toFixed(3);
+      document.getElementById("problem").innerHTML = sum;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function makePalindromeArray(limit) {
+      //----------------------------------------------------//
+      //Makes an array of palindromic numbers up to a limit //
+      //integer-> limit: maximum size of the number         //
+      //----------------------------------------------------//
+
+      let array = [0];
+      let number = 1;
+      let index = 1;
+      let digits = 1;
+      let extra = 0;
+
+      //
+      //This makes my numbers in order, it works but I'm not
+      //sure how to explain it
+      while (array[array.length - 1] < limit) {
+
+        //
+        //If the previous number was all 9s, that means it was
+        //the last number w/ that many digits, I need to keep
+        //track of how many digits I have and the index of the
+        //highest number w/ fewer digits than I'm currently
+        //generating
+        if (allNines(array[array.length - 1])) {
+          digits++;
+          index = array.length - 1;
+          extra = (10 ** (Math.ceil(digits / 2) - 1) - 1);
+        }
+
+        //
+        //Numbers less than 10 get added to the list automatically
+        if (number < 10) {
+          array.push(number)
+        //
+        //If the number has 2 digits then it's just a matter of
+        //mirroring the current number - 9
+        } else if (digits < 3) {
+          let num = makePalindrome((number - 9), (digits % 2));
+          array.push(num);
+        //
+        //If there are 3 or more digits, we have to keep track of
+        //whether it's an odd or even number, and how to find the
+        //number we use to generate our palindrome
+        } else {
+          let num = makePalindrome(((number - index) + extra), (digits % 2));
+          array.push(num);
+        }
+        number++;
+      }
+      return array;
+    }
+
+    function allNines(number) {
+      //----------------------------------------------------//
+      //Determines whether a number is composed of all 9s   //
+      //integer-> number: number to check                   //
+      //----------------------------------------------------//
+
+      number = number.toString(10);
+
+      for (let i = 0; i < number.length; i++) {
+        if (number[i] !== "9") {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function makePalindrome(num, odd) {
+      //----------------------------------------------------//
+      //Makes a palindrome number by completely or          //
+      //  partially mirroring a generating number           //
+      //integer-> num: number used to generate palindrome   //
+      //integer-> odd: 1 or 0; 1 for a partial mirror,      //
+      //  0 for a complete mirror                           //
+      //----------------------------------------------------//
+
+      num = num.toString(10);
+      let mirrorNum = "";
+
+      //console.log(`converting ${num}`);
+
+      if (odd === 1) {
+
+        for (let i = num.length - 2; i >= 0; i--) {
+
+          mirrorNum += num[i];
+          //console.log(mirrorNum);
+        }
+        num += mirrorNum;
+      } else {
+
+        for (let i = num.length - 1; i >= 0; i--) {
+          mirrorNum += num[i];
+        }
+        num += mirrorNum;
+      }
+
+      return Number(num);
+    }
+
+    function reverseString(string) {
+      //----------------------------------------------------//
+      //Reverses and returns a string                       //
+      //string-> string: a string to be reversed            //
+      //----------------------------------------------------//
+
+      let newString = "";
+
+      for (let i = string.length - 1; i >= 0; i--) {
+        newString += string[i];
+      }
+
+      return newString;
+    }
+
+    function sumArray(array) {
+      //----------------------------------------------------//
+      //Sums the values of an array                         //
+      //array-> array: array of integers to be summed       //
+      //----------------------------------------------------//
+
+      let sum = 0;
+
+      for (let i = 0; i < array.length; i++) {
+        sum += array[i];
+      }
+
+      return sum;
+    }
+
+  </script>
+</html>

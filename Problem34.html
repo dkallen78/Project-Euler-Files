@@ -1,0 +1,150 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 34: Digit Factorials
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=x">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 34: Digit Factorials
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem33.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 33
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem35.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 35
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        145 is a curious number, as
+        <math>
+          <mn> 1 </mn>
+          <mo> ! </mo>
+          <mo> + </mo>
+          <mn> 4 </mn>
+          <mo> ! </mo>
+          <mo> + </mo>
+          <mn> 5 </mn>
+          <mo> ! </mo>
+          <mo> = </mo>
+          <mn> 1 </mn>
+          <mo> + </mo>
+          <mn> 24 </mn>
+          <mo> + </mo>
+          <mn> 120 </mn>
+          <mo> = </mo>
+          <mn> 145 </mn>
+        </math>.
+        <br /><br />
+
+        Find the sum of all numbers which are equal to the sum of the factorial of
+        their digits.
+        <br /><br />
+
+        Note: As
+        <math>
+          <mn> 1 </mn>
+          <mo> ! </mo>
+          <mo> = </mo>
+          <mn> 1 </mn>
+        </math> and
+        <math>
+          <mn> 2 </mn>
+          <mo> ! </mo>
+          <mo> = </mo>
+          <mn> 2 </mn>
+        </math> are not sums they are not included.
+      </p>
+
+      <br />
+      <button id="problem" onclick="projectEuler()">
+        Find Sum
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          𝔹𝕣𝕦𝕥𝕖 𝔽𝕠𝕣𝕔𝕖. I used the classic recursive factorial algorithm to find my
+          factorials. I used another function to to sum the factorials of the digits
+          and I looped from 145 (which I had determined was the lowest) up to 50,000.
+          </br></br>
+
+          I don't know the math behind why the highest number is the limit but this works.
+          For now.
+          </br></br>
+
+          92,608
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEuler() {
+      //92608
+
+      const startTime = performance.now();
+
+      let sum = 0;
+      for (let i = 145; i < 50000; i++) {
+
+        if (i === dfSum(i)) {
+          sum += i;
+        }
+      }
+
+      const endTime = performance.now();
+      const totalTime = (endTime - startTime).toFixed(3);
+      document.getElementById("problem").innerHTML = sum;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function dfSum(num) {
+
+      num = num.toString(10);
+      let sum = 0;
+
+      for (let i = 0; i < num.length; i++) {
+        sum += factorial(Number(num[i]));
+      }
+
+      return sum;
+    }
+
+    function factorial(num) {
+      if (num === 0) {
+        return 1;
+      } else {
+        return (num * factorial(num - 1));
+      }
+    }
+
+  </script>
+</html>

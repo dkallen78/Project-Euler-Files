@@ -1,0 +1,252 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 35: Circular Primes
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=35">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 35: Circular Primes
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem34.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 34
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem36.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 36
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        The number, 197, is called a circular prime because all rotations of the
+        digits: 197, 971, and 719, are themselves prime.
+        <br /><br />
+
+        There are thirteen such primes below 100: 2, 3, 5, 7, 11, 13, 17, 31, 37,
+        71, 73, 79, and 97.
+        <br /><br />
+
+        How many circular primes are there below one million?
+      </p>
+
+      <input id="input" type="number" value="1000000"/>
+      <br />
+      <button id="problem" onclick="projectEuler()">
+        Count Primes
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          To begin with I used the Sieve of Eratosthenes to make an array of primes.
+          I iterated through the primes and excluded any result that included a 0,
+          2, 4, 5, 6, or 8 in results greater than 10.
+          </br></br>
+
+          I made a function to rotate numbers and I made a function to test for
+          circularity which used that function. The big speed breakthrough was in
+          using a binary search to check if a number was in my array of primes.
+          </br></br>
+
+          82,999
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEuler() {
+      //82999th
+
+      const startTime = performance.now();
+
+      let primeLimit = Number(document.getElementById("input").value);
+
+      let primes = makePrimeArray(primeLimit);
+
+      let circularPrimes = [];
+
+      for (let i = 0; i < primes.length; i++) {
+        if (circularPrime(primes[i], primes)) {
+          circularPrimes.push(primes[i]);
+        }
+      }
+
+      console.log(circularPrimes);
+
+      const endTime = performance.now();
+      const totalTime = (endTime - startTime).toFixed(3);
+      document.getElementById("problem").innerHTML = circularPrimes.length;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function circularPrime(number, primes) {
+      //----------------------------------------------------//
+      //Checks to see if a prime is circular                //
+      //integer-> number: number to checking                //
+      //array-> array: array of primes to check against     //
+      //----------------------------------------------------//
+
+      //
+      //If the number is only one digit, return true
+      if (number < 10) {
+        return true;
+
+      } else {
+
+        number = number.toString(10);
+        //
+        //If any even digits or 5 are in the number
+        //then it can't be circular
+        if (!includes(number)) {
+          return false;
+        }
+
+
+        //
+        //Rotates the number through all permutations
+        for (let i = 0; i < number.length - 1; i++) {
+
+          number = rotateNumber(number).toString(10);
+          //
+          //If one of the numbers isn't in the list of
+          //primes, return false
+          if (!binSearch(Number(number), primes)) {
+            return false;
+          }
+        }
+        //
+        //If it passes all of the previous tests, return true
+        return true;
+      }
+    }
+
+    function rotateNumber(number) {
+      //----------------------------------------------------//
+      //Rotates a number by 1 digit                         //
+      //integer-> number: number to rotate                  //
+      //----------------------------------------------------//
+
+      number = number.toString(10);
+      let newNumber = "";
+      let first = number[0];
+
+      for (let i = 1; i < number.length; i++) {
+        newNumber += number[i];
+      }
+
+      newNumber += first;
+
+      return Number(newNumber);
+    }
+
+    function makePrimeArray(maxPrime) {
+      //----------------------------------------------------//
+      //Makes an ordered array of prime numbers up to a     //
+      //  designated limit                                  //
+      //integer-> maxPrime: upper bound of the primes       //
+      //----------------------------------------------------//
+
+      let primeNumberArray = [];
+
+      rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+      primeNumberArray.length = (maxPrime + 1);
+      primeNumberArray.fill(true);
+      primeNumberArray[0] = false;
+      primeNumberArray[1] = false;
+
+      for (let i = 2; i < rootPrimeLimit + 1; i++) {
+        if (primeNumberArray[i] === true) {
+          for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+            let k = ((i * i) + (j * i));
+            primeNumberArray[k] = false;
+          }
+        }
+      }
+      let finalPrimes = [];
+      for (let k = 0; k < primeNumberArray.length + 1; k++) {
+        if (primeNumberArray[k] === true) {
+          finalPrimes.push(k);
+        }
+      }
+      return finalPrimes;
+    }
+
+    function includes(num) {
+      //----------------------------------------------------//
+      //Checks to see if a number has certain digits        //
+      //integer-> num: number to check                      //
+      //----------------------------------------------------//
+
+      num = num.toString();
+      let odds = ["1", "3", "7", "9"];
+
+      if (Number(num) < 10) {
+        return true;
+      }
+
+      for (let i = 0; i < num.length; i++) {
+        if (!odds.includes(num[i])) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function binSearch(number, array) {
+      //----------------------------------------------------//
+      //Checks to see if a BigInt is in an array of BigInts //
+      //integer-> number: number to search for              //
+      //array-> array: array to search                      //
+      //----------------------------------------------------//
+
+      let run = true;
+      let low = 0;
+      let high = array.length - 1;
+      let index = Math.floor(high / 2);
+
+      while (run === true) {
+         if (array[index] === undefined) {
+          return false;
+        } else if (number === array[index]) {
+          return true;
+        } else if (number > array[index]) {
+          low = index + 1;
+          if (low > high) return false;
+          index += Math.ceil((high - index) / 2);
+        } else {
+          high = index - 1;
+          if (high < low) return false;
+          index -= Math.ceil((index - low) / 2);
+        }
+      }
+    }
+
+  </script>
+</html>
