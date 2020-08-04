@@ -1,0 +1,248 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 32: Pandigital Products
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=32">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 32: Pandigital Products
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem31.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 31
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem33.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 33
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        We shall say that an
+        <math>
+          <mi> n </mi>
+        </math>-digit number is pandigital if it makes use of all the digits 1 to
+        <math>
+          <mi> n </mi>
+        </math> exactly once; for example, the 5-digit number, 15234, is 1 through
+        5 pandigital.
+        <br /><br />
+
+        The product 7254 is unusual, as the identity,
+        <math>
+          <mn> 39 </mn>
+          <mo> × </mo>
+          <mn> 186 </mn>
+          <mo> = </mo>
+          <mn> 7254 </mn>
+        </math>, containing multiplicand, multiplier, and product is 1 through 9 pandigital.
+        <br /><br />
+
+        Find the sum of all products whose multiplicand/multiplier/product identity
+        can be written as a 1 through 9 pandigital.
+        <br /><br />
+
+        HINT: Some products can be obtained in more than one way so be sure to only
+        include it once in your sum.
+      </p>
+
+      <button id="problem" onclick="projectEuler()">
+        Find Sum
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+        <p>
+          I made a bunch of helper functions to do things like compare the digits
+          of numbers and check if a number had a zero in it. Other than that I figured
+          out a rough range of numbers to iterate through and checked them all.
+          </br></br>
+
+          69,644
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEuler() {
+      //69644
+
+      let startTime = new Date();
+
+      let panProducts = [];
+      let product;
+      let sum;
+
+      //
+      //Iterates through multiplicands
+      for (let i = 1; i < 99; i++) {
+
+        if (!hasZero(i)) {
+          //
+          //Iterates through multipliers
+          for (let j = 111; j < 9877; j++) {
+
+            if(!hasZero(j)) {
+              //
+              //If both the multiplicand and multiplier have
+              //unique digits, find the product
+              if (uniqueDigits(i, j)) {
+
+                product = i * j;
+                if (!hasZero(product)) {
+
+                  factor1 = i.toString();
+                  factor2 = j.toString();
+                  factors = factor1 + factor2
+
+                  //
+                  //If the digits in the identity are unique
+                  if (uniqueDigits(factors, product)) {
+
+                    let prodString = product.toString();
+                    factors += prodString;
+                    //
+                    //If all digits are unique and there are 9 of them
+                    //then we must have a pandigital number 1 - 9
+                    if (factors.length === 9) {
+                      panProducts.push(product);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      //
+      //Sort the array of products
+      panProducts.sort(function(a, b){return a-b});
+      //
+      //Trim away repeated elements
+      panProducts = trimArray(panProducts);
+      //
+      //Add together the elements
+      sum = sumArray(panProducts);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("problem").innerHTML = sum;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+    }
+
+    function uniqueDigits(num1, num2) {
+      //----------------------------------------------------//
+      //Checks to see if the digits of two numbers have     //
+      //  unique digits between them and themselves         //
+      //integer/string-> num1, num2: values to check        //
+      //----------------------------------------------------//
+
+      num1 = num1.toString();
+      num2 = num2.toString();
+
+      if (num1[0] === num1[1]) return false;
+      if (num2[0] === num2[1]) return false;
+      if (num2[1] === num2[2]) return false;
+      if (num2[0] === num2[2]) return false;
+
+      for (let i = 0; i < num2.length; i++) {
+        if (num1.includes(num2[i])) {
+          return false;
+        }
+      }
+
+      for (let i = 0; i < num1.length - 1; i++) {
+        for (let j = i + 1; j < num1.length; j++) {
+          if (num1[i] === num1[j]) {
+            return false;
+          }
+        }
+      }
+
+      for (let i = 0; i < num2.length - 1; i++) {
+        for (let j = i + 1; j < num2.length; j++) {
+          if (num2[i] === num2[j]) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    function hasZero(num) {
+      //----------------------------------------------------//
+      //Checks to see if a number has a 0 as one of         //
+      //  its digits                                        //
+      //integer-> num: number to check                      //
+      //----------------------------------------------------//
+
+      num = num.toString();
+
+      for (let i = 0; i < num.length; i++) {
+        if (num[i] === "0") {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function sumArray(array) {
+      //----------------------------------------------------//
+      //Adds up the number elements of an array             //
+      //array-> array: an array of integers to be summed    //
+      //----------------------------------------------------//
+
+      let sum = 0;
+
+      for (let i = 0; i < array.length; i++) {
+        sum += array[i];
+      }
+      return sum;
+    }
+
+    function trimArray(array) {
+      //----------------------------------------------------//
+      //Removes duplicate elements from a sorted array      //
+      //array-> array: sorted array with duplicate elements //
+      //  to be removed                                     //
+      //----------------------------------------------------//
+
+      for (let i = array.length - 1; i >= 0; i--) {
+        if (array[i] === array[i - 1]) {
+          array.splice(i, 1);
+        }
+      }
+
+      return array;
+    }
+
+  </script>
+</html>
