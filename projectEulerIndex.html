@@ -1,198 +1,105 @@
 <html>
-<head>
-  <title>DKAllen78's Project Euler Solutions</title>
-  <style>
-    body {
-      background-image: linear-gradient(to right, blue , white);
-    }
+  <head>
+    <title>
+      DKAllen78's Project Euler Solutions
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body onload="initializePage()">
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler Repository
+          </text>
+        </a>
+      </svg>
+      <img src="https://projecteuler.net/profile/dkallen78.png" />
+    </header>
 
-    #header {
-      font-size: 2em;
-      font-weight: bold;
-      text-align: center;
-      color: white;
-      text-shadow: 2px 0px black,
-                   0px 2px black,
-                   -2px 0px black,
-                   0px -2px black;
-    }
-
-    #header a:visited, #header a:link {
-      color: white;
-      text-decoration: none;
-    }
-
-    #problems {
-      margin: auto;
-      margin-top: 10px;
-      width: 50%;
-      border: 3px solid black;
-      border-radius: 5px;
-      padding: 5px;
-      background-color: white;
-      font-size: 1.5em;
-      transition: transform 1000ms;
-    }
-
-    #divNext {
-      float: right;
-      border: 2px solid black;
-      border-radius: 5px;
-      width: 100px;
-      text-align: center;
-      cursor: default;
-      transition: background-color 250ms;
-    }
-
-    #divPrev {
-      float: left;
-      border: 2px solid black;
-      border-radius: 5px;
-      width: 100px;
-      text-align: center;
-      cursor: default;
-      transition: background-color 250ms;
-    }
-
-    #divNext:hover #divPrev:hover {
-      background-color: #cccccc;
-    }
-
-  </style>
-</head>
-<body onload="initializePage()">
-  <div id="header">
-    <a href="https://github.com/dkallen78/Project-Euler-Files"><h1>Project Euler Repository</h1></a>
-    <img src="https://projecteuler.net/profile/dkallen78.png" />
-  </div>
-
-  <div id="problems">
+    <div id="problems">
 
 
-  </div>
-</body>
-<script>
+    </div>
 
-  //monsterDiv.style.transform = "rotateY(-360deg)";
+  </body>
+  <script>
 
-  function initializePage() {
-    let problemIndex = 0;
-    var set1 = [
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem1.html", "Problem 1: Multiples of 3 and 5"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem2.html", "Problem 2: Even Fibonacci Numbers"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem3.html", "Problem 3: Largest Prime Factor (Prime List)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html", "Problem 3: Largest Prime Factor (Prime Seive)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem4.html", "Problem 4: Largest Palindrome Product"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html", "Problem 5: Smallest Multiple"]
-              ];
-    var set2 = [
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem6.html","Problem 6: Sum Square Difference"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem7.html","Problem 7: 10,001st Prime"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem8.html","Problem 8: Largest Product in a Series"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem9.html","Problem 9: Special Pythagorean Triplet"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem10.html","Problem 10: Summation of Primes (Primality Test)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html","Problem 10: Summation of Primes (Prime Seive)"]
-              ];
-    var set3 = [
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem11.html","Problem 11: Largest Product in a Grid"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem12.html","Problem 12: Highly Divisible Triangle Number"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem13.html","Problem 13: Large Sum"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem14.html","Problem 14: Longest Collatz Sequence (Brute Force)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html","Problem 14: Longest Collatz Sequence (Stored Values)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem15.html","Problem 15: Lattice Paths"]
-              ];
+    function initializePage() {
+      let problemIndex = 0;
 
-    let set4 = [
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem16.html","Problem 16: Power Digit Sum"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem17.html","Problem 17: Number Letter Counts"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem18.html","Problem 18: Maximum Path Sum I"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem19.html","Problem 19: Counting Sundays"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem20.html","Problem 20: Factorial Digit Sum"],
-              ];
+      let set1 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem1.html", "Problem 1: Multiples of 3 and 5"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem2.html", "Problem 2: Even Fibonacci Numbers"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem3.html", "Problem 3: Largest Prime Factor (Prime List)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html", "Problem 3: Largest Prime Factor (Prime Seive)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem4.html", "Problem 4: Largest Palindrome Product"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html", "Problem 5: Smallest Multiple"]
+                ];
 
-    let set5 = [
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem21.html","Problem 21: Amicable Numbers"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem22.html","Problem 22: Names Scores"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem23.1.html","Problem 23: Non-abundant Sums"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem24.html","Problem 24: Lexicographic Permutations"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem25.html","Problem 25: 1,000-Digit Fibonacci Number"],
-              ];
+      let set2 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem6.html","Problem 6: Sum Square Difference"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem7.html","Problem 7: 10,001st Prime"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem8.html","Problem 8: Largest Product in a Series"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem9.html","Problem 9: Special Pythagorean Triplet"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem10.html","Problem 10: Summation of Primes (Primality Test)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html","Problem 10: Summation of Primes (Prime Seive)"]
+                ];
 
-    let set6 = [
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem26.html","Problem 26: Reciprocal Cycles"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem27.html","Problem 27: Quadratic Primes"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem28.html","Problem 28: Number Spiral Diagonals"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem29.html","Problem 29: Distinct Powers (Linear Search/Insert)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem29.1.html","Problem 29: Distinct Powers (Binary Insert)"],
-                ["https://dkallen78.github.io/Project-Euler-Files/Problem30.html","Problem 30: Digit Fifth Powers"],
-              ];
-    let links = [set1, set2, set3, set4, set5, set6];
+      let set3 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem11.html","Problem 11: Largest Product in a Grid"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem12.html","Problem 12: Highly Divisible Triangle Number"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem13.html","Problem 13: Large Sum"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem14.html","Problem 14: Longest Collatz Sequence (Brute Force)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html","Problem 14: Longest Collatz Sequence (Stored Values)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem15.html","Problem 15: Lattice Paths"]
+                ];
 
-    let problems = document.getElementById("problems");
+      let set4 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem16.html","Problem 16: Power Digit Sum"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem17.html","Problem 17: Number Letter Counts"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem18.html","Problem 18: Maximum Path Sum I"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem19.html","Problem 19: Counting Sundays"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem20.html","Problem 20: Factorial Digit Sum"],
+                ];
 
-    let divNext = document.createElement("div");
-    divNext.id = "divNext";
-    divNext.innerHTML = "Next";
-    divNext.onclick = function() {
-      problemIndex++;
-      nextPage(problemIndex, links, -180);
-    }
+      let set5 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem21.html","Problem 21: Amicable Numbers"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem22.html","Problem 22: Names Scores"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem23.1.html","Problem 23: Non-abundant Sums"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem24.html","Problem 24: Lexicographic Permutations"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem25.html","Problem 25: 1,000-Digit Fibonacci Number"],
+                ];
 
-    problems.appendChild(divNext);
-    let br = document.createElement("br");
-    problems.appendChild(br);
+      let set6 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem26.html","Problem 26: Reciprocal Cycles"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem27.html","Problem 27: Quadratic Primes"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem28.html","Problem 28: Number Spiral Diagonals"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem29.html","Problem 29: Distinct Powers (Linear Search/Insert)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem29.1.html","Problem 29: Distinct Powers (Binary Insert)"],
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem30.html","Problem 30: Digit Fifth Powers"],
+                ];
 
-    for (let i = 0; i < links[problemIndex].length; i++) {
-      let a = document.createElement("a");
-      let br = document.createElement("br");
-      problems.appendChild(br);
+      let set7 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem31.html","Problem 31: Coin Sums"],
+                 ];
 
-      a.href = links[problemIndex][i][0];
-      a.text = links[problemIndex][i][1];
-      problems.appendChild(a);
+      let links = [set1, set2, set3, set4, set5, set6, set7];
 
-      br = document.createElement("br");
-      problems.appendChild(br);
-    }
-  }
+      let problems = document.getElementById("problems");
 
-  function nextPage(problemIndex, links, flipDirection) {
-
-    let problems = document.getElementById("problems");
-
-    requestAnimationFrame(function() {
-      problems.style.transform = "rotateY(" + flipDirection + "deg)";
-    });
-
-    setTimeout(function() {
-      problems.innerHTML = "";
-
-      if (problemIndex > 0) {
-        let divPrev = document.createElement("div");
-        divPrev.id = "divPrev";
-        divPrev.innerHTML = "Previous";
-        divPrev.onclick = function() {
-          problemIndex--;
-          nextPage(problemIndex, links, 180);
-        }
-        problems.appendChild(divPrev);
+      let divNext = document.createElement("div");
+      divNext.id = "divNext";
+      divNext.innerHTML = "Next";
+      divNext.onclick = function() {
+        problemIndex++;
+        nextPage(problemIndex, links, -180);
       }
 
-      if (problemIndex < links.length - 1) {
-        let divNext = document.createElement("div");
-        divNext.id = "divNext";
-        divNext.innerHTML = "Next";
-        divNext.onclick = function() {
-          problemIndex++;
-          nextPage(problemIndex, links, -180);
-        }
-        problems.appendChild(divNext);
-      }
-
-
-
+      problems.appendChild(divNext);
       let br = document.createElement("br");
-      br = document.createElement("br");
       problems.appendChild(br);
 
       for (let i = 0; i < links[problemIndex].length; i++) {
@@ -207,14 +114,64 @@
         br = document.createElement("br");
         problems.appendChild(br);
       }
-    }, 250);
+    }
 
-    /*requestAnimationFrame(function() {
-      problems.style.transform = "rotateY(360deg)";
-    });*/
-    setTimeout(function() {problems.style.transform = "";}, 500);
+    function nextPage(problemIndex, links, flipDirection) {
 
-  }
+      let problems = document.getElementById("problems");
 
-</script>
+      requestAnimationFrame(function() {
+        problems.style.transform = "rotateY(" + flipDirection + "deg)";
+      });
+
+      setTimeout(function() {
+        problems.innerHTML = "";
+
+        if (problemIndex > 0) {
+          let divPrev = document.createElement("div");
+          divPrev.id = "divPrev";
+          divPrev.innerHTML = "Previous";
+          divPrev.onclick = function() {
+            problemIndex--;
+            nextPage(problemIndex, links, 180);
+          }
+          problems.appendChild(divPrev);
+        }
+
+        if (problemIndex < links.length - 1) {
+          let divNext = document.createElement("div");
+          divNext.id = "divNext";
+          divNext.innerHTML = "Next";
+          divNext.onclick = function() {
+            problemIndex++;
+            nextPage(problemIndex, links, -180);
+          }
+          problems.appendChild(divNext);
+        }
+
+
+
+        let br = document.createElement("br");
+        br = document.createElement("br");
+        problems.appendChild(br);
+
+        for (let i = 0; i < links[problemIndex].length; i++) {
+          let a = document.createElement("a");
+          let br = document.createElement("br");
+          problems.appendChild(br);
+
+          a.href = links[problemIndex][i][0];
+          a.text = links[problemIndex][i][1];
+          problems.appendChild(a);
+
+          br = document.createElement("br");
+          problems.appendChild(br);
+        }
+      }, 250);
+
+      setTimeout(function() {problems.style.transform = "";}, 500);
+
+    }
+
+  </script>
 </html>

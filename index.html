@@ -1,80 +1,35 @@
 <html>
   <head>
-    <title>DKAllen78's Project Euler Solutions</title>
-    <style>
-      body {
-        background-image: linear-gradient(to right, blue , white);
-      }
-
-      #header {
-        font-size: 2em;
-        font-weight: bold;
-        text-align: center;
-        color: white;
-        text-shadow: 2px 0px black,
-                     0px 2px black,
-                     -2px 0px black,
-                     0px -2px black;
-      }
-
-      #header a:visited, #header a:link {
-        color: white;
-        text-decoration: none;
-      }
-
-      #problems {
-        margin: auto;
-        margin-top: 10px;
-        width: 50%;
-        border: 3px solid black;
-        border-radius: 5px;
-        padding: 5px;
-        background-color: white;
-        font-size: 1.5em;
-        transition: transform 1000ms;
-      }
-
-      #divNext {
-        float: right;
-        border: 2px solid black;
-        border-radius: 5px;
-        width: 100px;
-        text-align: center;
-        cursor: default;
-        transition: background-color 250ms;
-      }
-
-      #divPrev {
-        float: left;
-        border: 2px solid black;
-        border-radius: 5px;
-        width: 100px;
-        text-align: center;
-        cursor: default;
-        transition: background-color 250ms;
-      }
-
-      #divNext:hover #divPrev:hover {
-        background-color: #cccccc;
-      }
-
-    </style>
+    <title>
+      DKAllen78's Project Euler Solutions
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body onload="initializePage()">
-    <div id="header">
-      <a href="https://github.com/dkallen78/Project-Euler-Files"><h1>Project Euler Repository</h1></a>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler Repository
+          </text>
+        </a>
+      </svg>
       <img src="https://projecteuler.net/profile/dkallen78.png" />
-    </div>
+    </header>
 
     <div id="problems">
 
 
     </div>
+
   </body>
   <script>
 
     function initializePage() {
       let problemIndex = 0;
+
       let set1 = [
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem1.html", "Problem 1: Multiples of 3 and 5"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem2.html", "Problem 2: Even Fibonacci Numbers"],
@@ -83,6 +38,7 @@
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem4.html", "Problem 4: Largest Palindrome Product"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem5.1.html", "Problem 5: Smallest Multiple"]
                 ];
+
       let set2 = [
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem6.html","Problem 6: Sum Square Difference"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem7.html","Problem 7: 10,001st Prime"],
@@ -91,6 +47,7 @@
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem10.html","Problem 10: Summation of Primes (Primality Test)"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem10.1.html","Problem 10: Summation of Primes (Prime Seive)"]
                 ];
+
       let set3 = [
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem11.html","Problem 11: Largest Product in a Grid"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem12.html","Problem 12: Highly Divisible Triangle Number"],
@@ -99,6 +56,7 @@
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem14.1.html","Problem 14: Longest Collatz Sequence (Stored Values)"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem15.html","Problem 15: Lattice Paths"]
                 ];
+
       let set4 = [
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem16.html","Problem 16: Power Digit Sum"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem17.html","Problem 17: Number Letter Counts"],
@@ -123,8 +81,12 @@
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem29.1.html","Problem 29: Distinct Powers (Binary Insert)"],
                   ["https://dkallen78.github.io/Project-Euler-Files/Problem30.html","Problem 30: Digit Fifth Powers"],
                 ];
-                
-      let links = [set1, set2, set3, set4, set5, set6];
+
+      let set7 = [
+                  ["https://dkallen78.github.io/Project-Euler-Files/Problem31.html","Problem 31: Coin Sums"],
+                 ];
+
+      let links = [set1, set2, set3, set4, set5, set6, set7];
 
       let problems = document.getElementById("problems");
 

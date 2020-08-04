@@ -6,23 +6,16 @@ body {
   font-family: sans-serif;
 }
 
-svg {
-  filter: drop-shadow(-.25rem .25rem .1rem black);
-}
-
-#header {
-  font-size: 2em;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  text-shadow: 2px 0px black,
-               0px 2px black,
-               -2px 0px black,
-               0px -2px black;
-}
-
 header {
   text-align: center;
+}
+
+header img {
+  box-shadow: -.5rem .5rem .5rem;
+}
+
+svg {
+  filter: drop-shadow(-.25rem .25rem .1rem black);
 }
 
 #euler {
@@ -59,45 +52,9 @@ nav text {
   stroke: black;
 }
 
-#problemNumber {
-  font-size: 1.5em;
-  text-align: center;
-  color: white;
-  text-shadow: 2px 0px black,
-               0px 2px black,
-               -2px 0px black,
-               0px -2px black;
-}
-
-#links {
-  margin: auto;
-  margin-bottom: 10px;
-  font-size: 1.25em;
-  text-align: center;
-  color: white;
-  text-shadow: 2px 0px black,
-               0px 2px black,
-               -2px 0px black,
-               0px -2px black;
-}
-
-/*a:visited, a:link {
-  text-decoration: none;
-}*/
-
 a {
   text-decoration: none;
   color: black;
-}
-
-#workArea {
-  margin: auto;
-  width: 50vw;
-  border: .2rem solid black;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: white;
-  box-shadow: -10px 10px 10px;
 }
 
 main {
@@ -117,10 +74,6 @@ main {
 
 .inset {
   margin-left: 1em;
-}
-
-#explanation {
-  visibility: hidden;
 }
 
 #notes {
@@ -165,7 +118,39 @@ button {
   font-weight: bold;
 }
 
-div p a:link, div p a:visited {
-  color: black;
-  text-decoration: none;
+#divNext {
+  float: right;
+}
+
+#divPrev {
+  float: left;
+}
+
+#divNext, #divPrev {
+  border: .1rem solid black;
+  border-radius: .5rem;
+  width: 8rem;
+  text-align: center;
+  cursor: default;
+  box-shadow: inset .05rem -.05rem .2rem;
+  transition: all 250ms;
+}
+
+#divNext:hover, #divPrev:hover {
+  box-shadow: inset -.05rem .05rem .2rem;
+}
+
+#problems {
+  margin: auto;
+  margin-top: 1rem;
+  width: 50vw;
+  border: .2rem solid black;
+  border-radius: .5rem;
+  padding: .5rem;
+  background-color: white;
+  font-size: 1.5rem;
+  font-family: serif;
+  box-shadow: -.5rem .5rem .5rem;
+  box-shadow: inset .05rem -.05rem .2rem;
+  transition: transform 1000ms;
 }
