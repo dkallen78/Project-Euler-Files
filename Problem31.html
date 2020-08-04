@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 31: Coin Sums
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=31">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 31: Coin Sums
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem30.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 30
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem32.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 32
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        In the United Kingdom the currency is made up of pound (£) and pence (p).
+        There are eight coins in general circulation:<br />
+
+        <div class="inset">
+          1p, 2p, 5p, 10p, 20p, 50p, £1 (100p), and £2 (200p).
+        </div>
+        <br />
+
+        It is possible to make £2 in the following way:<br /><br />
+        <div class="inset">
+          1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
+        </div>
+        <br />
+
+        How many different ways can £2 be made using any number of coins?
+      </p>
+
+      <button id="problem" onclick="projectEuler()">
+        Find Combos
+      </button>
+      <br />
+
+      <summary id="notes">
+        <div id="totalTime"></div>
+
+        <p>
+          This one about broke my head. The real insight was how to count through the
+          different combinations of coins, but the real struggle was how to make an algorithm
+          that would do it.
+          <br /><br />
+
+          Basically, I checked if adding one more coin would be more than my limit, if so,
+          I reset it to 0 and incremented the next coin. It was a bit more convoluted
+          than that but that's the gist of it.
+          <br /><br />
+
+          83,347
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    function projectEuler() {
+      //83347
+      let startTime = new Date();
+
+      //
+      //This is the value of each type of coin and
+      //the initial value of 200 pence
+      let values = [1, 2, 5, 10, 20, 50, 100, 200];
+      let coins = [200, 0, 0, 0, 0, 0, 0, 0];
+
+      //
+      //This loop runs through the combinations of coins
+      //like a timer counting up
+      let count = 1;
+      while (coins[coins.length - 1] < 1) {
+        let i = 0;
+        while (i < coins.length) {
+          if (coins[i] > 0) {
+            if (values[values.length - 1] + values[i] > values[values.length - 1]) {
+              coins[i] = 0;
+              coins[i + 1]++;
+              if (total(coins, values) <= values[values.length - 1]) {
+                i = coins.length;
+              }
+            }
+          }
+          i++;
+        }
+        coins[0] = values[values.length - 1] - total(coins, values);
+        count++
+      }
+
+      console.log(`Combo ${count}, ${coins}`);
+
+      let endTime = new Date();
+      let totalTime = endTime - startTime;
+      document.getElementById("totalTime").innerHTML = totalTime + " ms";
+      document.getElementById("notes").style.display = "block";
+      document.getElementById("problem").innerHTML = count;
+    }
+
+    function total(coins, values) {
+      //----------------------------------------------------//
+      //Finds the total value expressed in the coin array   //
+      //array-> coins: Holds the number of each type of     //
+      //  coin for the current iteration                    //
+      //array-> values: Holds the value for each type       //
+      //  of coin                                           //
+      //----------------------------------------------------//
+
+      let total = 0;
+      for (let i = 0; i < coins.length; i++) {
+        total += (coins[i] * values[i]);
+      }
+      return total;
+    }
+
+  </script>
+</html>
