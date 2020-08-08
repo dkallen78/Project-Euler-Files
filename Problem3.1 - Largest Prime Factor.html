@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>Project Euler, Problem 3.1: Largest Prime Factor</title>
+<style>
+  #explanation {
+    visibility: hidden;
+  }
+
+  #problem {
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 150px;
+    padding: 2px;
+  }
+</style>
+</head>
+<body>
+  <p>
+    The prime factors of 13195 are 5, 7, 13 and 29.
+    </br></br>
+    What is the largest prime factor of the number 600851475143 ?.
+  </p>
+
+  <div id="problem">
+    <input id="answer" type="number" name="Answer" style="margin-bottom: 5px" />
+    <br />
+    <input type="button" value="Project Euler" onclick="projectEulerProblem3()" />
+  </div>
+
+  <div id="explanation">
+  </br>
+    <div id="totalTime"></div>
+    <p>
+      I don't understand the math behind the advanced factorization techniques (yet) so I generated a list of primes
+      and tested against each one.
+      </br></br>
+      I check each prime in my list to see if it divides my original number. If it does, I push that prime
+      into my list of factors and recheck the number (recently divided by the factor) against the list of primes
+      again and again until my original number is equal to 1.
+    </p>
+  </div>
+</body>
+<script>
+
+function projectEulerProblem3() {
+  var startTime = new Date();
+  var number = document.getElementById("answer").value;
+  var numberFactors = [];
+  let primeNumberArray = makePrimeArray(Math.round(Math.sqrt(Number(number))));
+  var abandonShip = false;
+
+  while (!primeNumberArray.includes(number)) {
+    //If we've factored down to 1, then we've found all the factors
+    if (number < 2) {
+      break;
+    }
+    //This is the brute force part of finding the factors
+    //primeIndex points to an element in the primes array
+    for (primeIndex = 0; primeIndex < primeNumberArray.length; primeIndex++) {
+      //if our number devides cleanly into the current prime, we divide and push the factor into numberFactors
+      if ((number % primeNumberArray[primeIndex]) === 0) {
+        number /= primeNumberArray[primeIndex];
+        numberFactors.push(primeNumberArray[primeIndex]);
+        //If we find a factor, we want to break the for loop and start the process over in the while loop
+        break;
+      } else {
+      }
+      //If, having gone through all of the primes in my array, I don't find a factor, I break the while loop
+      //to avoid an infinite loop
+      if (primeIndex === (primeNumberArray.length - 1)) {
+        abandonShip = true;
+        break;
+      }
+    }
+    if (abandonShip) {
+      break;
+    }
+  }
+  numberFactors.push(number);
+  var endTime = new Date();
+  var totalTime = endTime - startTime;
+  //This prints the final list of factors to the HTML
+  document.getElementById("problem").innerHTML = numberFactors;
+  document.getElementById("totalTime").innerHTML = totalTime + " ms";
+  document.getElementById("explanation").style.visibility = "visible";
+}
+
+//This is my Seive of Eratosthenes. Input the limit to your list of primes and it will
+//generate the list
+function makePrimeArray(maxPrime) {
+  let primeNumberArray = [];
+
+  rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+  primeNumberArray.length = (maxPrime + 1);
+  primeNumberArray.fill(true);
+  primeNumberArray[0] = false;
+  primeNumberArray[1] = false;
+
+  for (let i = 2; i < rootPrimeLimit + 1; i++) {
+    if (primeNumberArray[i] === true) {
+      for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+        let k = ((i * i) + (j * i));
+        primeNumberArray[k] = false;
+      }
+    }
+  }
+  var finalPrimes = [];
+  for (let k = 0; k < primeNumberArray.length + 1; k++) {
+    if (primeNumberArray[k] === true) {
+      finalPrimes.push(k);
+    }
+  }
+  return finalPrimes;
+}
+
+</script>
+</html>
