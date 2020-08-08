@@ -51,22 +51,30 @@
           <mn> 99 </mn>
         </math>.
         <br /><br />
+
         Find the largest palindrome made from the product of two 3-digit numbers.
       </p>
 
       <button id="problem" onclick="projectEulerProblem4()">
         Find Product
       </button>
-      </br>
 
       <summary id="notes">
-        <div id="totalTime"></div>
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
         <p>
           To solve this, I only multiplied the largest 3-digit numbers: 900-999.
           </br></br>
-          Using nested for loops, I iterated through the 10,000 candidate number combinations finding palindrome numbers
-          (via a helper function) and output the largest number.
+
+          Using nested for loops, I iterated through the 10,000 candidate number
+          combinations finding palindrome numbers (via a helper function) and output
+          the largest number.
           </br></br>
+
           ###,###
         </p>
       </summary>
@@ -74,7 +82,91 @@
   </body>
   <script>
 
+    let population = [];
+
     function projectEulerProblem4() {
+
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information to the window after the    //
+        //  program has run                                   //
+        //float-> totalTime: time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        /*setTimeout(function() {
+          document.getElementById("notes").style.display = "block";
+        }, 250);*/
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
 
       const startTime = performance.now();
 
@@ -95,11 +187,9 @@
       }
 
       const endTime = performance.now();
-      const totalTime = (endTime - startTime).toFixed(3);
-      document.getElementById("problem").innerHTML = maxPalindrome;
-      document.getElementById("totalTime").innerHTML = totalTime + " ms";
-      document.getElementById("problem").style.cursor = "auto";
-      document.getElementById("notes").style.display = "block";
+      const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+
+      display(totalTime, maxPalindrome);
     }
 
     function reverseNumber(number) {
@@ -123,6 +213,7 @@
       //Checks if a number is palindromic                   //
       //integer-> number: number to check                   //
       //----------------------------------------------------//
+
       if (number === reverseNumber(number)) {
         return true;
       } else {

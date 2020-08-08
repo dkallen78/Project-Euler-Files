@@ -44,6 +44,7 @@
         2520 is the smallest number that can be divided by each of the numbers from
         1 to 10 without any remainder.
         <br /><br />
+
         What is the smallest positive number that is evenly divisible by all of the
         numbers from 1 to 20?
       </p>
@@ -53,25 +54,114 @@
       <button id="problem" onclick="projectEulerProblem5()">
         Find Number
       </button>
-      </br>
 
       <summary id="notes">
-        <div id="totalTime"></div>
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
         <p>
           I reused parts of my prime factorization program (<a href="https://dkallen78.github.io/Project-Euler-Files/Problem3.1.html">problem 3</a>)
           with this, finding all factors of all numbers in the range.
           </br></br>
-          First I generated a list of primes w/in the number range (my base prime
+
+          First I generated a list of primes within the number range (my base prime
           factors). Then I found all the factors of the composite numbers in that
           range going from smallest to largest composite adding redundant factors
           as I went.
+          </br></br>
+
+          ###,###
         </p>
       </summary>
     </main>
   </body>
   <script>
 
+    let population = [];
+
     function projectEulerProblem5() {
+
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information to the window after the    //
+        //  program has run                                   //
+        //float-> totalTime: time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
 
       const startTime = performance.now();
       //
@@ -120,10 +210,9 @@
       }
 
       const endTime = performance.now();
-      const totalTime = (endTime - startTime).toFixed(3);
-      document.getElementById("problem").innerHTML = finalProduct;
-      document.getElementById("totalTime").innerHTML = totalTime + " ms";
-      document.getElementById("notes").style.display = "block";
+      const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+
+      display(totalTime, finalProduct);
     }
 
     function getPrimeFactors(number) {

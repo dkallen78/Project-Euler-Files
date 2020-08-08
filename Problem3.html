@@ -42,7 +42,8 @@
     <main>
       <p>
         The prime factors of 13195 are 5, 7, 13 and 29.
-        </br></br>
+        <br /><br />
+
         What is the largest prime factor of the number 600851475143?.
       </p>
 
@@ -53,16 +54,27 @@
       </button>
 
       <summary id="notes">
-        </br>
-        <div id="totalTime"></div>
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
         <p>
-          To solve this, I used a brute force technique. Instead of including a test for primality, I included a list of primes.
+          To solve this, I used a brute force technique. Instead of including a test
+          for primality, I included a list of primes.
           </br></br>
-          I check each prime in my list to see if it divides my original number. If it does, I push that prime
-          into my list of factors and recheck the number (recently divided by the factor) against the list of primes
-          again and again until my original number is equal to 1.
+
+          I check each prime in my list to see if it divides my original number.
+          If it does, I push that prime into my list of factors and recheck the number
+          (recently divided by the factor) against the list of primes again and again
+          until my original number is equal to 1.
           <br /><br />
+
           I currently have every prime up to 3511 in my prime number array.
+          <br /><br />
+
+          ###,###
         </p>
       </summary>
     </main>
@@ -94,12 +106,94 @@
     //This is an array to hold my factors
     let numberFactors = [];
 
-    //
-    //This is my brute force factorization algorithm
+    let population = [];
+
     function projectEulerProblem3() {
+
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information to the window after the    //
+        //  program has run                                   //
+        //float-> totalTime: time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        /*setTimeout(function() {
+          document.getElementById("notes").style.display = "block";
+        }, 250);*/
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
+
       const startTime = performance.now();
-      //
-      //This gets the number to be factored
+
       let number = document.getElementById("input").value;
       //
       //This variable breaks my while loop if I run through
@@ -146,11 +240,11 @@
       //
       //This puts the final number into the numberFactors array
       numberFactors.push(number);
+
       const endTime = performance.now();
-      let totalTime = (endTime - startTime).toFixed(3);
-      document.getElementById("problem").innerHTML = numberFactors[numberFactors.length - 1];
-      document.getElementById("totalTime").innerHTML = totalTime + " ms";
-      document.getElementById("notes").style.display = "block";
+      const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+
+      display(totalTime, number);
     }
   </script>
 </html>
