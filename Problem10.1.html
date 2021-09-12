@@ -96,6 +96,7 @@
       }
       return sum;
     }
+
     //
     //This is my Seive of Eratosthenes. Input the limit
     //to your list of primes and it will generate the list
@@ -107,6 +108,7 @@
       primeNumberArray.fill(true);
       primeNumberArray[0] = false;
       primeNumberArray[1] = false;
+      console.log(primeNumberArray);
 
       for (let i = 2; i < rootPrimeLimit + 1; i++) {
         if (primeNumberArray[i] === true) {

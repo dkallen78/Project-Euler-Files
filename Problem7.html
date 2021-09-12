@@ -55,8 +55,12 @@
       <br />
 
       <summary id="notes">
-        <br />
-        <div id="totalTime"></div>
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
         <p>
           Trial division all day.
           </br></br>
@@ -68,9 +72,90 @@
   </body>
   <script>
 
+    let population = [];
+
     function projectEulerProblem7() {
 
-      let startTime = new Date();
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information to the window after the    //
+        //  program has run                                   //
+        //float-> totalTime: time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
+
+      const startTime = performance.now();
 
       let limit = Number(document.getElementById("input").value);
       let primes = [2];
@@ -100,7 +185,7 @@
         }
         if (numberIsPrime) {
           primes.push(integer);
-          document.getElementById("problem").innerHTML = integer;
+          //document.getElementById("problem").innerHTML = integer;
         }
         integer += 2;
         numberIsPrime = true;
@@ -109,8 +194,11 @@
       //This condition stops the loop when I have found the 10,001st prime
       while (primes.length < limit);
 
-      let endTime = new Date();
-      let totalTime = endTime - startTime;
+      const endTime = performance.now();
+      const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+
+      display(totalTime, integer);
+
       document.getElementById("totalTime").innerHTML = totalTime + " ms";
       document.getElementById("notes").style.display = "block";
     }
