@@ -1,0 +1,357 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 41: Pandigital Prime
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=x">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 41: Pandigital Prime
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem40.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 40
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem42.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 42
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        We shall say that an <em>n</em>-digit number is pandigital if it makes use
+        of all the digits 1 to <em>n</em> exactly once. For example, 2143 is a 4-digit
+        pandigital and is also prime.
+        <br /><br />
+        What is the largest <em>n</em>-digit pandigital prime that exists?
+      </p>
+      <br />
+      <button id="problem" onclick="projectEuler()">
+        Find Prime
+      </button>
+
+      <summary id="notes">
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
+        <p>
+          The real surprise on this one is finding out the largest pandigital prime
+          number only has 7 digits. I began looking at the 9 digit numbers and was
+          flummoxed when it didn't work.
+          </br></br>
+          I started with an ascending sequence of numbers, then I used Narayana Pandita's
+          algorithm to permute them in increasing order, checking each permutation
+          for primality, saving the largest as I went.
+          </br></br>
+          68,659
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    let population = [];
+
+    function projectEuler() {
+
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information to the window after the    //
+        //  program has run                                   //
+        //float-> totalTime: time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
+
+      function makePrimeArray(maxPrime) {
+        //----------------------------------------------------//
+        //Uses a Seive of Eratosthenes to find all of the     //
+        //  prime numbers up to a set limit                   //
+        //----------------------------------------------------//
+        //maxPrime(integer): the highest potential candidate  //
+        //  prime number                                      //
+        //----------------------------------------------------//
+        //return(array[integer]): an array of prime numbers   //
+        //  up to maxPrime                                    //
+        //----------------------------------------------------//
+
+        let primeNumberArray = [];
+
+        rootPrimeLimit = Math.floor(Math.sqrt(maxPrime));
+        primeNumberArray.length = (maxPrime + 1);
+        primeNumberArray.fill(true);
+        primeNumberArray[0] = false;
+        primeNumberArray[1] = false;
+        //console.log(primeNumberArray);
+
+        for (let i = 2; i < rootPrimeLimit + 1; i++) {
+          if (primeNumberArray[i] === true) {
+            for (let j = 0; ((i * i) + (j * i)) < maxPrime + 1; j++) {
+              let k = ((i * i) + (j * i));
+              primeNumberArray[k] = false;
+            }
+          }
+        }
+        var finalPrimes = [];
+        for (let k = 0; k < primeNumberArray.length + 1; k++) {
+          if (primeNumberArray[k] === true) {
+            finalPrimes.push(k);
+          }
+        }
+        return finalPrimes;
+      }
+
+      function findK(array) {
+        //----------------------------------------------------//
+        //Finds the index of the first element to swap        //
+        //----------------------------------------------------//
+        //array(array[integer]): array in which to find the   //
+        //  index                                             //
+        //----------------------------------------------------//
+        //return(integer): index of an element to swap        //
+        //----------------------------------------------------//
+
+        let maxK = -1;
+        for (let i = 0; i < array.length - 1; i++) {
+          if (array[i] < array[i + 1]) {
+            maxK = i;
+          }
+        }
+        return maxK;
+      }
+
+      function findL(array, k) {
+        //----------------------------------------------------//
+        //Finds the index of the second element to swap       //
+        //----------------------------------------------------//
+        //array(array[integer]): array in which to find the   //
+        //  index                                             //
+        //k(integer): index at which to begin looking for the //
+        //  next index to swap with                           //
+        //----------------------------------------------------//
+        //return(integer): index of an element to swap        //
+        //----------------------------------------------------//
+
+        let maxL = k + 1;
+        for (let i = k + 1; i < array.length; i++) {
+          if (array[k] < array[i]) {
+            maxL = i;
+          }
+        }
+        return maxL
+      }
+
+      function indexSwap(array, index1, index2) {
+        //----------------------------------------------------//
+        //Swaps the values of two array indices               //
+        //----------------------------------------------------//
+        //array(array): the array to be shifted               //
+        //index#(integer): index of the elements to be swapped//
+        //----------------------------------------------------//
+        //return(array): the array with swapped elements      //
+        //----------------------------------------------------//
+
+        [array[index1], array[index2]] = [array[index2], array[index1]];
+        return array;
+      }
+
+      function flipFrom(array, index) {
+        //----------------------------------------------------//
+        //Flips a portion of an array                         //
+        //----------------------------------------------------//
+        //array(array[integer]): array in which the flipping  //
+        //  is to be done                                     //
+        //index(integer): where the flipping is to begin      //
+        //----------------------------------------------------//
+        //return(array[integer]): new array, a portion of     //
+        //  which has been flipped                            //
+        //----------------------------------------------------//
+
+        let leave = array.slice(0, index);
+        let flip = array.slice(index, array.length);
+        flip = flip.reverse();
+        return leave.concat(flip);
+      }
+
+      function makeNumber(array) {
+        //----------------------------------------------------//
+        //Takes an array of integers and returns an integer   //
+        //  based on the values of the elements               //
+        //----------------------------------------------------//
+        //array(array): the array to be made into an integer  //
+        //----------------------------------------------------//
+        //return(integer): the integer made from the array    //
+        //----------------------------------------------------//
+
+        let string = "";
+        array.forEach(x => string += x);
+        return parseInt(string, 10);
+      }
+
+      function isPrime(primes, number) {
+        //----------------------------------------------------//
+        //checks for the primality of a number based on an    //
+        //  array of prime numbers                            //
+        //----------------------------------------------------//
+        //primes(array[integer]): array of prime numbers      //
+        //number(integer): number to check for primality      //
+        //----------------------------------------------------//
+        //return(boolean): whether the number is prime or not //
+        //----------------------------------------------------//
+
+        for (let i = 0; i < primes.length; i++) {
+          if (number % primes[i] === 0) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function factorial(number) {
+        //----------------------------------------------------//
+        //Finds the factorial of a number                     //
+        //----------------------------------------------------//
+        //number(integer): number to find the factorial of    //
+        //----------------------------------------------------//
+        //return(integer): factorial value of the number      //
+        //----------------------------------------------------//
+
+        if (number === 1) {
+          return 1
+        } else {
+          return number * factorial(number - 1);
+        }
+      }
+
+      const startTime = performance.now();
+
+      let set = [1, 2, 3, 4, 5, 6, 7];
+
+      let primeArray = makePrimeArray(Math.floor(Math.sqrt(7654321)));
+
+      let highPrime = 0;
+
+      let count = 0;
+
+      while (count < factorial(set.length)) {
+
+        let testNumber = makeNumber(set);
+
+        if (isPrime(primeArray, testNumber)) {
+          if (testNumber > highPrime) {
+            highPrime = testNumber;
+          }
+        }
+        //
+        //Narayana Pandita's steps for permuting a set 
+        let k = findK(set);
+        let l = findL(set, k);
+        set = indexSwap(set, k, l);
+        set = flipFrom(set, k + 1);
+
+        count++;
+      }
+
+      const endTime = performance.now();
+      const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+
+      display(totalTime, highPrime);
+    }
+
+  </script>
+</html>
