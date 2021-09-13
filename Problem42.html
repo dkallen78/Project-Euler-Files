@@ -1,0 +1,247 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 42: Coded Triangle Numbers
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=x">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 42: Coded Triangle Numbers
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem41.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 41
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem43.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 43
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+
+
+        The <em>n</em><sup>th</sup> term of the sequence of triangle numbers is
+        given by, <em>tn = </em>½<em>n(n+</em>1<em>)</em>; so the first ten triangle numbers are:
+
+        <div class = "example">
+          1, 3, 6, 10, 15, 21, 28, 36, 45, 55, ...
+        </div>
+
+        <br>
+
+        By converting each letter in a word to a number corresponding to its alphabetical
+        position and adding these values we form a word value. For example, the
+        word value for SKY is 19 + 11 + 25 = 55 = <em>t</em><sub>10</sub>. If the
+        word value is a triangle number then we shall call the word a triangle word.
+
+        <br><br>
+
+        Using <a href="https://projecteuler.net/project/resources/p042_words.txt">words.txt</a>
+        (right click and 'Save Link/Target As...'), a 16K text file containing nearly
+        two-thousand common English words, how many are triangle words?
+
+        <br />
+
+      </p>
+      <button id="problem" onclick="projectEuler()">
+        Find Triangle Words
+      </button>
+
+      <summary id="notes">
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
+        <p>
+          There's no trick to this one other than maybe finding a test for triangularity.
+          </br></br>
+          Get the text, split the words into an array, find the word value, test
+          for triangularity, count.
+          <br><br>
+          74,957
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    let population = [];
+
+    function projectEuler() {
+
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information to the window after the    //
+        //  program has run                                   //
+        //float-> totalTime: time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
+
+      function crunchWords(string) {
+        //----------------------------------------------------//
+        //Parses a text file into an array of words so it's   //
+        //more easily manipulated                             //
+        //----------------------------------------------------//
+        //string(string): the string to parsed into an array  //
+        //----------------------------------------------------//
+        //return(array[string]): array of strings from the    //
+        //  text file                                         //
+        //----------------------------------------------------//
+
+        stringArray = string.replaceAll('"', '').split(",");
+        return stringArray;
+      }
+
+      function testTriangle(number) {
+        //----------------------------------------------------//
+        //Tests the triangularity of a number                 //
+        //----------------------------------------------------//
+        //number(integer): the number to test                 //
+        //----------------------------------------------------//
+        //return(boolean): whether the number is triangular   //
+        // or not                                             //
+        //----------------------------------------------------//
+
+        if (Math.sqrt((number * 8) + 1) % 1 === 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function wordNumber(word) {
+        //----------------------------------------------------//
+        //Adds up the "values" of the letters in a word       //
+        //----------------------------------------------------//
+        //word(string): the word to find the value of         //
+        //----------------------------------------------------//
+        //return(integer): value of the word                  //
+        //----------------------------------------------------//
+
+        let wordScore = 0;
+        for (let y = 0; y < word.length; y++) {
+          letterValue = (word.charCodeAt(y) - 64);
+          wordScore += letterValue
+        }
+        return wordScore;
+      }
+
+      const startTime = performance.now();
+
+      fetch('problem42words.txt')
+        .then(response => response.text())
+        .then(text => {
+          let triangleWords = 0;
+          let stringArray = crunchWords(text);
+          for (let i = 0; i < stringArray.length; i++) {
+            let wordValue = wordNumber(stringArray[i]);
+            if (testTriangle(wordValue)) {
+              triangleWords++;
+            }
+          }
+
+          const endTime = performance.now();
+          const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+
+          display(totalTime, triangleWords);
+        });
+    }
+
+  </script>
+</html>
