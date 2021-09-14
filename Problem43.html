@@ -1,0 +1,475 @@
+<html>
+  <head>
+    <title>
+      Project Euler, Problem 43: Sub-string Divisibility
+    </title>
+    <link rel="stylesheet" type="text/css" href="eulerStyle.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+  <body>
+    <header>
+      <svg height="5rem" width="90vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/projectEulerIndex.html">
+          <text id="euler" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Project Euler
+          </text>
+        </a>
+      </svg>
+      <br />
+      <svg height="4rem" width="90vw">
+        <a href="https://projecteuler.net/problem=x">
+          <text id="problemID" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">
+            Problem 43: Sub-string Divisibility
+          </text>
+        </a>
+      </svg>
+    </header>
+    <nav>
+      <svg height="3rem" width="75vw">
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem42.html">
+          <text x="0%" y="50%" text-anchor="start" dominant-baseline="middle">
+            Problem 42
+          </text>
+        </a>
+        <a href="https://dkallen78.github.io/Project-Euler-Files/Problem44.html">
+          <text x="100%" y="50%" text-anchor="end" dominant-baseline="middle">
+            Problem 44
+          </text>
+        </a>
+      </svg>
+    </nav>
+    <main>
+      <p>
+        The number, 1406357289, is a 0 to 9 pandigital number because it is made
+        up of each of the digits 0 to 9 in some order, but it also has a rather
+        interesting sub-string divisibility property.
+        <br /><br />
+        Let
+        <math>
+          <msub>
+            <mi>d</mi>
+            <mn>1</mi>
+          </msub>
+        </math>
+        be the 1st digit,
+        <math>
+          <msub>
+            <mi>d</mi>
+            <mn>2</mi>
+          </msub>
+        </math>
+        be the 2nd digit, and so on. In this way, we note the following:
+        <br>
+        <ul>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>2</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>3</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>4</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>406</mn>
+            </math>
+            is divisible by 2
+          </li>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>3</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>4</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>5</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>063</mn>
+            </math>
+            is divisible by 3
+          </li>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>4</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>5</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>6</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>635</mn>
+            </math>
+            is divisible by 5
+          </li>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>5</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>6</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>7</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>357</mn>
+            </math>
+            is divisible by 7
+          </li>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>6</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>7</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>8</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>572</mn>
+            </math>
+            is divisible by 11
+          </li>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>7</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>8</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>9</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>728</mn>
+            </math>
+            is divisible by 13
+          </li>
+          <li>
+            <math>
+              <msub>
+                <mi>d</mi>
+                <mn>8</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>9</mi>
+              </msub>
+              <msub>
+                <mi>d</mi>
+                <mn>10</mi>
+              </msub>
+              <mo>=</mo>
+              <mn>289</mn>
+            </math>
+            is divisible by 17
+          </li>
+        </ul>
+        Find the sum of all 0 to 9 pandigital numbers with this property.
+      </p>
+
+      <button id="problem" onclick="projectEuler()">
+        Find Sum
+      </button>
+
+      <summary id="notes">
+        <div>Runtime: <span id="totalTime">0</span></div>
+        <div>Average: <span id="avgTime">0</span> Runs: <span id="runs">0</span></div>
+        <div>SD: <span id="stdDev">0</span> ms</div>
+        <div class="red">Max: <span id="max">0</span></div>
+        <div class="green">Min: <span id="min">1000</span></div>
+
+        <p>
+          To solve this I checked all the pandigital numbers from 1,023,456,789 to
+          9,876,543,210 to see if they fit this pattern. I used the Pandita algorithm
+          to permute through the numbers and made a batch of functions to do all
+          the steps for solving it.
+          </br></br>
+          I want to find a faster solution though. This one relies on checking 10!
+          numbers and takes over 3 seconds...
+          <br><br>
+          60,313
+        </p>
+      </summary>
+    </main>
+  </body>
+  <script>
+
+    let population = [];
+
+    function projectEuler() {
+
+      function display(totalTime, solution) {
+        //----------------------------------------------------//
+        //Displays the information in the window after the    //
+        //  program has run                                   //
+        //----------------------------------------------------//
+        //totalTime(float): time it took to run the program  //
+        //----------------------------------------------------//
+
+        function getAvg(totalTime) {
+          //----------------------------------------------------//
+          //Calculates the average time to run the program      //
+          //float-> totalTime: time it took to run the program  //
+          //----------------------------------------------------//
+
+          let oldAvg = parseFloat(document.getElementById("avgTime").innerHTML, 10);
+          let oldIter = Number(document.getElementById("runs").innerHTML);
+          let newIter = oldIter + 1;
+          document.getElementById("runs").innerHTML = newIter;
+          let avgTime = ((oldAvg * oldIter) + totalTime) / newIter;
+          return avgTime.toFixed(3);
+        }
+
+        function getSD(average, population) {
+          //----------------------------------------------------//
+          //Calculates standard deviation of the runtimes       //
+          //float-> average: average program runtime            //
+          //array-> population: an array of runtimes            //
+          //----------------------------------------------------//
+
+          average = Number(average);
+          let sum = 0;
+          for (let i = 0; i < population.length; i++) {
+            sum += (population[i] - average) ** 2;
+          }
+          sum /= population.length;
+          return Math.sqrt(sum).toFixed(3);;
+        }
+
+        population.push(totalTime);
+        //
+        //Display the solution
+        document.getElementById("problem").innerHTML = solution;
+        //
+        //Display the runtime
+        document.getElementById("totalTime").innerHTML = totalTime.toFixed(3) + " ms";
+
+        let average = getAvg(totalTime);
+        //
+        //Display the average
+        document.getElementById("avgTime").innerHTML = average + " ms";
+        //
+        //Display the standard deviation
+        document.getElementById("stdDev").innerHTML = getSD(average, population);
+        //
+        //Display the highest runtime
+        let max = parseFloat(document.getElementById("max").innerHTML, 10);
+        if (totalTime > max) {
+          document.getElementById("max").innerHTML = totalTime.toFixed(3) + " ms";
+        }
+        //
+        //Display the lowest runtime
+        let min = parseFloat(document.getElementById("min").innerHTML, 10);
+        if (totalTime < min) {
+          let minString = "";
+          if (totalTime === 0) {
+            minString = "< 0.020";
+          } else {
+            minString = totalTime.toFixed(3);
+          }
+          document.getElementById("min").innerHTML = minString + " ms";
+        }
+        //
+        //Display the explanatory notes
+        document.getElementById("notes").style.display = "block";
+        let summary = document.querySelector("summary").scrollHeight;
+        setTimeout(function() {
+          document.querySelector("summary").style.height = summary + "px";
+        }, 1);
+      }
+
+      function factorial(number) {
+        //----------------------------------------------------//
+        //Finds the factorial of a number                     //
+        //----------------------------------------------------//
+        //number(integer): number to find the factorial of    //
+        //----------------------------------------------------//
+        //return(integer): factorial value of the number      //
+        //----------------------------------------------------//
+
+        if (number === 1) {
+          return 1
+        } else {
+          return number * factorial(number - 1);
+        }
+      }
+
+      function makeNumber(array) {
+        //----------------------------------------------------//
+        //Takes an array of integers and returns an integer   //
+        //  based on the values of the elements               //
+        //----------------------------------------------------//
+        //array(array): the array to be made into an integer  //
+        //----------------------------------------------------//
+        //return(integer): the integer made from the array    //
+        //----------------------------------------------------//
+
+        let string = "";
+        array.forEach(x => string += x);
+        return parseInt(string, 10);
+      }
+
+      function grabThree(index, array) {
+        //----------------------------------------------------//
+        //Takes 3 consecutive array elements and returns an   //
+        //  integer value based on those elements             //
+        //----------------------------------------------------//
+        //index(integer): index of the first element          //
+        //array(array[integer]): array from which to grab the //
+        //  elements                                          //
+        //----------------------------------------------------//
+        //return(integer): the integer made from the array    //
+        //----------------------------------------------------//
+
+        return parseInt(makeNumber(array.slice(index, index + 3)), 10)
+      }
+
+      function primeSubStr(array) {
+        //----------------------------------------------------//
+        //Tests the substrings for prime divisibility         //
+        //----------------------------------------------------//
+        //array(array[integer]): array to test                //
+        //----------------------------------------------------//
+        //return(boolean): whether or not the number passes   //
+        //----------------------------------------------------//
+
+        for (let i = 0; i < array.length - 3; i++) {
+          if (grabThree(i + 1, array) % primes[i] !== 0) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function findK(array) {
+        //----------------------------------------------------//
+        //Finds the index of the first element to swap        //
+        //----------------------------------------------------//
+        //array(array[integer]): array in which to find the   //
+        //  index                                             //
+        //----------------------------------------------------//
+        //return(integer): index of an element to swap        //
+        //----------------------------------------------------//
+
+        let maxK = -1;
+        for (let i = 0; i < array.length - 1; i++) {
+          if (array[i] < array[i + 1]) {
+            maxK = i;
+          }
+        }
+        return maxK;
+      }
+
+      function findL(array, k) {
+        //----------------------------------------------------//
+        //Finds the index of the second element to swap       //
+        //----------------------------------------------------//
+        //array(array[integer]): array in which to find the   //
+        //  index                                             //
+        //k(integer): index at which to begin looking for the //
+        //  next index to swap with                           //
+        //----------------------------------------------------//
+        //return(integer): index of an element to swap        //
+        //----------------------------------------------------//
+
+        let maxL = k + 1;
+        for (let i = k + 1; i < array.length; i++) {
+          if (array[k] < array[i]) {
+            maxL = i;
+          }
+        }
+        return maxL
+      }
+
+      function indexSwap(array, index1, index2) {
+        //----------------------------------------------------//
+        //Swaps the values of two array indices               //
+        //----------------------------------------------------//
+        //array(array): the array to be shifted               //
+        //index#(integer): index of the elements to be swapped//
+        //----------------------------------------------------//
+        //return(array): the array with swapped elements      //
+        //----------------------------------------------------//
+
+        [array[index1], array[index2]] = [array[index2], array[index1]];
+        return array;
+      }
+
+      function flipFrom(array, index) {
+        //----------------------------------------------------//
+        //Flips a portion of an array                         //
+        //----------------------------------------------------//
+        //array(array[integer]): array in which the flipping  //
+        //  is to be done                                     //
+        //index(integer): where the flipping is to begin      //
+        //----------------------------------------------------//
+        //return(array[integer]): new array, a portion of     //
+        //  which has been flipped                            //
+        //----------------------------------------------------//
+
+        let leave = array.slice(0, index);
+        let flip = array.slice(index, array.length);
+        flip = flip.reverse();
+        return leave.concat(flip);
+      }
+
+      const startTime = performance.now();
+
+      let pandiNums = [1, 0, 2, 3, 4, 5, 6, 7, 8, 9];
+      let primes = [2, 3, 5, 7, 11, 13, 17];
+      let runningSum = 0;
+
+      for (let i = 0; i < (factorial(pandiNums.length) - factorial(pandiNums.length - 1)); i++) {
+        if (primeSubStr(pandiNums)) {
+          runningSum += makeNumber(pandiNums);
+        }
+        //
+        //Narayana Pandita's steps for permuting a set
+        let k = findK(pandiNums);
+        let l = findL(pandiNums, k);
+        pandiNums = indexSwap(pandiNums, k, l);
+        pandiNums = flipFrom(pandiNums, k + 1);
+      }
+
+      const endTime = performance.now();
+      const totalTime = parseFloat((endTime - startTime).toFixed(3), 10);
+      console.log(runningSum);
+      display(totalTime, runningSum);
+    }
+
+  </script>
+</html>
